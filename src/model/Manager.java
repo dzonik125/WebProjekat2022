@@ -8,12 +8,17 @@ public class Manager extends User {
 
 	private SportObject sportObject;
 	
-	public Manager(string userName, string password, string name, string surname, Gender gender, Date birthday, SportObject so) {
-		super(userName, password, name, surname, gender, birthday);
+	public Manager(String userName, String password, String name, String surname, Gender gender, Date birthday, UserType userType, SportObject so) {
+		super(userName, password, name, surname, gender, birthday, userType);
 		this.sportObject = so;
-		// TODO Auto-generated constructor stub
 	}
-	
-	
+
+	public SportObject getSportObject() {
+		return sportObject;
+	}
+
+	public void setSportObject(SportObject sportObject) {
+		this.sportObject = sportObject;
+	}
 
 }
