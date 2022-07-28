@@ -1,17 +1,15 @@
 package model;
 
-import javaxt.utils.string;
-
 public class Adress {
-	private string street;
+	private String street;
 	private int sNum;
-	private string city;
+	private String city;
 	private int postCode;
-	public Adress(string street, int sNum, string city, int postCode) {
+	public Adress(String string, int sNum, String string2, int postCode){
 		super();
-		this.street = street;
+		this.street = string;
 		this.sNum = sNum;
-		this.city = city;
+		this.city = string2;
 		this.postCode = postCode;
 	}
 	

@@ -1,0 +1,22 @@
+[
+  {
+    "userName": "dzonik",
+    "password": "123",
+    "name": "Nikola",
+    "surname": "Kolarov",
+    "gender": "M",
+    "birthday": "Dec 1, 2000, 12:00:00 AM",
+    "deleted": false,
+    "userType": "ADMINISTRATOR"
+  },
+  {
+    "userName": "miskic",
+    "password": "1234",
+    "name": "Dragan",
+    "surname": "Miskic",
+    "gender": "M",
+    "birthday": "Dec 6, 2000, 12:00:00 AM",
+    "deleted": false,
+    "userType": "ADMINISTRATOR"
+  }
+]
