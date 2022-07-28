@@ -1,0 +1,24 @@
+[
+  {
+    "points": 0,
+    "userName": "kols",
+    "password": "12345",
+    "name": "Marko",
+    "surname": "Nešin",
+    "gender": "M",
+    "birthday": "Dec 1, 2000, 12:00:00 AM",
+    "deleted": false,
+    "userType": "BUYER"
+  },
+  {
+    "points": 0,
+    "userName": "fiksni",
+    "password": "123456",
+    "name": "Srdjan",
+    "surname": "Stanic",
+    "gender": "M",
+    "birthday": "Dec 6, 2000, 12:00:00 AM",
+    "deleted": false,
+    "userType": "BUYER"
+  }
+]

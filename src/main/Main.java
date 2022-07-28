@@ -20,13 +20,14 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 
 import model.Administrator;
+import model.Buyer;
 import model.Gender;
+import model.Membership;
+import model.MembershipType;
 import model.UserType;
 import repository.AdministratorRepository;
 
 public class Main {
-	
-	private static AdministratorRepository ar;
 
 	public static void main(String[] args) throws IOException, JsonIOException, JsonSyntaxException, ParseException {
 //		Adress adress = new Adress("Laze Kostica", 77, "Kovilj", 21243);

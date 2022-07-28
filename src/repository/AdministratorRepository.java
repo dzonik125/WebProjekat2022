@@ -67,6 +67,7 @@ public class AdministratorRepository {
 	public void editAdministrator(Administrator administrator) {
 		for (Administrator admin : administrators) {
 			if(admin.getUserName().equalsIgnoreCase(administrator.getUserName())) {
+				admin.setUserName(administrator.getUserName());
 				admin.setPassword(administrator.getPassword());
 				admin.setName(administrator.getName());
 				admin.setSurname(administrator.getSurname());
