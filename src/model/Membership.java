@@ -3,13 +3,15 @@ package model;
 import java.util.Date;
 import java.util.Random;
 
+import repository.BuyerRepository;
+
 public class Membership {
 	private String id;
 	private MembershipType membershipType;
 	private Date dueDate;
 	private Date active;
 	private int price;
-	private Buyer buyer;
+	private transient Buyer buyer;
 	private MembershipStatus membershipStatus;
 	private int dailyLogs; //broj ulazaka dnevno (koliko je dozvoljeno)
 	

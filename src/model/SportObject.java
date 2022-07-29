@@ -5,17 +5,17 @@ import java.awt.Image;
 import javaxt.utils.string;
 
 public class SportObject {
-	private string name;
+	private String name;
 	private ObjectType objectType;
-	private string services;
+	private String services;
 	private ObjectStatus objectStatus;
 	private Location location;
 	private String imageRelLocation;
 	private double avgGrade;
-	private string workingHours;
+	private String workingHours;
 	
-	public SportObject(string name, ObjectType objectType, string services, ObjectStatus objectStatus,
-			Location location, String imageString, double avgGrade, string workingHours) {
+	public SportObject(String name, ObjectType objectType, String services, ObjectStatus objectStatus,
+			Location location, String imageString, double avgGrade, String workingHours) {
 		super();
 		this.name = name;
 		this.objectType = objectType;
