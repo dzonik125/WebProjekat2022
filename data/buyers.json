@@ -1,23 +1,47 @@
 [
   {
+    "membership": {
+      "id": "sDKZo2XS71",
+      "membershipType": "ANNUAL",
+      "dueDate": "Jul 29, 2022, 12:00:00 AM",
+      "active": "Aug 29, 2022, 12:00:00 PM",
+      "price": 3000,
+      "membershipStatus": "ACTIVE",
+      "dailyLogs": 10
+    },
+    "visitedObjects": [
+      {
+        "name": "Ahilej",
+        "objectType": "GYM",
+        "services": "Ova teretana nudi usluge grupnih i personalnih treninga",
+        "objectStatus": "WORKING",
+        "location": {
+          "latitude": 15.42,
+          "longtitude": 16.23,
+          "adress": {
+            "street": "Laze Kostica",
+            "sNum": 77,
+            "city": "Kovilj",
+            "postCode": 21243
+          }
+        },
+        "imageRelLocation": "./images/ahilej.png",
+        "avgGrade": 3.5,
+        "workingHours": "08:00-22:00"
+      }
+    ],
     "points": 0,
+    "buyerType": {
+      "buyerType": "SILVER",
+      "discount": 0.15,
+      "neededPoints": 1000
+    },
     "userName": "kols",
     "password": "12345",
     "name": "Marko",
-    "surname": "Nešin",
+    "surname": "Nesin",
     "gender": "M",
-    "birthday": "Dec 1, 2000, 12:00:00 AM",
-    "deleted": false,
-    "userType": "BUYER"
-  },
-  {
-    "points": 0,
-    "userName": "fiksni",
-    "password": "123456",
-    "name": "Srdjan",
-    "surname": "Stanic",
-    "gender": "M",
-    "birthday": "Dec 6, 2000, 12:00:00 AM",
+    "birthday": "Jul 29, 2022, 12:00:00 AM",
     "deleted": false,
     "userType": "BUYER"
   }
