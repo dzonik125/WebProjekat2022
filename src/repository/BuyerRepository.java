@@ -64,6 +64,9 @@ public class BuyerRepository {
 				b.setSurname(buyer.getSurname());
 				b.setGender(buyer.getGender());
 				b.setBirthday(buyer.getBirthday());
+				FileWriter fileWriter = new FileWriter("./data/buyers.json");
+				gson.toJson(buyers, fileWriter);
+				fileWriter.close();
 				return "Uspesno izmenjeno";
 			}
 		}
@@ -79,6 +82,9 @@ public class BuyerRepository {
 		for (Buyer b : buyers) {
 			if(buyer.getUserName().equalsIgnoreCase(b.getUserName())) {}
 			b.setDeleted(true);
+			FileWriter fileWriter = new FileWriter("./data/buyers.json");
+			gson.toJson(buyers, fileWriter);
+			fileWriter.close();
 			return true;
 		}
 		return false;
