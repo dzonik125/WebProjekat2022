@@ -1,12 +1,13 @@
 [
   {
     "membership": {
-      "id": "sDKZo2XS71",
+      "id": "MNl1Aff2Dh",
       "membershipType": "ANNUAL",
       "dueDate": "Jul 29, 2022, 12:00:00 AM",
       "active": "Aug 29, 2022, 12:00:00 PM",
       "price": 3000,
       "membershipStatus": "ACTIVE",
+      "isDeleted": false,
       "dailyLogs": 10
     },
     "visitedObjects": [

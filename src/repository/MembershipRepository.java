@@ -11,10 +11,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-import model.Buyer;
 import model.Membership;
 
 public class MembershipRepository {
+	
+	private String fileLocation = "./data/memberships.json";
 
 	public MembershipRepository() {
 		super();
@@ -23,14 +24,14 @@ public class MembershipRepository {
 	public boolean addMemebership(Membership membership) throws IOException {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		Type listType = new TypeToken<List<Membership>>(){}.getType();
-		FileReader fileReader = new FileReader("./data/memberships.json");
+		FileReader fileReader = new FileReader(fileLocation);
 		List<Membership> memberships = gson.fromJson(fileReader, listType);
 		fileReader.close();
 		if(memberships == null) {
-			memberships = new ArrayList<Membership>();
+			memberships = new ArrayList<>();
 		}
 		boolean added = memberships.add(membership);
-		FileWriter fileWriter = new FileWriter("./data/buyers.json");
+		FileWriter fileWriter = new FileWriter(fileLocation);
 		gson.toJson(memberships, fileWriter);
 		fileWriter.close();
 		if(added) {
@@ -42,7 +43,7 @@ public class MembershipRepository {
 	public String editMembership(Membership membership, Membership selectedMembership) throws IOException {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		Type listType = new TypeToken<List<Membership>>(){}.getType();
-		FileReader fileReader = new FileReader("./data/memberships.json");
+		FileReader fileReader = new FileReader(fileLocation);
 		List<Membership> memberships = gson.fromJson(fileReader, listType);
 		fileReader.close();
 		for (Membership membership2 : memberships) {
@@ -51,7 +52,7 @@ public class MembershipRepository {
 			}
 			
 			if(membership.getId().equalsIgnoreCase(membership2.getId())) {
-				return "Username se ne moze promeniti u vec postojeci";
+				return "ID se ne moze promeniti u vec postojeci";
 			}
 		}
 		
@@ -65,28 +66,29 @@ public class MembershipRepository {
 				m.setBuyer(membership.getBuyer());
 				m.setMembershipStatus(membership.getMembershipStatus());
 				m.setDailyLogs(membership.getDailyLogs());
-				FileWriter fileWriter = new FileWriter("./data/buyers.json");
+				FileWriter fileWriter = new FileWriter(fileLocation);
 				gson.toJson(memberships, fileWriter);
 				fileWriter.close();
 				return "Uspesno izmenjeno";
 			}
 		}
-		return "Ne postoji izabrani kupac u listi kupaca";
+		return "Ne postoji izabrani membership u listi membershipa";
 	}
 	
 	public boolean deleteMembership(Membership membership) throws IOException {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		Type listType = new TypeToken<List<Membership>>(){}.getType();
-		FileReader fileReader = new FileReader("./data/memberships.json");
+		FileReader fileReader = new FileReader(fileLocation);
 		List<Membership> memberships = gson.fromJson(fileReader, listType);
 		fileReader.close();
 		for (Membership m : memberships) {
-			if(membership.getId().equalsIgnoreCase(m.getId())) {}
-			m.setDeleted(true);
-			FileWriter fileWriter = new FileWriter("./data/memberships.json");
-			gson.toJson(memberships, fileWriter);
-			fileWriter.close();
-			return true;
+			if(membership.getId().equalsIgnoreCase(m.getId())) {
+				m.setDeleted(true);
+				FileWriter fileWriter = new FileWriter(fileLocation);
+				gson.toJson(memberships, fileWriter);
+				fileWriter.close();
+				return true;
+			}
 		}
 		return false;
 	}

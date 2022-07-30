@@ -30,6 +30,7 @@ import model.SportObject;
 import model.UserType;
 import repository.AdministratorRepository;
 import repository.BuyerRepository;
+import repository.MembershipRepository;
 
 public class Main {
 
@@ -95,13 +96,39 @@ public class Main {
 //		writer.flush();
 //		writer.close();
 		
+		String date = "29/07/2022";
+		String date2 = "29/08/2022 12:00:00 PM";
+		
+		SimpleDateFormat format2 = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss aaa");
+		
+		Date d1 = format2.parse(date);
+		Date d2 = format.parse(date2);
+		
+		Adress adress = new Adress("Laze Kostica", 77, "Kovilj", 21243);
+		Location location = new Location(15.42, 16.23, adress);
+		
+		SportObject sportObject = new SportObject("Ahilej", ObjectType.GYM, "Ova teretana nudi usluge grupnih i personalnih treninga", ObjectStatus.WORKING, location, "./images/ahilej.png", 3.5, "08:00-22:00");
+		List<SportObject> sportObjects = new ArrayList<SportObject>();
+		sportObjects.add(sportObject);
+		
+		BuyerType by = new BuyerType(BType.SILVER, 0.15, 1000);
+		
+		Membership membership = new Membership(MembershipType.ANNUAL, d1, d2, 3000, null, MembershipStatus.ACTIVE, 10);
+		
+		Buyer buyer = new Buyer("kols", "12345", "Marko", "Nesin", Gender.M, d1, UserType.BUYER, membership, sportObjects, 0, by);
+		
+		membership.setBuyer(buyer);
+		
 		BuyerRepository br = new BuyerRepository();
-		List<Buyer> buyers = new ArrayList<Buyer>();
-		buyers = br.findAllBuyers();
-		for (Buyer buyer : buyers) {
-			System.out.println(buyer.getName());
+//		br.addBuyer(buyer);
+		for (Buyer b : br.findAllBuyers()) {
+			System.out.println(b.getName());
 		}
 		
+		MembershipRepository mr = new MembershipRepository();
+		Buyer marko = br.findBuyer("kols");
+//		mr.addMemebership(marko.getMembership());
 	}
 
 }
