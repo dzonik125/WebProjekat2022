@@ -13,6 +13,7 @@ public class Membership {
 	private int price;
 	private transient Buyer buyer;
 	private MembershipStatus membershipStatus;
+	private boolean isDeleted;
 	private int dailyLogs; //broj ulazaka dnevno (koliko je dozvoljeno)
 	
 	
@@ -28,6 +29,7 @@ public class Membership {
 		this.buyer = buyer;
 		this.membershipStatus = membershipStatus;
 		this.dailyLogs = dailyLogs;
+		this.isDeleted = false;
 	}
 
 
@@ -140,6 +142,20 @@ public class Membership {
 	public void setDailyLogs(int dailyLogs) {
 		this.dailyLogs = dailyLogs;
 	}
+
+
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+	
+	
 	
 	
 }

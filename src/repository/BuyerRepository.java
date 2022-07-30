@@ -1,6 +1,5 @@
 package repository;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -15,6 +14,8 @@ import com.google.gson.reflect.TypeToken;
 import model.Buyer;
 
 public class BuyerRepository {
+	
+	private String fileLocation = "./data/buyers.json";
 
 	public BuyerRepository() {
 		super();
@@ -24,14 +25,14 @@ public class BuyerRepository {
 	public boolean addBuyer(Buyer buyer) throws IOException {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		Type listType = new TypeToken<List<Buyer>>(){}.getType();
-		FileReader fileReader = new FileReader("./data/buyers.json");
+		FileReader fileReader = new FileReader(fileLocation);
 		List<Buyer> buyers = gson.fromJson(fileReader, listType);
 		fileReader.close();
 		if(buyers == null) {
-			buyers = new ArrayList<Buyer>();
+			buyers = new ArrayList<>();
 		}
 		boolean added = buyers.add(buyer);
-		FileWriter fileWriter = new FileWriter("./data/buyers.json");
+		FileWriter fileWriter = new FileWriter(fileLocation);
 		gson.toJson(buyers, fileWriter);
 		fileWriter.close();
 		if(added) {
@@ -43,7 +44,7 @@ public class BuyerRepository {
 	public String editBuyer(Buyer buyer, Buyer selectedBuyer) throws IOException {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		Type listType = new TypeToken<List<Buyer>>(){}.getType();
-		FileReader fileReader = new FileReader("./data/buyers.json");
+		FileReader fileReader = new FileReader(fileLocation);
 		List<Buyer> buyers = gson.fromJson(fileReader, listType);
 		fileReader.close();
 		for (Buyer buyer2 : buyers) {
@@ -64,6 +65,9 @@ public class BuyerRepository {
 				b.setSurname(buyer.getSurname());
 				b.setGender(buyer.getGender());
 				b.setBirthday(buyer.getBirthday());
+				FileWriter fileWriter = new FileWriter(fileLocation);
+				gson.toJson(buyers, fileWriter);
+				fileWriter.close();
 				return "Uspesno izmenjeno";
 			}
 		}
@@ -73,13 +77,17 @@ public class BuyerRepository {
 	public boolean deleteBuyer(Buyer buyer) throws IOException {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		Type listType = new TypeToken<List<Buyer>>(){}.getType();
-		FileReader fileReader = new FileReader("./data/buyers.json");
+		FileReader fileReader = new FileReader(fileLocation);
 		List<Buyer> buyers = gson.fromJson(fileReader, listType);
 		fileReader.close();
 		for (Buyer b : buyers) {
-			if(buyer.getUserName().equalsIgnoreCase(b.getUserName())) {}
-			b.setDeleted(true);
-			return true;
+			if(buyer.getUserName().equalsIgnoreCase(b.getUserName())) {
+				b.setDeleted(true);
+				FileWriter fileWriter = new FileWriter(fileLocation);
+				gson.toJson(buyers, fileWriter);
+				fileWriter.close();
+				return true;
+			}
 		}
 		return false;
 	}
@@ -87,7 +95,7 @@ public class BuyerRepository {
 	public Buyer findBuyer(String username) throws IOException {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		Type listType = new TypeToken<List<Buyer>>(){}.getType();
-		FileReader fileReader = new FileReader("./data/buyers.json");
+		FileReader fileReader = new FileReader(fileLocation);
 		List<Buyer> buyers = gson.fromJson(fileReader, listType);
 		fileReader.close();
 		for (Buyer buyer : buyers) {
@@ -101,7 +109,7 @@ public class BuyerRepository {
 	public List<Buyer> findAllBuyers() throws IOException{
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		Type listType = new TypeToken<List<Buyer>>(){}.getType();
-		FileReader fileReader = new FileReader("./data/buyers.json");
+		FileReader fileReader = new FileReader(fileLocation);
 		List<Buyer> buyers = gson.fromJson(fileReader, listType);
 		fileReader.close();
 		return buyers;
