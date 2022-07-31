@@ -1,9 +1,6 @@
 package model;
 
-import java.time.LocalDate;
 import java.util.Date;
-
-import javaxt.utils.string;
 
 public class User {
 	private String userName;

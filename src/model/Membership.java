@@ -3,8 +3,6 @@ package model;
 import java.util.Date;
 import java.util.Random;
 
-import repository.BuyerRepository;
-
 public class Membership {
 	private String id;
 	private MembershipType membershipType;

@@ -1,39 +1,50 @@
 package main;
 
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 
-import model.Administrator;
 import model.Adress;
 import model.BType;
 import model.Buyer;
 import model.BuyerType;
+import model.Coach;
+import model.Comment;
 import model.Gender;
 import model.Location;
+import model.Manager;
 import model.Membership;
 import model.MembershipStatus;
 import model.MembershipType;
 import model.ObjectStatus;
 import model.ObjectType;
 import model.SportObject;
+import model.Training;
+import model.TrainingHistory;
+import model.TrainingType;
 import model.UserType;
-import repository.AdministratorRepository;
+import repository.AdressRepository;
 import repository.BuyerRepository;
+import repository.CoachRepository;
+import repository.CommentRepository;
+import repository.LocationRepository;
+import repository.ManagerRepository;
 import repository.MembershipRepository;
+import repository.SportObjectRepository;
+import repository.TrainingHistoryRepository;
+import repository.TrainingRepository;
 
 public class Main {
 
+	@SuppressWarnings("deprecation")
 	public static void main(String[] args) throws IOException, JsonIOException, JsonSyntaxException, ParseException {
 //		Adress adress = new Adress("Laze Kostica", 77, "Kovilj", 21243);
 //		Adress adress2 = new Adress("Krva Bikickog", 24, "Budisava", 21242);
@@ -129,6 +140,42 @@ public class Main {
 		MembershipRepository mr = new MembershipRepository();
 		Buyer marko = br.findBuyer("kols");
 //		mr.addMemebership(marko.getMembership());
+		
+		CoachRepository cr = new CoachRepository();
+		Instant t1 = Instant.parse("2022-02-08T11:00:00Z");
+		Instant t2 = Instant.parse("2022-02-08T12:00:00Z");
+		long duration = Duration.between(t1, t2).toMinutes();
+		
+		Training tr = new Training("Kardio", TrainingType.PERSONAL, sportObject, duration, "Trening je bio dobar", "./image/training.jpg", null);
+		TrainingHistory th = new TrainingHistory(d2, tr, buyer, null);
+		Coach c = new Coach("fiksni", "123456", "Srdjan", "Stanic", Gender.M, d2, UserType.COACH, th);
+		th.setCoach(c);
+		tr.setCoach(c);
+//		cr.addCoach(c);
+		System.out.println(duration);
+		
+		TrainingRepository trr = new TrainingRepository();
+//		trr.addTraining(tr);
+		
+		TrainingHistoryRepository thr = new TrainingHistoryRepository();
+//		thr.addTrainingHistory(th);
+		
+		SportObjectRepository sportObjectRepository = new SportObjectRepository();
+		sportObjectRepository.deleteSportObject(location);
+		
+		LocationRepository locationRepository = new LocationRepository();
+//		locationRepository.addLocation(location);
+		
+		AdressRepository adressRepository = new AdressRepository();
+		adressRepository.addAdress(adress);
+		
+		Manager manager = new Manager("purames", "sicko", "Stefan", "Masnec", Gender.M, d2, UserType.MANAGER, sportObject);
+		ManagerRepository managerRepository = new ManagerRepository();
+		managerRepository.addManager(manager);
+		
+		CommentRepository commentRepository = new CommentRepository();
+		Comment com = new Comment(buyer, sportObject, date2, 5);
+//		commentRepository.addComment(com);
 	}
 
 }

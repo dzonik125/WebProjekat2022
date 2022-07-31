@@ -1,0 +1,13 @@
+[
+  {
+    "latitude": 15.42,
+    "longtitude": 16.23,
+    "adress": {
+      "street": "Laze Kostica",
+      "sNum": 77,
+      "city": "Kovilj",
+      "postCode": 21243
+    },
+    "deleted": false
+  }
+]
