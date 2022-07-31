@@ -2,8 +2,6 @@ package model;
 
 import java.util.Date;
 
-import javaxt.utils.string;
-
 public class Manager extends User {
 
 	private SportObject sportObject;

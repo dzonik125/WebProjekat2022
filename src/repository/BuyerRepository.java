@@ -99,7 +99,7 @@ public class BuyerRepository {
 		List<Buyer> buyers = gson.fromJson(fileReader, listType);
 		fileReader.close();
 		for (Buyer buyer : buyers) {
-			if(buyer.getUserName().equalsIgnoreCase(username)) {
+			if(buyer.getUserName().equalsIgnoreCase(username) && !buyer.isDeleted()) {
 				return buyer;
 			}
 		}

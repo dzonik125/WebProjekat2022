@@ -21,28 +21,6 @@ public class AdministratorRepository {
 	
 	public AdministratorRepository() throws JsonIOException, JsonSyntaxException, FileNotFoundException, ParseException {
 		super();
-//		administrators = new ArrayList<Administrator>();
-//		File input = new File("./data/administrators.json");
-//		JsonParser jParser = new JsonParser();
-//		JsonElement fileElement = jParser.parse(new FileReader(input));
-//		JsonArray fileObject = fileElement.getAsJsonArray();
-//		
-//		for (JsonElement jsonElement : fileObject) {
-//			JsonObject admJsonObject = jsonElement.getAsJsonObject();
-//			
-//			String userName = admJsonObject.get("userName").getAsString();
-//			String password = admJsonObject.get("password").getAsString();
-//			String name = admJsonObject.get("name").getAsString();
-//			String surname = admJsonObject.get("surname").getAsString();
-//			Gender gender = Gender.valueOf(admJsonObject.get("gender").getAsString());
-//			SimpleDateFormat format = new SimpleDateFormat("MMM d, yyyy, HH:mm:ss aaa");
-//			Date birthday = format.parse(admJsonObject.get("birthday").getAsString());
-//			UserType userType = UserType.valueOf(admJsonObject.get("userType").getAsString());
-//			
-//			Administrator admin = new Administrator(userName, password, name, surname, gender, birthday, userType);
-//			
-//			administrators.add(admin);
-//		}
 	}
 
 	public void addAdmin(Administrator administrator) throws IOException {

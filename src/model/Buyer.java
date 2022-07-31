@@ -3,8 +3,6 @@ package model;
 import java.util.Date;
 import java.util.List;
 
-import javaxt.utils.string;
-
 public class Buyer extends User{
 
 	private Membership membership;

@@ -2,11 +2,9 @@ package model;
 
 import java.util.Date;
 
-import javaxt.utils.string;
-
 public class Coach extends User{
 	
-	private TrainingHistory trainingHistory;
+	private transient TrainingHistory trainingHistory;
 
 	public Coach(String userName, String password, String name, String surname, Gender gender, Date birthday, UserType userType, TrainingHistory th) {
 		super(userName, password, name, surname, gender, birthday, userType);

@@ -1,0 +1,12 @@
+[
+  {
+    "userName": "fiksni",
+    "password": "123456",
+    "name": "Srdjan",
+    "surname": "Stanic",
+    "gender": "M",
+    "birthday": "Aug 29, 2022, 12:00:00 PM",
+    "deleted": false,
+    "userType": "COACH"
+  }
+]
