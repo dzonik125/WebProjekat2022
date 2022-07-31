@@ -39,7 +39,7 @@ public class CoachRepository {
 		return false;
 	}
 	
-	public String editMembership(Coach coach, Coach selectedCoach) throws IOException {
+	public String editCoach(Coach coach, Coach selectedCoach) throws IOException {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		Type listType = new TypeToken<List<Coach>>(){}.getType();
 		FileReader fileReader = new FileReader(fileLocation);
@@ -72,7 +72,7 @@ public class CoachRepository {
 		return "Ne postoji izabrani membership u listi membershipa";
 	}
 	
-	public boolean deleteMembership(Coach coach) throws IOException {
+	public boolean deleteCoach(Coach coach) throws IOException {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		Type listType = new TypeToken<List<Coach>>(){}.getType();
 		FileReader fileReader = new FileReader(fileLocation);
