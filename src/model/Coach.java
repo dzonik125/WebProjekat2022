@@ -2,17 +2,21 @@ package model;
 
 import java.util.Date;
 
-import javaxt.utils.string;
-
 public class Coach extends User{
 	
-	private TrainingHistory trainingHistory;
+	private transient TrainingHistory trainingHistory;
 
-	public Coach(string userName, string password, string name, string surname, Gender gender, Date birthday, TrainingHistory th) {
-		super(userName, password, name, surname, gender, birthday);
+	public Coach(String userName, String password, String name, String surname, Gender gender, Date birthday, UserType userType, TrainingHistory th) {
+		super(userName, password, name, surname, gender, birthday, userType);
 		this.trainingHistory = th;
-		// TODO Auto-generated constructor stub
 	}
 
+	public TrainingHistory getTrainingHistory() {
+		return trainingHistory;
+	}
+
+	public void setTrainingHistory(TrainingHistory trainingHistory) {
+		this.trainingHistory = trainingHistory;
+	}
 	
 }
