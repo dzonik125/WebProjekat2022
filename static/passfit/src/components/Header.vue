@@ -1,6 +1,6 @@
 <template>
   <div id="header">
-    <button id="reg"><router-link class="regText" to="/register">Register</router-link></button>
+    <button class="btn"><router-link class="regText" to="/register">Register</router-link></button>
   </div>
 </template>
 
@@ -23,7 +23,7 @@ export default {
     display: flex;
     flex-direction: row-reverse;
 }
-#reg{
+.btn{
     margin-right: 2rem;
     margin-top: 1.5rem;
     height: 2rem;
