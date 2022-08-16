@@ -7,8 +7,16 @@ public class BuyerType {
 	public BuyerType(BType buyerType, double discount, int neededPoints) {
 		super();
 		this.buyerType = buyerType;
-		this.discount = discount;
-		this.neededPoints = neededPoints;
+		if(buyerType.toString().equals("BRONZE")) {
+			this.neededPoints = 250;
+			this.discount = 0;
+		}else if (buyerType.toString().equals("SILVER")) {
+			this.neededPoints = 500;
+			this.discount = 0.2;
+		}else {
+			this.neededPoints = 0;
+			this.discount = 0.5;
+		}
 	}
 	
 	public BType getBuyerType() {
