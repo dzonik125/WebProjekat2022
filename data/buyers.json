@@ -24,11 +24,13 @@
             "sNum": 77,
             "city": "Kovilj",
             "postCode": 21243
-          }
+          },
+          "deleted": false
         },
         "imageRelLocation": "./images/ahilej.png",
         "avgGrade": 3.5,
-        "workingHours": "08:00-22:00"
+        "workingHours": "08:00-22:00",
+        "deleted": false
       }
     ],
     "points": 0,
@@ -43,6 +45,50 @@
     "surname": "Nesin",
     "gender": "M",
     "birthday": "Jul 29, 2022, 12:00:00 AM",
+    "deleted": false,
+    "userType": "BUYER"
+  },
+  {
+    "points": 0,
+    "userName": " dzonik",
+    "password": "12345",
+    "name": "Petar",
+    "surname": "Petrovic",
+    "gender": "M",
+    "birthday": "Jun 5, 2002, 12:00:00 AM",
+    "deleted": false,
+    "userType": "BUYER"
+  },
+  {
+    "points": 0,
+    "userName": " idemo",
+    "password": "12345",
+    "name": "Zoran",
+    "surname": "Zoranovic",
+    "gender": "M",
+    "birthday": "Aug 26, 2022, 12:00:00 AM",
+    "deleted": false,
+    "userType": "BUYER"
+  },
+  {
+    "points": 0,
+    "userName": "veceivan",
+    "password": "12345",
+    "name": "Ivan",
+    "surname": "Ivanovic",
+    "gender": "M",
+    "birthday": "Aug 18, 2022, 12:00:00 AM",
+    "deleted": false,
+    "userType": "BUYER"
+  },
+  {
+    "points": 0,
+    "userName": " mikica",
+    "password": "1234r5",
+    "name": "Mihajlo",
+    "surname": "Prodanovic",
+    "gender": "M",
+    "birthday": "Jun 5, 2003, 12:00:00 AM",
     "deleted": false,
     "userType": "BUYER"
   }

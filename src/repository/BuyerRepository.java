@@ -31,6 +31,11 @@ public class BuyerRepository {
 		if(buyers == null) {
 			buyers = new ArrayList<>();
 		}
+		for (Buyer buyer2 : buyers) {
+			if(buyer2.getUserName().equals(buyer.getUserName())) {
+				return false;
+			}
+		}
 		boolean added = buyers.add(buyer);
 		FileWriter fileWriter = new FileWriter(fileLocation);
 		gson.toJson(buyers, fileWriter);
