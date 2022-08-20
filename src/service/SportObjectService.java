@@ -5,10 +5,11 @@ import java.util.List;
 
 import model.Location;
 import model.SportObject;
+import repository.SportObjectRepository;
 
 public class SportObjectService {
 	
-	private SportObjectService sor = new SportObjectService();
+	private SportObjectRepository sor = new SportObjectRepository();
 
 	public SportObjectService() {
 		super();

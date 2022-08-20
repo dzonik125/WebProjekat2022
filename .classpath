@@ -27,5 +27,8 @@
 	<classpathentry kind="lib" path="C:/Users/dZoNi/eclipseEnterprise-workspace/PassFit/lib/websocket-common-9.3.6.v20151106.jar"/>
 	<classpathentry kind="lib" path="C:/Users/dZoNi/eclipseEnterprise-workspace/PassFit/lib/websocket-server-9.3.6.v20151106.jar"/>
 	<classpathentry kind="lib" path="C:/Users/dZoNi/eclipseEnterprise-workspace/PassFit/lib/websocket-servlet-9.3.6.v20151106.jar"/>
+	<classpathentry kind="lib" path="lib/jjwt-api-0.11.1.jar"/>
+	<classpathentry kind="lib" path="lib/jjwt-gson-0.11.1.jar"/>
+	<classpathentry kind="lib" path="lib/jjwt-impl-0.11.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

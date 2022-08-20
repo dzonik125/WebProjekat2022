@@ -15,7 +15,7 @@
       },
       "deleted": false
     },
-    "imageRelLocation": "./images/ahilej.png",
+    "imageRelLocation": "../assets/ahilej.png",
     "avgGrade": 3.5,
     "workingHours": "08:00-22:00",
     "deleted": true

@@ -2,6 +2,7 @@ package model;
 
 import java.util.Date;
 
+
 public class User {
 	private String userName;
 	private String password;
@@ -11,6 +12,7 @@ public class User {
 	private Date birthday;
 	private boolean deleted;
 	private UserType userType;
+	private String JWTToken;
 	
 	public User(String userName, String password, String name, String surname, Gender gender, Date birthday, UserType uType) {
 		super();
@@ -22,6 +24,7 @@ public class User {
 		this.birthday = birthday;
 		this.deleted = false;
 		this.userType = uType;
+		this.JWTToken = null;
 	}
 
 	public String getUserName() {
@@ -87,6 +90,16 @@ public class User {
 	public void setUserType(UserType userType) {
 		this.userType = userType;
 	}
+
+	public String getJWTToken() {
+		return JWTToken;
+	}
+
+	public void setJWTToken(String jWTToken) {
+		JWTToken = jWTToken;
+	}
+	
+	
 	
 	
 }
