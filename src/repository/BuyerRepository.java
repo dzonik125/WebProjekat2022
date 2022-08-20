@@ -40,10 +40,7 @@ public class BuyerRepository {
 		FileWriter fileWriter = new FileWriter(fileLocation);
 		gson.toJson(buyers, fileWriter);
 		fileWriter.close();
-		if(added) {
-			return true;
-		}
-		return false;
+		return added;
 	}
 	
 	public String editBuyer(Buyer buyer, Buyer selectedBuyer) throws IOException {

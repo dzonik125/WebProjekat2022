@@ -5,21 +5,18 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
 import model.Administrator;
 
 public class AdministratorRepository {
 	
-	public AdministratorRepository() throws JsonIOException, JsonSyntaxException, FileNotFoundException, ParseException {
+	public AdministratorRepository() {
 		super();
 	}
 

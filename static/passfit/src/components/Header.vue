@@ -1,17 +1,36 @@
 <template>
   <div id="header">
-    <button class="btn"><router-link class="regText" to="/register">Register</router-link></button>
+    <button class="btn" v-if="!loggedIn"><router-link class="regText" to="/register">Register</router-link></button>
+    <button class="btn" v-if="!loggedIn"><router-link class="loginText" to="/login">Login</router-link></button>
+    <button class="btn" v-if="loggedIn" v-on:click.prevent="logOut()">Logout</button>
   </div>
 </template>
 
 <script>
 export default {
+  props: ['loggedIn', 'user'],
   data () {
     return {
-
+    }
+  },
+  methods: {
+    logOut: function () {
+      const axios = require('axios')
+      axios.post('http://localhost:8082/rest/logOut/', {
+        username: this.user
+      }).then(response => {
+        if (response.data === 400) {
+          window.alert('Doslo je do greske')
+        } else {
+          window.alert('Uspesno izlogovan')
+          window.localStorage.removeItem('jwt')
+          location.reload()
+        }
+      })
     }
   }
 }
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -28,6 +47,13 @@ export default {
     margin-top: 1.5rem;
     height: 2rem;
 }
+
+.loginText{
+  cursor: default;
+  color:black;
+  text-decoration: none;
+}
+
 .regText{
     cursor: default;
     color:black;
