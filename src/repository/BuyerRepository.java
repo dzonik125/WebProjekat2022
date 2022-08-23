@@ -31,14 +31,16 @@ public class BuyerRepository {
 		if(buyers == null) {
 			buyers = new ArrayList<>();
 		}
+		for (Buyer buyer2 : buyers) {
+			if(buyer2.getUserName().equals(buyer.getUserName())) {
+				return false;
+			}
+		}
 		boolean added = buyers.add(buyer);
 		FileWriter fileWriter = new FileWriter(fileLocation);
 		gson.toJson(buyers, fileWriter);
 		fileWriter.close();
-		if(added) {
-			return true;
-		}
-		return false;
+		return added;
 	}
 	
 	public String editBuyer(Buyer buyer, Buyer selectedBuyer) throws IOException {

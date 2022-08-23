@@ -1,13 +1,14 @@
 package model;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
 public class Membership {
 	private String id;
 	private MembershipType membershipType;
-	private Date dueDate;
-	private Date active;
+	private Date dueDate; //od kada vazi
+	private Date active; //do kada vazi
 	private int price;
 	private transient Buyer buyer;
 	private MembershipStatus membershipStatus;
@@ -16,16 +17,28 @@ public class Membership {
 	
 	
 	
-	public Membership(MembershipType membershipType, Date dueDate, Date active, int price,
-			Buyer buyer, MembershipStatus membershipStatus, int dailyLogs) {
+	public Membership(MembershipType membershipType, int price,
+			Buyer buyer, int dailyLogs) {
 		super();
 		this.id = generateID();
 		this.membershipType = membershipType;
-		this.dueDate = dueDate;
-		this.active = active;
+		Calendar cal = Calendar.getInstance();
+		Date date = cal.getTime();
+		this.dueDate = date;
+		Date act = null;
+		if(membershipType.toString().equals("ANNUAL")) {
+			cal.setTime(date);
+			cal.add(Calendar.YEAR, 1);
+			act = cal.getTime();
+		} else {
+			cal.setTime(date);
+			cal.add(Calendar.MONTH, 1);
+			act = cal.getTime();
+		}
+		this.active = act;
 		this.price = price;
 		this.buyer = buyer;
-		this.membershipStatus = membershipStatus;
+		this.membershipStatus = MembershipStatus.ACTIVE;
 		this.dailyLogs = dailyLogs;
 		this.isDeleted = false;
 	}

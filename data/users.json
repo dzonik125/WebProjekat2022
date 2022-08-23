@@ -8,5 +8,15 @@
     "birthday": "Dec 1, 2000, 12:00:00 AM",
     "deleted": false,
     "userType": "ADMINISTRATOR"
+  },
+  {
+    "userName": "petarp",
+    "password": "12345",
+    "name": "nikola",
+    "surname": "kolarov",
+    "gender": "M",
+    "birthday": "Dec 1, 2000, 12:00:00 AM",
+    "deleted": false,
+    "userType": "BUYER"
   }
 ]
