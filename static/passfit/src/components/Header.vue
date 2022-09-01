@@ -3,6 +3,7 @@
     <button class="btn" v-if="!loggedIn"><router-link class="regText" to="/register">Register</router-link></button>
     <button class="btn" v-if="!loggedIn"><router-link class="loginText" to="/login">Login</router-link></button>
     <button class="btn" v-if="loggedIn" v-on:click.prevent="logOut()">Logout</button>
+    <button class="btn" v-if="loggedIn"><router-link class="profileText" :to="'/profileView/' + this.user">Profile</router-link></button>
   </div>
 </template>
 
@@ -11,6 +12,7 @@ export default {
   props: ['loggedIn', 'user'],
   data () {
     return {
+      userObj: {}
     }
   },
   methods: {
@@ -49,17 +51,23 @@ export default {
 }
 
 .loginText{
-  cursor: default;
+  cursor: pointer;
   color:black;
   text-decoration: none;
 }
 
 .regText{
-    cursor: default;
+    cursor: pointer;
     color:black;
     text-decoration: none;
 }
 .regText:visited{
     color: black;
+}
+
+.profileText{
+  cursor: pointer;
+  color: black;
+  text-decoration: none;
 }
 </style>

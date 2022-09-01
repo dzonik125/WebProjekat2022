@@ -18,7 +18,7 @@ public class CoachService {
 		return cr.addCoach(coach);
 	}
 	
-	public String editCoach(Coach coach, Coach selectedCoach) throws IOException{
+	public String editCoach(Coach coach, String selectedCoach) throws IOException{
 		return cr.editCoach(coach, selectedCoach);
 	}
 	

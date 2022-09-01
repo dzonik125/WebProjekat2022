@@ -18,7 +18,7 @@ public class BuyerController {
 		return bs.addBuyer(buyer);
 	}
 	
-	public String editBuyer(Buyer buyer, Buyer selectedBuyer) throws IOException{
+	public String editBuyer(Buyer buyer, String selectedBuyer) throws IOException{
 		return bs.editBuyer(buyer, selectedBuyer);
 	}
 	

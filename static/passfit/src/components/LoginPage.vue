@@ -31,6 +31,7 @@ export default {
         } else if (response.data === 401) {
           window.alert('Neispravna sifra!')
         } else {
+          console.log(response.data)
           console.log(response.data.JWTToken)
           localStorage.setItem('jwt', response.data.JWTToken)
           window.alert('Uspesno logovanje!')

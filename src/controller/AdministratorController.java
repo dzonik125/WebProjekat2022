@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import model.Administrator;
 import service.AdministratorService;
@@ -17,6 +18,10 @@ public class AdministratorController {
 		return as.findAdministrator(username);
 	}
 	
+	
+	public String editAdministrator(Administrator administrator, String selectedAdministrator) throws IOException{
+		return as.editAdministrator(administrator, selectedAdministrator);
+	}
 	
 	
 }

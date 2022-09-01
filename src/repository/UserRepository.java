@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+import model.Buyer;
 import model.User;
 
 public class UserRepository {
@@ -40,6 +41,39 @@ public class UserRepository {
 		gson.toJson(users, fileWriter);
 		fileWriter.close();
 		return added;
+	}
+	
+	public String editUser(User user, String selectedUser) throws IOException{
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		Type listType = new TypeToken<List<User>>(){}.getType();
+		FileReader fileReader = new FileReader(fileLocation);
+		List<User> users = gson.fromJson(fileReader, listType);
+		fileReader.close();
+		for (User user2 : users) {
+			if(user.getUserName().equalsIgnoreCase(selectedUser)) {
+				break;
+			}
+			
+			if(user.getUserName().equalsIgnoreCase(user2.getUserName())) {
+				return "Username se ne moze promeniti u vec postojeci";
+			}
+		}
+		
+		for (User u : users) {
+			if(u.getUserName().equalsIgnoreCase(selectedUser)) {
+				u.setUserName(user.getUserName());
+				u.setPassword(user.getPassword());
+				u.setName(user.getName());
+				u.setSurname(user.getSurname());
+				u.setGender(user.getGender());
+				u.setBirthday(user.getBirthday());
+				FileWriter fileWriter = new FileWriter(fileLocation);
+				gson.toJson(users, fileWriter);
+				fileWriter.close();
+				return "Uspesno izmenjeno";
+			}
+		}
+		return "Ne postoji izabrani korisnik u listi korisnika";
 	}
 	
 	public List<User> findAllUsers() throws IOException{

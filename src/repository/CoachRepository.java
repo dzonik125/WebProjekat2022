@@ -39,14 +39,14 @@ public class CoachRepository {
 		return false;
 	}
 	
-	public String editCoach(Coach coach, Coach selectedCoach) throws IOException {
+	public String editCoach(Coach coach, String selectedCoach) throws IOException {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		Type listType = new TypeToken<List<Coach>>(){}.getType();
 		FileReader fileReader = new FileReader(fileLocation);
 		List<Coach> coaches = gson.fromJson(fileReader, listType);
 		fileReader.close();
 		for (Coach coach2 : coaches) {
-			if(coach.getUserName().equalsIgnoreCase(selectedCoach.getUserName())) {
+			if(coach.getUserName().equalsIgnoreCase(selectedCoach)) {
 				break;
 			}
 			
@@ -56,7 +56,7 @@ public class CoachRepository {
 		}
 		
 		for (Coach c : coaches) {
-			if(c.getUserName().equalsIgnoreCase(selectedCoach.getUserName())) {
+			if(c.getUserName().equalsIgnoreCase(selectedCoach)) {
 				c.setUserName(coach.getUserName());
 				c.setPassword(coach.getPassword());
 				c.setName(coach.getName());
