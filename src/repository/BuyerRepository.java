@@ -43,14 +43,14 @@ public class BuyerRepository {
 		return added;
 	}
 	
-	public String editBuyer(Buyer buyer, Buyer selectedBuyer) throws IOException {
+	public String editBuyer(Buyer buyer, String selectedBuyer) throws IOException {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		Type listType = new TypeToken<List<Buyer>>(){}.getType();
 		FileReader fileReader = new FileReader(fileLocation);
 		List<Buyer> buyers = gson.fromJson(fileReader, listType);
 		fileReader.close();
 		for (Buyer buyer2 : buyers) {
-			if(buyer.getUserName().equalsIgnoreCase(selectedBuyer.getUserName())) {
+			if(buyer.getUserName().equalsIgnoreCase(selectedBuyer)) {
 				break;
 			}
 			
@@ -60,7 +60,7 @@ public class BuyerRepository {
 		}
 		
 		for (Buyer b : buyers) {
-			if(b.getUserName().equalsIgnoreCase(selectedBuyer.getUserName())) {
+			if(b.getUserName().equalsIgnoreCase(selectedBuyer)) {
 				b.setUserName(buyer.getUserName());
 				b.setPassword(buyer.getPassword());
 				b.setName(buyer.getName());

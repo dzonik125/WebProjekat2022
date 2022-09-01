@@ -6,6 +6,8 @@ import router from './router'
 import Axios from 'axios'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
+export const bus = new Vue()
+
 Vue.prototype.$http = Axios
 Vue.config.productionTip = false
 

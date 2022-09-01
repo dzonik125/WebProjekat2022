@@ -21,6 +21,10 @@ public class AdministratorService {
 	public Administrator findAdministrator(String username) throws FileNotFoundException{
 		return ar.findAdministrator(username);
 	}
+	
+	public String editAdministrator(Administrator administrator, String selectedAdministrator) throws IOException{
+		return ar.editAdministrator(administrator, selectedAdministrator);
+	}
 
 	
 	

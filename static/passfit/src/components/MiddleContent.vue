@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/require-v-for-key -->
 <template>
   <div id="mid">
-    <ul>
+    <ul style="list-style: none;">
       <li v-for="sObject in sportObjects">
         <div class="card mb-3" style="max-width: 540px;">
           <div class="row g-0">

@@ -26,5 +26,9 @@ public class UserService {
 		return userRepository.findUser(username);
 	}
 	
+	public String editUser(User user, String selectedUser) throws IOException{
+		return userRepository.editUser(user, selectedUser);
+	}
+	
 	
 }

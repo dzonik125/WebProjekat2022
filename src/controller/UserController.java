@@ -25,4 +25,8 @@ public class UserController {
 	public User findUser(String username) throws IOException {
 		return userService.findUser(username);
 	}
+	
+	public String editUser(User user, String selectedUser) throws IOException{
+		return userService.editUser(user, selectedUser);
+	}
 }
