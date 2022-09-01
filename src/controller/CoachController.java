@@ -18,7 +18,7 @@ public class CoachController {
 		return cs.addCoach(coach);
 	}
 	
-	public String editCoach(Coach coach, Coach selectedCoach) throws IOException{
+	public String editCoach(Coach coach, String selectedCoach) throws IOException{
 		return cs.editCoach(coach, selectedCoach);
 	}
 	

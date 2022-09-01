@@ -18,7 +18,7 @@ public class ManagerService {
 		return mr.addManager(manager);
 	}
 	
-	public String editManager(Manager manager, Manager selectedManager) throws IOException{
+	public String editManager(Manager manager, String selectedManager) throws IOException{
 		return mr.editManager(manager, selectedManager);
 	}
 	

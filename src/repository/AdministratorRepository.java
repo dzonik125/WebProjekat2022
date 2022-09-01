@@ -13,6 +13,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import model.Administrator;
+import model.User;
 
 public class AdministratorRepository {
 	
@@ -51,25 +52,37 @@ public class AdministratorRepository {
 		}
 	}
 	
-	public void editAdministrator(Administrator administrator) throws FileNotFoundException {
+	public String editAdministrator(Administrator administrator, String selectedAdministrator) throws IOException {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		Type listType = new TypeToken<List<Administrator>>(){}.getType();
 		FileReader fileReader = new FileReader("./data/administrators.json");
 		List<Administrator> admins = gson.fromJson(fileReader, listType);
-		if(admins == null) {
-			return;
+		fileReader.close();
+		for (Administrator administrator2 : admins) {
+			if(administrator.getUserName().equalsIgnoreCase(selectedAdministrator)) {
+				break;
+			}
+			
+			if(administrator.getUserName().equalsIgnoreCase(administrator2.getUserName())) {
+				return "Username se ne moze promeniti u vec postojeci";
+			}
 		}
+		
 		for (Administrator admin : admins) {
-			if(admin.getUserName().equalsIgnoreCase(administrator.getUserName())) {
+			if(admin.getUserName().equalsIgnoreCase(selectedAdministrator)) {
 				admin.setUserName(administrator.getUserName());
 				admin.setPassword(administrator.getPassword());
 				admin.setName(administrator.getName());
 				admin.setSurname(administrator.getSurname());
 				admin.setGender(administrator.getGender());
 				admin.setBirthday(administrator.getBirthday());
-				return;
+				FileWriter fileWriter = new FileWriter("./data/administrators.json");
+				gson.toJson(admins, fileWriter);
+				fileWriter.close();
+				return "Uspesno izmenjeno";
 			}
 		}
+		return "Ne postoji izabrani admin u listi administratora";
 	}
 	
 	public Administrator findAdministrator(String username) throws FileNotFoundException {

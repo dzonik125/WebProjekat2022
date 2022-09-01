@@ -40,14 +40,14 @@ public class ManagerRepository {
 		return false;
 	}
 	
-	public String editManager(Manager manager, Manager selectedManager) throws IOException {
+	public String editManager(Manager manager, String selectedManager) throws IOException {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		Type listType = new TypeToken<List<Manager>>(){}.getType();
 		FileReader fileReader = new FileReader(fileLocation);
 		List<Manager> managers = gson.fromJson(fileReader, listType);
 		fileReader.close();
 		for (Manager manager2 : managers) {
-			if(manager.getUserName().equalsIgnoreCase(selectedManager.getUserName())) {
+			if(manager.getUserName().equalsIgnoreCase(selectedManager)) {
 				break;
 			}
 			
@@ -57,7 +57,7 @@ public class ManagerRepository {
 		}
 		
 		for (Manager b : managers) {
-			if(b.getUserName().equalsIgnoreCase(selectedManager.getUserName())) {
+			if(b.getUserName().equalsIgnoreCase(selectedManager)) {
 				b.setUserName(manager.getUserName());
 				b.setPassword(manager.getPassword());
 				b.setName(manager.getName());

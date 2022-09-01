@@ -18,7 +18,7 @@ public class ManagerController {
 		return ms.addManager(manager);
 	}
 	
-	public String editManager(Manager manager, Manager selectedManager) throws IOException{
+	public String editManager(Manager manager, String selectedManager) throws IOException{
 		return ms.editManager(manager, selectedManager);
 	}
 	

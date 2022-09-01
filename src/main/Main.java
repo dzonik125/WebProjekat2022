@@ -30,8 +30,11 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import model.Administrator;
 import model.Buyer;
+import model.Coach;
 import model.Gender;
+import model.Manager;
 import model.SportObject;
 import model.User;
 import model.UserType;
@@ -156,6 +159,74 @@ public class Main {
 			List<SportObject> sportObjects = soc.findAllSportObjects();
 			return g.toJson(sportObjects);
 		});
+		
+		post("/rest/getLoggedInUser/", (req, res) -> {
+			res.type("application/json");
+			String payload = req.body();
+			System.out.println(payload);
+			if(uc.findUser(payload) == null) {
+				return 400;
+			}
+			return uc.findUser(payload);
+		});
+		
+		post("/rest/getUser/", (req, res) -> {
+			res.type("application/json");
+			String payload = req.body();
+			JsonParser jsonParser = new JsonParser();
+			JsonObject jObject = jsonParser.parse(payload).getAsJsonObject();
+			String username = jObject.get("username").getAsString();
+			if(uc.findUser(username) == null) {
+				return 400;
+			}
+			return g.toJson(uc.findUser(username));
+		});
+		
+		post("/rest/editUser/", (req, res) -> {
+			String payload = req.body();
+			JsonParser jsonParser = new JsonParser();
+			JsonObject jObject = jsonParser.parse(payload).getAsJsonObject();
+			System.out.println(jObject.get("username"));
+			String selectedUsername = jObject.get("oldUsername").getAsString();
+			String username = jObject.get("username").getAsString();
+			String password = jObject.get("password").getAsString();
+			String name = jObject.get("name").getAsString();
+			String surname = jObject.get("surname").getAsString();
+			Gender gender = Gender.valueOf(jObject.get("gender").getAsString());
+			String birthday = jObject.get("birthday").getAsString();
+			SimpleDateFormat format = new SimpleDateFormat("MMM d, yyyy, HH:mm:ss aaa");
+			Date birthd = format.parse(birthday);
+			UserType uType = UserType.valueOf(jObject.get("userType").getAsString());
+			User user = new User(username, password, name, surname, gender, birthd, uType);
+			String edited = uc.editUser(user, selectedUsername);
+			if(uType.toString().equals("ADMINISTRATOR")) {
+				Administrator administrator = new Administrator(username, password, name, surname, gender, birthd, uType);
+				String editedAdmin = ac.editAdministrator(administrator, selectedUsername);
+				if(edited.equalsIgnoreCase("Uspesno izmenjeno") && editedAdmin.equalsIgnoreCase("Uspesno izmenjeno")) {
+					return 200;
+				}
+			} else if (uType.toString().equals("BUYER")) {
+				Buyer buyer = new Buyer(username, password, name, surname, gender, birthd, uType, null, null, 0, null);
+				String editedBuyer = bc.editBuyer(buyer, selectedUsername);
+				if(edited.equalsIgnoreCase("Uspesno izmenjeno") && editedBuyer.equalsIgnoreCase("Uspesno izmenjeno")) {
+					return 200;
+				}
+			} else if (uType.toString().equals("COACH")) {
+				Coach coach = new Coach(username, password, name, surname, gender, birthd, uType, null);
+				String editedCoach = cc.editCoach(coach, selectedUsername);
+				if(edited.equalsIgnoreCase("Uspesno izmenjeno") && editedCoach.equalsIgnoreCase("Uspesno izmenjeno")) {
+					return 200;
+				}
+			} else if (uType.toString().equals("MANAGER")) {
+				Manager manager = new Manager(username, password, name, surname, gender, birthd, uType, null);
+				String editedManager = mc.editManager(manager, selectedUsername);
+				if(edited.equalsIgnoreCase("Uspesno izmenjeno") && editedManager.equalsIgnoreCase("Uspesno izmenjeno")) {
+					return 200;
+				}
+			}
+			return 400;
+		});
+		
 	}
 
 }
