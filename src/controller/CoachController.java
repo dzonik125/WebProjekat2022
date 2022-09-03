@@ -22,7 +22,7 @@ public class CoachController {
 		return cs.editCoach(coach, selectedCoach);
 	}
 	
-	public boolean deleteCoach(Coach coach) throws IOException{
+	public boolean deleteCoach(String coach) throws IOException{
 		return cs.deleteCoach(coach);
 	}
 	

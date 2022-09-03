@@ -74,14 +74,14 @@ public class ManagerRepository {
 		return "Ne postoji izabrani menadzer u listi menadzera";
 	}
 	
-	public boolean deleteManager(Manager manager) throws IOException {
+	public boolean deleteManager(String manager) throws IOException {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		Type listType = new TypeToken<List<Manager>>(){}.getType();
 		FileReader fileReader = new FileReader(fileLocation);
 		List<Manager> managers = gson.fromJson(fileReader, listType);
 		fileReader.close();
 		for (Manager b : managers) {
-			if(manager.getUserName().equalsIgnoreCase(b.getUserName())) {
+			if(manager.equalsIgnoreCase(b.getUserName())) {
 				b.setDeleted(true);
 				FileWriter fileWriter = new FileWriter(fileLocation);
 				gson.toJson(managers, fileWriter);

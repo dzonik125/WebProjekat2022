@@ -76,14 +76,14 @@ public class BuyerRepository {
 		return "Ne postoji izabrani kupac u listi kupaca";
 	}
 	
-	public boolean deleteBuyer(Buyer buyer) throws IOException {
+	public boolean deleteBuyer(String buyer) throws IOException {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		Type listType = new TypeToken<List<Buyer>>(){}.getType();
 		FileReader fileReader = new FileReader(fileLocation);
 		List<Buyer> buyers = gson.fromJson(fileReader, listType);
 		fileReader.close();
 		for (Buyer b : buyers) {
-			if(buyer.getUserName().equalsIgnoreCase(b.getUserName())) {
+			if(buyer.equalsIgnoreCase(b.getUserName())) {
 				b.setDeleted(true);
 				FileWriter fileWriter = new FileWriter(fileLocation);
 				gson.toJson(buyers, fileWriter);

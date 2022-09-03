@@ -22,7 +22,7 @@ public class BuyerService {
 		return br.editBuyer(buyer, selectedBuyer);
 	}
 	
-	public boolean deleteBuyer(Buyer buyer) throws IOException {
+	public boolean deleteBuyer(String buyer) throws IOException {
 		return br.deleteBuyer(buyer);
 	}
 	
