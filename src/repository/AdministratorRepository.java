@@ -13,6 +13,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import model.Administrator;
+import model.User;
 
 public class AdministratorRepository {
 	
@@ -103,6 +104,24 @@ public class AdministratorRepository {
 		FileReader fileReader = new FileReader("./data/administrators.json");
 		List<Administrator> admins = gson.fromJson(fileReader, listType);
 		return admins;
+	}
+	
+	public boolean deleteAdministrator(String username) throws IOException {
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		Type listType = new TypeToken<List<Administrator>>(){}.getType();
+		FileReader fileReader = new FileReader("./data/administrators.json");
+		List<Administrator> admins = gson.fromJson(fileReader, listType);
+		fileReader.close();
+		for (Administrator a : admins) {
+			if(username.equalsIgnoreCase(a.getUserName())) {
+				a.setDeleted(true);
+				FileWriter fileWriter = new FileWriter("./data/administrators.json");
+				gson.toJson(admins, fileWriter);
+				fileWriter.close();
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	

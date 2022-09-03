@@ -6,7 +6,7 @@
         <div class="card mb-3" style="max-width: 540px;">
           <div class="row g-0">
             <div class="col-md-4">
-              <img v-bind:src="sObject.imageRelLocation" class="img-fluid rounded-start"/>
+              <img :src="sObject.imageRelLocation" class="img-fluid rounded-start"/>
             </div>
             <div class="col-md-8">
               <div class="card-body">

@@ -32,10 +32,13 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import model.Administrator;
+import model.Adress;
 import model.Buyer;
 import model.Coach;
 import model.Gender;
+import model.Location;
 import model.Manager;
+import model.ObjectType;
 import model.SportObject;
 import model.User;
 import model.UserType;
@@ -240,7 +243,51 @@ public class Main {
 			JsonParser jsonParser = new JsonParser();
 			JsonObject jObject = jsonParser.parse(payload).getAsJsonObject();
 			String username = jObject.get("username").getAsString();
-			if(uc.deleteUser(username)) {
+			User u = uc.findUser(username);
+			boolean deleted= uc.deleteUser(username);
+			if(u.getUserType().toString().equals("ADMINISTRATOR")) {
+				boolean adminDeleted = ac.deleteAdministrator(username);
+				if(adminDeleted && deleted) {
+					return 200;
+				}
+			} else if (u.getUserType().toString().equals("BUYER")) {
+				boolean buyerDeleted = bc.deleteBuyer(username);
+				if(buyerDeleted && deleted) {
+					return 200;
+				}
+			} else if (u.getUserType().toString().equals("MANAGER")) {
+				boolean managerDeleted = mc.deleteManager(username);
+				if(managerDeleted && deleted) {
+					return 200;
+				}
+			} else if (u.getUserType().toString().equals("COACH")) {
+				boolean coachDeleted = cc.deleteCoach(username);
+				if(coachDeleted && deleted) {
+					return 200;
+				}
+			}
+			return 400;
+		});
+		
+		post("rest/createSportObject/", (req, res) -> {
+			String payload = req.body();
+			JsonParser jsonParser = new JsonParser();
+			JsonObject jObject = jsonParser.parse(payload).getAsJsonObject();
+			String name = jObject.get("name").getAsString();
+			ObjectType oType = ObjectType.valueOf(jObject.get("objectType").getAsString());
+			String services = jObject.get("services").getAsString();
+			double lat = jObject.get("lat").getAsDouble();
+			double longt = jObject.get("long").getAsDouble();
+			String street = jObject.get("street").getAsString();
+			int sNum = jObject.get("sNum").getAsInt();
+			String city = jObject.get("city").getAsString();
+			int postcode = jObject.get("postcode").getAsInt();
+			String image = jObject.get("image").getAsString();
+			String workingHours = jObject.get("workingHours").getAsString();
+			Adress a = new Adress(street, sNum, city, postcode);
+			Location l = new Location(lat, longt, a);
+			SportObject so = new SportObject(name, oType, services, null, l, image, 0, workingHours);
+			if(soc.addSportObject(so)) {
 				return 200;
 			}
 			return 400;

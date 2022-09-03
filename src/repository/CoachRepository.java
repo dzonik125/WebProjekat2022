@@ -72,14 +72,14 @@ public class CoachRepository {
 		return "Ne postoji izabrani membership u listi membershipa";
 	}
 	
-	public boolean deleteCoach(Coach coach) throws IOException {
+	public boolean deleteCoach(String coach) throws IOException {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		Type listType = new TypeToken<List<Coach>>(){}.getType();
 		FileReader fileReader = new FileReader(fileLocation);
 		List<Coach> coaches = gson.fromJson(fileReader, listType);
 		fileReader.close();
 		for (Coach c : coaches) {
-			if(c.getUserName().equalsIgnoreCase(c.getUserName())) {
+			if(coach.equalsIgnoreCase(c.getUserName())) {
 				c.setDeleted(true);
 				FileWriter fileWriter = new FileWriter(fileLocation);
 				gson.toJson(coaches, fileWriter);

@@ -23,5 +23,8 @@ public class AdministratorController {
 		return as.editAdministrator(administrator, selectedAdministrator);
 	}
 	
+	public boolean deleteAdministrator(String username) throws IOException {
+		return as.deleteAdministrator(username);
+	}
 	
 }

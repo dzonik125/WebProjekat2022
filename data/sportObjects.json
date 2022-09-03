@@ -15,9 +15,29 @@
       },
       "deleted": false
     },
-    "imageRelLocation": "../assets/ahilej.png",
+    "imageRelLocation": "/static/ahilej.png",
     "avgGrade": 3.5,
     "workingHours": "08:00-22:00",
     "deleted": true
+  },
+  {
+    "name": "Mega Gym",
+    "objectType": "GYM",
+    "services": "Ovaj objekat vam nudi vrhunske uslove za trening na najnovijim spravama.",
+    "location": {
+      "latitude": 25.15,
+      "longtitude": 26.532,
+      "adress": {
+        "street": "Temerinska",
+        "sNum": 52,
+        "city": "Novi Sad",
+        "postCode": 21100
+      },
+      "deleted": false
+    },
+    "imageRelLocation": "/static/megagym.png",
+    "avgGrade": 0.0,
+    "workingHours": "08:00-22:00",
+    "deleted": false
   }
 ]

@@ -6,6 +6,7 @@ import Login from '@/components/LoginPage'
 import ViewProfile from '@/components/ViewProfile'
 import AdminPanel from '@/components/AdminPanel'
 import UserTable from '@/components/UserTable'
+import CreateSportObject from '@/components/CreateSportObject'
 
 Vue.use(Router)
 
@@ -41,6 +42,11 @@ export default new Router({
       path: '/userTable/',
       name: 'userTable',
       component: UserTable
+    },
+    {
+      path: '/createSO/',
+      name: 'createSportObject',
+      component: CreateSportObject
     }
   ]
 })
