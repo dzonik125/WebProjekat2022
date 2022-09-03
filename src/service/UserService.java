@@ -30,5 +30,9 @@ public class UserService {
 		return userRepository.editUser(user, selectedUser);
 	}
 	
+	public boolean deleteUser(String username) throws IOException{
+		return userRepository.deleteUser(username);
+	}
+	
 	
 }

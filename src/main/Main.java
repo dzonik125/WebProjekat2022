@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.security.Key;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -223,6 +224,24 @@ public class Main {
 				if(edited.equalsIgnoreCase("Uspesno izmenjeno") && editedManager.equalsIgnoreCase("Uspesno izmenjeno")) {
 					return 200;
 				}
+			}
+			return 400;
+		});
+		
+		get("/rest/getAllUsers/", (req, res) -> {
+			res.type("application/json");
+			List<User> allUsers = new ArrayList<User>();
+			allUsers = uc.findAllUsers();
+			return g.toJson(allUsers);
+		});
+		
+		post("/rest/deleteUser/", (req, res) -> {
+			String payload = req.body();
+			JsonParser jsonParser = new JsonParser();
+			JsonObject jObject = jsonParser.parse(payload).getAsJsonObject();
+			String username = jObject.get("username").getAsString();
+			if(uc.deleteUser(username)) {
+				return 200;
 			}
 			return 400;
 		});

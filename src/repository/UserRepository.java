@@ -11,7 +11,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-import model.Buyer;
 import model.User;
 
 public class UserRepository {
@@ -97,6 +96,24 @@ public class UserRepository {
 		}
 		fileReader.close();
 		return null;
+	}
+	
+	public boolean deleteUser(String username) throws IOException {
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		Type listType = new TypeToken<List<User>>(){}.getType();
+		FileReader fileReader = new FileReader(fileLocation);
+		List<User> users = gson.fromJson(fileReader, listType);
+		fileReader.close();
+		for (User u : users) {
+			if(username.equalsIgnoreCase(u.getUserName())) {
+				u.setDeleted(true);
+				FileWriter fileWriter = new FileWriter(fileLocation);
+				gson.toJson(users, fileWriter);
+				fileWriter.close();
+				return true;
+			}
+		}
+		return false;
 	}
 	
 }

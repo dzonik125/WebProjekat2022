@@ -29,4 +29,8 @@ public class UserController {
 	public String editUser(User user, String selectedUser) throws IOException{
 		return userService.editUser(user, selectedUser);
 	}
+	
+	public boolean deleteUser(String username) throws IOException{
+		return userService.deleteUser(username);
+	}
 }

@@ -13,7 +13,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import model.Administrator;
-import model.User;
 
 public class AdministratorRepository {
 	

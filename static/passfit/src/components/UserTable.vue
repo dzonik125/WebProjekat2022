@@ -1,0 +1,76 @@
+<template>
+    <div id="userTable">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Username</th>
+                    <th scope="col">Password</th>
+                    <th scope="col">Obrisan</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(user, index) in allUsers" :key="index" v-if="loggedUser != user.userName">
+                    <td>{{user.userName}}</td>
+                    <td>{{user.password}}</td>
+                    <td>{{user.deleted}}</td>
+                    <td v-if="!user.deleted"><button class="btn" v-on:click="deleteUser($event)">Obrisi</button></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-center"><button class="btn"><router-link  class="Text" :to="'/adminPanel/'">Nazad</router-link></button></div>
+    </div>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      allUsers: [],
+      loggedUser: ''
+    }
+  },
+  methods: {
+    deleteUser: function (event) {
+      console.log((event.target.parentElement).parentElement.firstChild.innerHTML)
+      let username = (event.target.parentElement).parentElement.firstChild.innerHTML
+      const axios = require('axios')
+      axios.post('http://localhost:8082/rest/deleteUser/', {username: username}).then(response => {
+        if (response.data === 400) {
+          console.log('There was an error!')
+        } else {
+          window.alert('Uspesno ste obrisali korisnika!')
+          window.location.reload()
+        }
+      })
+    }
+  },
+  mounted () {
+    const axios = require('axios')
+    axios.get('http://localhost:8082/rest/getAllUsers/').then(response => {
+      this.allUsers = response.data
+      console.log(this.allUsers)
+    })
+
+    axios.get('http://localhost:8082/rest/checkIfLogged/', {
+      headers: {
+        'Authorization': 'Bearer ' + window.localStorage.getItem('jwt')
+      }
+    }).then(response => {
+      this.loggedUser = response.data.split('.')[0]
+    })
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+    #userTable{
+        margin: 4rem;
+    }
+
+    .Text{
+        cursor: pointer;
+        color: black;
+        text-decoration: none;
+    }
+</style>
