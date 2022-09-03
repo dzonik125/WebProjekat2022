@@ -4,15 +4,15 @@
     <button class="btn" v-if="!loggedIn"><router-link class="loginText" to="/login">Login</router-link></button>
     <button class="btn" v-if="loggedIn" v-on:click.prevent="logOut()">Logout</button>
     <button class="btn" v-if="loggedIn"><router-link class="profileText" :to="'/profileView/' + this.user">Profile</router-link></button>
+    <button class="btn" v-if="userType === 'ADMINISTRATOR'"><router-link class="profileText" :to="'/adminPanel/'">Admin Panel</router-link></button>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['loggedIn', 'user'],
+  props: ['loggedIn', 'user', 'userType'],
   data () {
     return {
-      userObj: {}
     }
   },
   methods: {
@@ -70,4 +70,5 @@ export default {
   color: black;
   text-decoration: none;
 }
+
 </style>
