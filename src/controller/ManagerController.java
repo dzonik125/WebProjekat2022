@@ -22,7 +22,7 @@ public class ManagerController {
 		return ms.editManager(manager, selectedManager);
 	}
 	
-	public boolean deleteManager(Manager manager) throws IOException{
+	public boolean deleteManager(String manager) throws IOException{
 		return ms.deleteManager(manager);
 	}
 	

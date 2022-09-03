@@ -22,7 +22,7 @@ public class ManagerService {
 		return mr.editManager(manager, selectedManager);
 	}
 	
-	public boolean deleteManager(Manager manager) throws IOException{
+	public boolean deleteManager(String manager) throws IOException{
 		return mr.deleteManager(manager);
 	}
 	

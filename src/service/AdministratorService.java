@@ -26,6 +26,8 @@ public class AdministratorService {
 		return ar.editAdministrator(administrator, selectedAdministrator);
 	}
 
-	
+	public boolean deleteAdministrator(String username) throws IOException {
+		return ar.deleteAdministrator(username);
+	}
 	
 }
