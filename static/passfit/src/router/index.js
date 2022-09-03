@@ -4,6 +4,8 @@ import Index from '@/components/IndexPage'
 import Register from '@/components/RegisterPage'
 import Login from '@/components/LoginPage'
 import ViewProfile from '@/components/ViewProfile'
+import AdminPanel from '@/components/AdminPanel'
+import UserTable from '@/components/UserTable'
 
 Vue.use(Router)
 
@@ -29,6 +31,16 @@ export default new Router({
       name: 'viewProfile',
       component: ViewProfile,
       props: true
+    },
+    {
+      path: '/adminPanel/',
+      name: 'adminPanel',
+      component: AdminPanel
+    },
+    {
+      path: '/userTable/',
+      name: 'userTable',
+      component: UserTable
     }
   ]
 })
