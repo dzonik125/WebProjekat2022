@@ -293,6 +293,29 @@ public class Main {
 			return 400;
 		});
 		
+		post("rest/createManager/", (req, res) -> {
+			String payload = req.body();
+			JsonParser jsonParser = new JsonParser();
+			JsonObject jObject = jsonParser.parse(payload).getAsJsonObject();
+			String username = jObject.get("username").getAsString();
+			String password = jObject.get("password").getAsString();
+			String name = jObject.get("nam").getAsString();
+			String surname = jObject.get("surnam").getAsString();
+			System.out.println(jObject.get("gender").getAsString());
+			Gender gender = Gender.valueOf(jObject.get("gender").getAsString());
+			String birthday = jObject.get("birthday").getAsString();
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			Date birthd = format.parse(birthday);
+			User user = new User(username, password, name, surname, gender, birthd, UserType.MANAGER);
+			Manager manager = new Manager(username, password, name, surname, gender, birthd, UserType.MANAGER, null);
+			boolean created = uc.addUser(user);
+			boolean managerCreated = mc.addManager(manager);
+			if(created && managerCreated) {
+				return 200;
+			}
+			return 400;
+		});
+		
 	}
 
 }

@@ -30,6 +30,11 @@ public class ManagerRepository {
 		if(managers == null) {
 			managers = new ArrayList<>();
 		}
+		for (Manager manager2 : managers) {
+			if(manager2.getUserName().equals(manager.getUserName())) {
+				return false;
+			}
+		}
 		boolean added = managers.add(manager);
 		FileWriter fileWriter = new FileWriter(fileLocation);
 		gson.toJson(managers, fileWriter);
