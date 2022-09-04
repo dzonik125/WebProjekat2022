@@ -7,6 +7,7 @@ import ViewProfile from '@/components/ViewProfile'
 import AdminPanel from '@/components/AdminPanel'
 import UserTable from '@/components/UserTable'
 import CreateSportObject from '@/components/CreateSportObject'
+import CreateManager from '@/components/CreateManager'
 
 Vue.use(Router)
 
@@ -47,6 +48,11 @@ export default new Router({
       path: '/createSO/',
       name: 'createSportObject',
       component: CreateSportObject
+    },
+    {
+      path: '/createManager/',
+      name: 'createManager',
+      component: CreateManager
     }
   ]
 })

@@ -18,5 +18,25 @@
     "birthday": "Dec 1, 2000, 12:00:00 AM",
     "deleted": false,
     "userType": "BUYER"
+  },
+  {
+    "userName": "mikica",
+    "password": "123456",
+    "name": "Mihailo",
+    "surname": "Prodanovic",
+    "gender": "M",
+    "birthday": "Sep 20, 2022, 12:00:00 AM",
+    "deleted": false,
+    "userType": "MANAGER"
+  },
+  {
+    "userName": "pikacu",
+    "password": "123",
+    "name": "Mwdwq",
+    "surname": "qweqw",
+    "gender": "N",
+    "birthday": "Sep 17, 2022, 12:00:00 AM",
+    "deleted": false,
+    "userType": "MANAGER"
   }
 ]
