@@ -11,10 +11,13 @@ export default {
 </script>
 
 <style>
-body{
+body, html{
+  min-height: 100vh;
   margin: 0;
+  padding: 0;
 }
 #app {
+  height: 100vh;
   margin: 0;
 }
 </style>

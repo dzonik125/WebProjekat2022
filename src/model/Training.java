@@ -8,7 +8,9 @@ public class Training {
 	private String description;
 	private String imageLocation;
 	private boolean deleted;
-	private transient Coach coach;
+	private String coach;
+	private int id;
+	
 	public Training(String name, TrainingType trainingType, SportObject sportObject, long duration,
 			String description, String image) {
 		super();
@@ -21,7 +23,7 @@ public class Training {
 		this.deleted = false;
 	}
 	public Training(String name, TrainingType trainingType, SportObject sportObject, long duration,
-			String description, String image, Coach coach) {
+			String description, String image, String coach) {
 		super();
 		this.name = name;
 		this.trainingType = trainingType;
@@ -68,10 +70,10 @@ public class Training {
 	public void setImageLocation(String imageLocation) {
 		this.imageLocation = imageLocation;
 	}
-	public Coach getCoach() {
+	public String getCoach() {
 		return coach;
 	}
-	public void setCoach(Coach coach) {
+	public void setCoach(String coach) {
 		this.coach = coach;
 	}
 	public boolean isDeleted() {
@@ -79,6 +81,12 @@ public class Training {
 	}
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 }

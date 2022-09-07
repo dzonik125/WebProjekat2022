@@ -29,6 +29,11 @@ public class CoachRepository {
 		if(coaches == null) {
 			coaches = new ArrayList<>();
 		}
+		for (Coach coach2 : coaches) {
+			if(coach2.getUserName().equals(coach.getUserName())) {
+				return false;
+			}
+		}
 		boolean added = coaches.add(coach);
 		FileWriter fileWriter = new FileWriter(fileLocation);
 		gson.toJson(coaches, fileWriter);

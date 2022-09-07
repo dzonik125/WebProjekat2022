@@ -5,6 +5,7 @@
     <button class="btn" v-if="loggedIn" v-on:click.prevent="logOut()">Logout</button>
     <button class="btn" v-if="loggedIn"><router-link class="profileText" :to="'/profileView/' + this.user">Profile</router-link></button>
     <button class="btn" v-if="userType === 'ADMINISTRATOR'"><router-link class="profileText" :to="'/adminPanel/'">Admin Panel</router-link></button>
+    <button class="btn" v-if="userType === 'MANAGER'"><router-link class="profileText" :to="'/manageObject/' + this.user">Upravljaj objektom</router-link></button>
   </div>
 </template>
 
@@ -39,15 +40,15 @@ export default {
 <style scoped>
 #header{
     width: 100%;
-    height: 10rem;
+    height: 5rem;
     background-color: white;
     display: flex;
     flex-direction: row-reverse;
 }
 .btn{
     margin-right: 2rem;
-    margin-top: 1.5rem;
-    height: 2rem;
+    /* margin-top: 1rem; */
+    /* height: 2rem; */
 }
 
 .loginText{

@@ -90,14 +90,14 @@ public class SportObjectRepository {
 		return false;
 	}
 	
-	public SportObject findSportObject(Location location) throws IOException {
+	public SportObject findSportObject(String name) throws IOException {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		Type listType = new TypeToken<List<SportObject>>(){}.getType();
 		FileReader fileReader = new FileReader(fileLocation);
 		List<SportObject> sportObjects = gson.fromJson(fileReader, listType);
 		fileReader.close();
 		for (SportObject sportObject : sportObjects) {
-			if(sportObject.getLocation().getLatitude() == location.getLatitude() && sportObject.getLocation().getLongtitude() == location.getLongtitude()) {
+			if(sportObject.getName().equals(name)) {
 				return sportObject;
 			}
 		}

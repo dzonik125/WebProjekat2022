@@ -38,5 +38,15 @@
     "birthday": "Sep 17, 2022, 12:00:00 AM",
     "deleted": false,
     "userType": "MANAGER"
+  },
+  {
+    "userName": "miksajlo",
+    "password": "123",
+    "name": "Mihailo",
+    "surname": "Slokar",
+    "gender": "M",
+    "birthday": "Sep 16, 2022, 12:00:00 AM",
+    "deleted": false,
+    "userType": "COACH"
   }
 ]

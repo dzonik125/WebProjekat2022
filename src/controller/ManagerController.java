@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import model.Manager;
+import model.SportObject;
 import service.ManagerService;
 
 public class ManagerController {
@@ -32,5 +33,17 @@ public class ManagerController {
 	
 	public List<Manager> findAllManagers() throws IOException{
 		return ms.findAllManagers();
+	}
+	
+	public List<Manager> findFreeManagers() throws IOException{
+		return ms.findFreeManagers();
+	}
+	
+	public boolean bindManagerWithSportObject(String username, SportObject so) throws IOException {
+		return ms.bindManagerWithSportObject(username, so);
+	}
+	
+	public SportObject getManagerSportObject(String username) throws IOException{
+		return ms.getManagerSportObject(username);
 	}
 }
