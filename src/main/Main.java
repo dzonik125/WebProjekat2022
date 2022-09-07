@@ -26,6 +26,7 @@ import controller.AdministratorController;
 import controller.BuyerController;
 import controller.CoachController;
 import controller.ManagerController;
+import controller.MembershipController;
 import controller.SportObjectController;
 import controller.TrainingController;
 import controller.UserController;
@@ -41,6 +42,8 @@ import model.Coach;
 import model.Gender;
 import model.Location;
 import model.Manager;
+import model.Membership;
+import model.MembershipType;
 import model.ObjectType;
 import model.SportObject;
 import model.Training;
@@ -58,6 +61,7 @@ public class Main {
 	private static ManagerController mc = new ManagerController();
 	private static SportObjectController soc = new SportObjectController();
 	private static TrainingController tc = new TrainingController();
+	private static MembershipController mController = new MembershipController();
 	
 	static Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
@@ -467,7 +471,22 @@ public class Main {
 			JsonObject jObject = jsonParser.parse(payload).getAsJsonObject();
 			String name = jObject.get("object").getAsString();
 			return g.toJson(soc.findSportObject(name));
-		}); 
+		});
+		
+		post("/rest/buyMembership/", (req, res) -> {
+			String payload = req.body();
+			JsonParser jsonParser = new JsonParser();
+			JsonObject jObject = jsonParser.parse(payload).getAsJsonObject();
+			String username = jObject.get("username").getAsString();
+			MembershipType membershipType = MembershipType.valueOf(jObject.get("type").getAsString());
+			int daily = jObject.get("dailyLogs").getAsInt();
+			int price = jObject.get("price").getAsInt();
+			Membership membership = new Membership(membershipType, price, username, daily);
+			if(mController.addMemebership(membership)) {
+				return 200;
+			}
+			return 400;
+		});
 	}
 
 }

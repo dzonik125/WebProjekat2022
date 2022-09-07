@@ -12,7 +12,8 @@ import CreateCoach from '@/components/CreateCoach'
 import ManageObject from '@/components/ManageObject'
 import AddTraining from '@/components/AddTraining'
 import ObjectCoaches from '@/components/ObjectCoaches'
-import ObjectView from '@/components/objectView'
+import ObjectView from '@/components/ObjectView'
+import BuyMembership from '@/components/BuyMembership'
 
 Vue.use(Router)
 
@@ -86,6 +87,12 @@ export default new Router({
       path: '/objectView/:object',
       name: 'ObjectView',
       component: ObjectView,
+      props: true
+    },
+    {
+      path: '/buyMembership/:user',
+      name: 'BuyMembership',
+      component: BuyMembership,
       props: true
     }
   ]
