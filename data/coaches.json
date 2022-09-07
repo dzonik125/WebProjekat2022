@@ -1,11 +1,11 @@
 [
   {
-    "userName": "fiksni",
-    "password": "123456",
-    "name": "Srdjan",
-    "surname": "Stanic",
+    "userName": "miksajlo",
+    "password": "123",
+    "name": "Mihailo",
+    "surname": "Slokar",
     "gender": "M",
-    "birthday": "Aug 29, 2022, 12:00:00 PM",
+    "birthday": "Sep 16, 2022, 12:00:00 AM",
     "deleted": false,
     "userType": "COACH"
   }

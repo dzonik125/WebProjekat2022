@@ -27,8 +27,8 @@ public class SportObjectService {
 		return sor.deleteSportObject(location);
 	}
 	
-	public SportObject findSportObject(Location location) throws IOException{
-		return sor.findSportObject(location);
+	public SportObject findSportObject(String name) throws IOException{
+		return sor.findSportObject(name);
 	}
 	
 	public List<SportObject> findAllSportObjects() throws IOException{

@@ -29,11 +29,15 @@ public class TrainingController {
 		return ts.deleteTraining(t);
 	}
 	
-	public Training findTraining(SportObject sportObject, String name, Coach coach, TrainingType trainingType, long duration) throws IOException{
-		return ts.findTraining(sportObject, name, coach, trainingType, duration);
+	public Training findTraining(int id) throws IOException{
+		return ts.findTraining(id);
 	}
 	
 	public List<Training> findAllTraining() throws IOException{
 		return ts.findAllTraining();
+	}
+	
+	public List<Training> findTrainingsForSportObject(String name) throws IOException{
+		return ts.findTrainingsForSportObject(name);
 	}
 }

@@ -12,7 +12,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
@@ -25,6 +27,7 @@ import controller.BuyerController;
 import controller.CoachController;
 import controller.ManagerController;
 import controller.SportObjectController;
+import controller.TrainingController;
 import controller.UserController;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -40,6 +43,8 @@ import model.Location;
 import model.Manager;
 import model.ObjectType;
 import model.SportObject;
+import model.Training;
+import model.TrainingType;
 import model.User;
 import model.UserType;
 
@@ -52,6 +57,7 @@ public class Main {
 	private static CoachController cc = new CoachController();
 	private static ManagerController mc = new ManagerController();
 	private static SportObjectController soc = new SportObjectController();
+	private static TrainingController tc = new TrainingController();
 	
 	static Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
@@ -284,10 +290,11 @@ public class Main {
 			int postcode = jObject.get("postcode").getAsInt();
 			String image = jObject.get("image").getAsString();
 			String workingHours = jObject.get("workingHours").getAsString();
+			String managerUsername = jObject.get("manager").getAsString();
 			Adress a = new Adress(street, sNum, city, postcode);
 			Location l = new Location(lat, longt, a);
 			SportObject so = new SportObject(name, oType, services, null, l, image, 0, workingHours);
-			if(soc.addSportObject(so)) {
+			if(soc.addSportObject(so) && mc.bindManagerWithSportObject(managerUsername, so)) {
 				return 200;
 			}
 			return 400;
@@ -309,6 +316,9 @@ public class Main {
 			User user = new User(username, password, name, surname, gender, birthd, UserType.MANAGER);
 			Manager manager = new Manager(username, password, name, surname, gender, birthd, UserType.MANAGER, null);
 			boolean created = uc.addUser(user);
+			if(!created) {
+				return 400;
+			}
 			boolean managerCreated = mc.addManager(manager);
 			if(created && managerCreated) {
 				return 200;
@@ -316,6 +326,148 @@ public class Main {
 			return 400;
 		});
 		
+		post("rest/createCoach/", (req, res) -> {
+			String payload = req.body();
+			JsonParser jsonParser = new JsonParser();
+			JsonObject jObject = jsonParser.parse(payload).getAsJsonObject();
+			String username = jObject.get("username").getAsString();
+			String password = jObject.get("password").getAsString();
+			String name = jObject.get("nam").getAsString();
+			String surname = jObject.get("surnam").getAsString();
+			System.out.println(jObject.get("gender").getAsString());
+			Gender gender = Gender.valueOf(jObject.get("gender").getAsString());
+			String birthday = jObject.get("birthday").getAsString();
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			Date birthd = format.parse(birthday);
+			User user = new User(username, password, name, surname, gender, birthd, UserType.COACH);
+			Coach coach = new Coach(username, password, name, surname, gender, birthd, UserType.COACH, null);
+			boolean created = uc.addUser(user);
+			if(!created) {
+				return 400;
+			}
+			boolean coachCreated = cc.addCoach(coach);
+			if(created && coachCreated) {
+				return 200;
+			}
+			return 400;
+		});
+		
+		get("rest/getFreeManagers/", (req, res) -> {
+			res.type("application/json");
+			return g.toJson(mc.findFreeManagers());
+		});
+		
+		post("rest/getManagerObject/", (req, res) -> {
+			res.type("application/json");
+			String payload = req.body();
+			System.out.println(payload);
+			JsonParser jsonParser = new JsonParser();
+			JsonObject jObject = jsonParser.parse(payload).getAsJsonObject();
+			String username = jObject.get("username").getAsString();
+			return g.toJson(mc.getManagerSportObject(username));
+		});
+		
+		post("/rest/createTraining/", (req, res) -> {
+			String payload = req.body();
+			JsonParser jsonParser = new JsonParser();
+			JsonObject jObject = jsonParser.parse(payload).getAsJsonObject();
+			String name = jObject.get("name").getAsString();
+			TrainingType trainingType = TrainingType.valueOf(jObject.get("trainingType").getAsString());
+			String image = jObject.get("image").getAsString();
+			long duration = jObject.get("duration").getAsLong();
+			String description = jObject.get("description").getAsString();
+			String objectName = jObject.get("sportObject").getAsString();
+			System.out.println(jObject.get("coach").getAsString());
+			if(jObject.get("coach") == null || jObject.get("coach").getAsString().equals("")) {
+				Training training = new Training(name, trainingType, soc.findSportObject(objectName), duration, description, image);
+				if(tc.addTraining(training)) {
+					return 200;
+				}
+				return 400;
+			} else {
+				String coach = jObject.get("coach").getAsString();
+				Training t = new Training(name, trainingType, soc.findSportObject(objectName), duration, description, image, coach);
+				if(tc.addTraining(t)) {
+					return 200;
+				}
+				return 400;
+			}
+		});
+		
+		post("rest/getTrainingsForObject/", (req, res) -> {
+			String payload = req.body();
+			JsonParser jsonParser = new JsonParser();
+			JsonObject jObject = jsonParser.parse(payload).getAsJsonObject();
+			String object = jObject.get("object").getAsString();
+			return g.toJson(tc.findTrainingsForSportObject(object));
+		});
+		
+		
+		get("rest/getAllCoaches/", (req, res) -> {
+			res.type("application/json");
+			return g.toJson(cc.findAllCoaches());
+		});
+		
+		post("rest/getCoachName/", (req, res) -> {
+			res.type("text");
+			String payload = req.body();
+			JsonParser jsonParser = new JsonParser();
+			JsonObject jObject = jsonParser.parse(payload).getAsJsonObject();
+			if(jObject.get("coach") == null || jObject.get("coach").getAsString().equals(" ")) {
+				return "Bez trenera";
+			}
+			String username = jObject.get("coach").getAsString();
+			System.out.println(username);
+			return cc.findCoach(username).getName() + " " + cc.findCoach(username).getSurname();
+		});
+		
+		post("rest/getCoachByObject/", (req, res) -> {
+			res.type("application/json");
+			String payload = req.body();
+			JsonParser jsonParser = new JsonParser();
+			JsonObject jObject = jsonParser.parse(payload).getAsJsonObject();
+			String object = jObject.get("object").getAsString();
+			List<Training> trainings = tc.findTrainingsForSportObject(object);
+			List<String> coachUsernames = new ArrayList<>();
+			for (Training training : trainings) {
+				if (training.getCoach() != null) {
+					coachUsernames.add(training.getCoach());
+				}
+			}
+			Set<String> s = new LinkedHashSet<String>(coachUsernames);
+			coachUsernames = new ArrayList<String>(s);
+			List<Coach> toRet = new ArrayList<Coach>();
+			for (String string : coachUsernames) {
+				toRet.add(cc.findCoach(string));
+			}
+			return g.toJson(toRet);
+		});
+		
+		post("rest/editTraining/", (req, res) -> {
+			res.type("application/json");
+			String payload = req.body();
+			JsonParser jsonParser = new JsonParser();
+			JsonObject jObject = jsonParser.parse(payload).getAsJsonObject();
+			TrainingType type = TrainingType.valueOf(jObject.get("type").getAsString());
+			long duration = jObject.get("duration").getAsLong();
+			int id = jObject.get("id").getAsInt();
+			String description = jObject.get("description").getAsString();
+			Training training = new Training(null, type, null, duration, description, null);
+			Training selectedTraining = tc.findTraining(id);
+			if(tc.editTraining(training, selectedTraining).equals("Uspesno izmenjeno")) {
+				return 200;
+			}
+			return 400;
+		});
+		
+		post("/rest/GetObjectByName/", (req, res) -> {
+			res.type("application/json");
+			String payload = req.body();
+			JsonParser jsonParser = new JsonParser();
+			JsonObject jObject = jsonParser.parse(payload).getAsJsonObject();
+			String name = jObject.get("object").getAsString();
+			return g.toJson(soc.findSportObject(name));
+		}); 
 	}
 
 }

@@ -8,6 +8,11 @@ import AdminPanel from '@/components/AdminPanel'
 import UserTable from '@/components/UserTable'
 import CreateSportObject from '@/components/CreateSportObject'
 import CreateManager from '@/components/CreateManager'
+import CreateCoach from '@/components/CreateCoach'
+import ManageObject from '@/components/ManageObject'
+import AddTraining from '@/components/AddTraining'
+import ObjectCoaches from '@/components/ObjectCoaches'
+import ObjectView from '@/components/objectView'
 
 Vue.use(Router)
 
@@ -53,6 +58,35 @@ export default new Router({
       path: '/createManager/',
       name: 'createManager',
       component: CreateManager
+    },
+    {
+      path: '/createCoach/',
+      name: 'createCoach',
+      component: CreateCoach
+    },
+    {
+      path: '/manageObject/:user',
+      name: 'manageObject',
+      component: ManageObject,
+      props: true
+    },
+    {
+      path: '/addTraining/:object',
+      name: 'addTraining',
+      component: AddTraining,
+      props: true
+    },
+    {
+      path: '/objectCoaches/:object',
+      name: 'ObjectCoaches',
+      component: ObjectCoaches,
+      props: true
+    },
+    {
+      path: '/objectView/:object',
+      name: 'ObjectView',
+      component: ObjectView,
+      props: true
     }
   ]
 })

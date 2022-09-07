@@ -31,14 +31,10 @@ public class TrainingRepository {
 		fileReader.close();
 		if(trainings == null) {
 			trainings = new ArrayList<>();
+			training.setId(1);
+		} else {
+			training.setId(trainings.get(trainings.size()-1).getId() + 1);
 		}
-		
-		for (Training training2 : trainings) {
-			if(training2.getCoach().equals(training.getCoach()) && training2.getName().equals(training.getName()) && training2.getSportObject().equals(training.getSportObject()) && training2.getDuration() == training.getDuration() && training.getTrainingType().equals(training2.getTrainingType())){
-				return false;
-			}
-		}
-		
 		boolean added = trainings.add(training);
 		FileWriter fileWriter = new FileWriter(fileLocation);
 		gson.toJson(trainings, fileWriter);
@@ -53,19 +49,19 @@ public class TrainingRepository {
 		List<Training> trainings = gson.fromJson(fileReader, listType);
 		fileReader.close();
 		
-		for (Training training2 : trainings) {
-			if(training2.getCoach().equals(training.getCoach()) && training2.getName().equals(training.getName()) && training2.getSportObject().equals(training.getSportObject()) && training2.getDuration() == training.getDuration() && training.getTrainingType().equals(training2.getTrainingType())){
-				return "Takav trening vec postoji u ovom objektu!";
-			}
-		}
+//		for (Training training2 : trainings) {
+//			if(training2.getCoach().equals(training.getCoach()) && training2.getName().equals(training.getName()) && training2.getSportObject().equals(training.getSportObject()) && training2.getDuration() == training.getDuration() && training.getTrainingType().equals(training2.getTrainingType())){
+//				return "Takav trening vec postoji u ovom objektu!";
+//			}
+//		}
 		
 		for (Training t : trainings) {
-			if(t.getName().equals(selectedTraining.getName()) && t.getSportObject().equals(selectedTraining.getSportObject())) {
-				t.setCoach(training.getCoach());
+			if(t.getId() == selectedTraining.getId()) {
+//				t.setCoach(training.getCoach());
 				t.setDescription(training.getDescription());
 				t.setDuration(training.getDuration());
-				t.setImageLocation(training.getImageLocation());
-				t.setName(training.getName());
+//				t.setImageLocation(training.getImageLocation());
+//				t.setName(training.getName());
 				t.setTrainingType(training.getTrainingType());
 				FileWriter fileWriter = new FileWriter(fileLocation);
 				gson.toJson(trainings, fileWriter);
@@ -94,14 +90,14 @@ public class TrainingRepository {
 		return false;
 	}
 	
-	public Training findTraining(SportObject sportObject, String name, Coach coach, TrainingType trainingType, long duration) throws IOException {
+	public Training findTraining(int id) throws IOException {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		Type listType = new TypeToken<List<Training>>(){}.getType();
 		FileReader fileReader = new FileReader(fileLocation);
 		List<Training> trainings = gson.fromJson(fileReader, listType);
 		fileReader.close();
 		for (Training training : trainings) {
-			if(training.getSportObject().equals(sportObject) && training.getName().equals(name) && training.getCoach().equals(coach) && training.getTrainingType().equals(trainingType) && training.getDuration() == duration) {
+			if(training.getId() == id) {
 				return training;
 			}
 		}
