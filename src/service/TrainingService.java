@@ -1,6 +1,7 @@
 package service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import model.Coach;
@@ -29,12 +30,22 @@ public class TrainingService {
 		return tr.deleteTraining(t);
 	}
 	
-	public Training findTraining(SportObject sportObject, String name, Coach coach, TrainingType trainingType, long duration) throws IOException{
-		return tr.findTraining(sportObject, name, coach, trainingType, duration);
+	public Training findTraining(int id) throws IOException{
+		return tr.findTraining(id);
 	}
 	
 	public List<Training> findAllTraining() throws IOException{
 		return tr.findAllTraining();
+	}
+	
+	public List<Training> findTrainingsForSportObject(String name) throws IOException{
+		List<Training> toRet = new ArrayList<>();
+		for (Training training : findAllTraining()) {
+			if(training.getSportObject().getName().equals(name)) {
+				toRet.add(training);
+			}
+		}
+		return toRet;
 	}
 	
 	

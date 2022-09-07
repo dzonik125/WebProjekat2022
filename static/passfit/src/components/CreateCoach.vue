@@ -1,101 +1,64 @@
-<!-- eslint-disable vue/require-v-for-key -->
 <template>
-  <div id="createSportObject">
+    <div id="createCoach">
     <form>
-      <label for="name">Naziv objekta</label>
-      <input type="text" v-model="name" id="name" required>
-      <label for="objectType">Tip objekta</label>
-      <select id="objectType" v-model="objectType" name="oType" required>
-        <option value="GYM">Teretana</option>
-        <option value="POOL">Bazen</option>
-        <option value="SPORTCENTRE">Sportski centar</option>
-        <option value="DANCESTUDIO">Plesni studio</option>
+      <label for="username">Korisnicko ime</label>
+      <input type="username" v-model="username" id="username">
+      <label for="password">Sifra</label>
+      <input type="password" v-model="password" id="password">
+      <label for="name">Ime</label>
+      <input type="text" v-model="nam" id="name">
+      <label for="surname">Prezime</label>
+      <input type="text" id="surname" v-model="surnam">
+      <label for="gender">Pol</label>
+      <select id="gender" v-model="gender">
+        <option value="M">Musko</option>
+        <option value="F">Zensko</option>
+        <option value="N">Srednji rod</option>
       </select>
-      <label for="services">Usluge</label>
-      <input type="text" v-model="services" id="services" required>
-      <label for="lat">Geografska sirina</label>
-      <input type="text" v-model="lat" id="lat" required>
-      <label for="long">Geografska duzina</label>
-      <input type="text" v-model="long" id="long" required>
-      <label for="street">Ulica</label>
-      <input type="text" v-model="street" id="street" required>
-      <label for="sNum">Broj ulice</label>
-      <input type="text" v-model="sNum" id="sNum" required>
-      <label for="city">Mesto</label>
-      <input type="text" v-model="city" id="city" required>
-      <label for="postcode">Postanski broj</label>
-      <input type="text" v-model="postcode" id="postcode" required>
-      <label for="image">Slika</label>
-      <input type="text" v-model="image" id="image" required>
-      <label for="workingHours">Radno vreme</label>
-      <input type="text" v-model="workingHours" id="workingHours" required>
-      <label for="selectManager">Izaberite menadzera</label>
-      <select name="selMan" id="selectManager" v-model="selectedManager" required>
-        <option v-for="manager in freeManagers" :value="manager.userName">{{manager.name}}</option>
-      </select>
-    <input type="submit" v-on:click.prevent="createObject()" value="Potvrdi">
+      <label for="birthday"></label>
+      <input type="date" id="birthday" v-model="birthday">
+    <input type="submit" v-on:click.prevent="sendInfo()" value="Potvrdi">
     </form>
-  </div>
-</template>
+    </div>
+  </template>
 
 <script>
 export default {
   data () {
     return {
-      name: '',
-      objectType: '',
-      services: '',
-      lat: '',
-      long: '',
-      street: '',
-      sNum: '',
-      city: '',
-      postcode: '',
-      image: '',
-      workingHours: '',
-      freeManagers: [],
-      selectedManager: ''
+      username: '',
+      password: '',
+      nam: '',
+      surnam: '',
+      gender: '',
+      birthday: ''
     }
   },
   methods: {
-    createObject: function () {
+    sendInfo: function () {
       const axios = require('axios')
-      axios.post('http://localhost:8082/rest/createSportObject/', {
-        name: this.name,
-        objectType: this.objectType,
-        services: this.services,
-        lat: this.lat,
-        long: this.long,
-        street: this.street,
-        sNum: this.sNum,
-        city: this.city,
-        postcode: this.postcode,
-        image: this.image,
-        workingHours: this.workingHours,
-        manager: this.selectedManager
-      }).then(response => {
+      axios.post('http://localhost:8082/rest/createCoach/', {
+        username: this.username,
+        password: this.password,
+        nam: this.nam,
+        surnam: this.surnam,
+        gender: this.gender,
+        birthday: this.birthday}).then(response => {
         if (response.data === 400) {
-          window.alert('Takav objekat vec postoji!')
+          window.alert('Korisnik sa tim korisnickim imenom vec postoji!')
         } else {
-          window.alert('Uspesno ste kreirali objekat')
+          window.alert('Uspesno ste kreirali trenera!')
           window.location.href = 'http://localhost:8081/#/'
         }
       })
     }
-  },
-  mounted () {
-    const axios = require('axios')
-    axios.get('http://localhost:8082/rest/getFreeManagers/').then(response => {
-      this.freeManagers = response.data
-      console.log(this.freeManagers)
-    })
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-input, select{
+  <!-- Add "scoped" attribute to limit CSS to this component only -->
+  <style scoped>
+    input, select{
    width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -342,4 +305,4 @@ body {
 input[type=submit]{
   margin-top: 1.5rem;
 }
-</style>
+  </style>
