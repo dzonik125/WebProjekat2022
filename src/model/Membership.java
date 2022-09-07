@@ -10,7 +10,7 @@ public class Membership {
 	private Date dueDate; //od kada vazi
 	private Date active; //do kada vazi
 	private int price;
-	private transient Buyer buyer;
+	private String buyer;
 	private MembershipStatus membershipStatus;
 	private boolean isDeleted;
 	private int dailyLogs; //broj ulazaka dnevno (koliko je dozvoljeno)
@@ -18,7 +18,7 @@ public class Membership {
 	
 	
 	public Membership(MembershipType membershipType, int price,
-			Buyer buyer, int dailyLogs) {
+			String buyer, int dailyLogs) {
 		super();
 		this.id = generateID();
 		this.membershipType = membershipType;
@@ -120,13 +120,13 @@ public class Membership {
 
 
 
-	public Buyer getBuyer() {
+	public String getBuyer() {
 		return buyer;
 	}
 
 
 
-	public void setBuyer(Buyer buyer) {
+	public void setBuyer(String buyer) {
 		this.buyer = buyer;
 	}
 

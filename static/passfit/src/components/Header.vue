@@ -6,6 +6,7 @@
     <button class="btn" v-if="loggedIn"><router-link class="profileText" :to="'/profileView/' + this.user">Profile</router-link></button>
     <button class="btn" v-if="userType === 'ADMINISTRATOR'"><router-link class="profileText" :to="'/adminPanel/'">Admin Panel</router-link></button>
     <button class="btn" v-if="userType === 'MANAGER'"><router-link class="profileText" :to="'/manageObject/' + this.user">Upravljaj objektom</router-link></button>
+    <button class="btn" v-if="userType === 'BUYER'"><router-link class="profileText" :to="{name: 'BuyMembership', params: {user: user}}">Kupi clanarinu</router-link></button>
   </div>
 </template>
 

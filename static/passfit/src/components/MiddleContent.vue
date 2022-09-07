@@ -2,7 +2,24 @@
 <template>
   <div id="mid" style="background-image: url('static/bg01.png/'); background-repeat: no-repeat; background-size: cover">
     <ul style="list-style: none; padding-top: 4.2rem;">
-      <li v-for="sObject in sportObjects">
+      <div class="input-group input-group-sm mb-3 animate pop" style="max-width: 540px;">
+                <input v-model="search" type="search" placeholder="Naziv, tip, grad, prosecna ocena" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" style="margin-right:10px">
+                <select name="text-right" id="" style="width: 100px;" v-model="sortSelection">
+                  <option value="" selected disabled hidden>Sortiraj po</option>
+                  <option value="nOp">Naziv ↓ (A-Z)</option>
+                  <option value="nRa">Naziv ↑ (Z-A)</option>
+                  <option value="gOp">Grad ↓ (A-Z)</option>
+                  <option value="gRa">Grad ↑ (Z-A)</option>
+                </select>
+                <select name="" id="" style="margin-left: 10px; width: 100px;" v-model="filterSelection">
+                  <option value="" selected disabled hidden>Filtriraj</option>
+                  <option value="trt">Teretane</option>
+                  <option value="baz">Bazene</option>
+                  <option value="spc">Sportske centre</option>
+                  <option value="ps">Plesne studije</option>
+                </select>
+      </div>
+      <li v-for="sObject in filteredObjects2">
         <div class="card mb-3 cardTransition animate pop" style="max-width: 540px;">
           <router-link class="text" :to="{name: 'ObjectView', params: {object: sObject.name}}">
           <div class="row g-0">
@@ -32,7 +49,11 @@
 export default {
   props: ['sportObjects'],
   data () {
-    return {}
+    return {
+      search: '',
+      sortSelection: '',
+      filterSelection: ''
+    }
   },
   methods: {
     convertStrings: function (toConvert) {
@@ -44,6 +65,132 @@ export default {
         return 'Sportski centar'
       } else if (toConvert === 'DANCESTUDIO') {
         return 'Plesni studio'
+      }
+    }
+  },
+  computed: {
+    filteredObjects: function () {
+      let value = this.search.toLowerCase()
+      if (!(value.includes(','))) {
+        return this.sportObjects.filter((sportObject) => {
+          let oType = ''
+          if (sportObject.objectType === 'POOL') {
+            oType = 'Bazen'
+          } else if (sportObject.objectType === 'GYM') {
+            oType = 'Teretana'
+          } else if (sportObject.objectType === 'SPORTCENTRE') {
+            oType = 'Sportski centar'
+          } else if (sportObject.objectType === 'DANCESTUDIO') {
+            oType = 'Plesni studio'
+          }
+          if (sportObject.name.toLowerCase().includes(value) || oType.toLowerCase().includes(value) || sportObject.location.adress.city.toLowerCase().includes(value)) {
+            return true
+          }
+          return false
+        }
+        )
+      } else {
+        const value1 = value.split(', ')
+        return this.sportObjects.filter((sportObject) => {
+          let oType = ''
+          if (sportObject.objectType === 'POOL') {
+            oType = 'Bazen'
+          } else if (sportObject.objectType === 'GYM') {
+            oType = 'Teretana'
+          } else if (sportObject.objectType === 'SPORTCENTRE') {
+            oType = 'Sportski centar'
+          } else if (sportObject.objectType === 'DANCESTUDIO') {
+            oType = 'Plesni studio'
+          }
+          if ((sportObject.name.toLowerCase().includes(value1[0]) && oType.toLowerCase().includes(value1[1])) || (sportObject.name.toLowerCase().includes(value1[0]) && oType.toLowerCase().includes(value1[1]) && sportObject.location.adress.city.toLowerCase().includes(value1[2]))) {
+            return true
+          }
+          return false
+        }
+        )
+      }
+    },
+    sortedObjects: function () {
+      if (this.sortSelection === 'nOp') {
+        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+        return this.filteredObjects.sort(function (a, b) {
+          if (a.name > b.name) {
+            return 1
+          }
+          if (b.name > a.name) {
+            return -1
+          }
+          return 0
+        })
+      } else if (this.sortSelection === '') {
+        return this.filteredObjects
+      } else if (this.sortSelection === 'nRa') {
+        console.log(this.sortSelection)
+        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+        return this.filteredObjects.sort(function (a, b) {
+          if (a.name > b.name) {
+            return -1
+          }
+          if (b.name > a.name) {
+            return 1
+          }
+          return 0
+        })
+      } else if (this.sortSelection === 'gOp') {
+        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+        return this.filteredObjects.sort(function (a, b) {
+          if (a.location.adress.city > b.location.adress.city) {
+            return 1
+          }
+          if (b.location.adress.city > a.location.adress.city) {
+            return -1
+          }
+          return 0
+        })
+      } else if (this.sortSelection === 'gRa') {
+        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+        return this.filteredObjects.sort(function (a, b) {
+          if (a.location.adress.city > b.location.adress.city) {
+            return -1
+          }
+          if (b.location.adress.city > a.location.adress.city) {
+            return 1
+          }
+          return 0
+        })
+      }
+    },
+    filteredObjects2: function () {
+      if (this.filterSelection === 'trt') {
+        return this.sortedObjects.filter((sortedObject) => {
+          if (sortedObject.objectType === 'GYM') {
+            return true
+          }
+          return false
+        })
+      } else if (this.filterSelection === '') {
+        return this.sortedObjects
+      } else if (this.filterSelection === 'baz') {
+        return this.sortedObjects.filter((sortedObject) => {
+          if (sortedObject.objectType === 'POOL') {
+            return true
+          }
+          return false
+        })
+      } else if (this.filterSelection === 'spc') {
+        return this.sortedObjects.filter((sortedObject) => {
+          if (sortedObject.objectType === 'SPORTCENTRE') {
+            return true
+          }
+          return false
+        })
+      } else if (this.filterSelection === 'ds') {
+        return this.sortedObjects.filter((sortedObject) => {
+          if (sortedObject.objectType === 'DANCESTUDIO') {
+            return true
+          }
+          return false
+        })
       }
     }
   }
