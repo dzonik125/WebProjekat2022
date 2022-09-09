@@ -1,7 +1,7 @@
 <template>
   <div id="index">
     <Header v-bind:loggedIn="loggedIn" v-bind:user="this.username" v-bind:userType="this.userType"></Header>
-    <MiddleContent v-bind:sportObjects="sportObjects" v-bind:user="this.username" v-bind:userType="this.userType"></MiddleContent>
+    <MiddleContent v-bind:sportObjects="sportObjects" v-bind:user="this.username" v-bind:userType="this.userType" :key="componentKey"></MiddleContent>
   </div>
 </template>
 
@@ -14,7 +14,8 @@ export default {
       loggedIn: false,
       username: '',
       sportObjects: [],
-      userType: ''
+      userType: '',
+      componentKey: 0
     }
   },
   components: { Header, MiddleContent },
@@ -36,15 +37,25 @@ export default {
       }
     })
 
-    axios.get('http://localhost:8082/rest/findAllSportObjects/').then(response => {
+    axios.get('http://localhost:8082/rest/sortObjects/').then(response => {
       this.sportObjects = response.data
     })
+
+    var self = this
+    window.setInterval(function () {
+      console.log('gas')
+      const axios = require('axios')
+      axios.get('http://localhost:8082/rest/sortObjects/').then(response => {
+        self.sportObjects = response.data
+        self.$forceUpdate()
+      })
+    }, 30000)
   },
   created () {
     window.setInterval(function () {
       const axios = require('axios')
       // axios.get('http://localhost:8082/rest/checkDailyLogs/').then(response => {
-      //   console.log(response.data)
+      // console.log(response.data)
       // })
       axios.get('http://localhost:8082/rest/checkDailyLogs/').then(response => {
         console.log(response.data)

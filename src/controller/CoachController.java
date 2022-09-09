@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import model.Coach;
@@ -37,5 +38,13 @@ public class CoachController {
 	
 	public void appointTrainingToCoach(Training training, String name, String surname) throws IOException {
 		cs.appointTrainingToCoach(training, name, surname);
+	}
+	
+	public List<Training> getScheduledTrainingsForCoach(String username) throws IOException {
+		return cs.getScheduledTrainingsForCoach(username);
+	}
+	
+	public boolean deleteAppointedTraining (String username, String name, Date date) throws IOException {
+		return cs.deleteAppointedTraining(username, name, date);
 	}
 }

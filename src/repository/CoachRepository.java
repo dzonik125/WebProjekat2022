@@ -12,6 +12,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import model.Coach;
+import model.Training;
 
 public class CoachRepository {
 	private String fileLocation = "./data/coaches.json";

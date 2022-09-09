@@ -35,4 +35,8 @@ public class SportObjectController {
 		return sos.findAllSportObjects();
 	}
 	
+	public List<SportObject> sortSportObjectsByClosingTime () throws IOException {
+		return sos.sortSportObjectsByClosingTime();
+	}
+	
 }
