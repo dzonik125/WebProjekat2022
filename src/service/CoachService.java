@@ -3,6 +3,8 @@ package service;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -56,6 +58,46 @@ public class CoachService {
 		FileWriter fileWriter = new FileWriter("./data/coaches.json");
 		gson.toJson(coaches, fileWriter);
 		fileWriter.close();
+	}
+	
+	public List<Training> getScheduledTrainingsForCoach(String username) throws IOException {
+		List<Training> toRet = new ArrayList<Training>();
+		Calendar calendar = Calendar.getInstance();
+		Date now = calendar.getTime();
+		for (Coach coach : cr.findAllCoaches()) {
+			if(coach.getUserName().equals(username)) {
+				if(coach.getNotCompletedTrainings() == null) {
+					return null;
+				}
+				for (Training training : coach.getNotCompletedTrainings()) {
+					if((!training.getAppointmentDate().before(now)) && !training.isDeleted()) {
+						toRet.add(training);
+					}
+				}
+			}
+		}
+		return toRet;
+	}
+	
+	public boolean deleteAppointedTraining (String username, String name, Date date) throws IOException {
+		List<Coach> coaches = findAllCoaches();
+		for (Coach coach : coaches) {
+			if(coach.getUserName().equals(username)) {
+				List<Training> notCompleted = coach.getNotCompletedTrainings();
+				for (Training training : notCompleted) {
+					if(training.getAppointmentDate().equals(date) && training.getName().equals(name)) {
+						training.setDeleted(true);
+					}
+				}
+				coach.setNotCompletedTrainings(notCompleted);
+				Gson gson = new GsonBuilder().setPrettyPrinting().create();
+				FileWriter fileWriter = new FileWriter("./data/coaches.json");
+				gson.toJson(coaches, fileWriter);
+				fileWriter.close();
+				return true;
+			}
+		}
+		return false;
 	}
 	
 }

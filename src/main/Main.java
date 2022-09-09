@@ -548,6 +548,46 @@ public class Main {
 			}
 			return 400;
 		});
+		
+		post("/rest/getScheduledTrainingsForCoach/", (req, res) -> {
+			res.type("application/json");
+			String payload = req.body();
+			JsonParser jsonParser = new JsonParser();
+			JsonObject jObject = jsonParser.parse(payload).getAsJsonObject();
+			String username = jObject.get("coach").getAsString();
+			return g.toJson(cc.getScheduledTrainingsForCoach(username));
+		});
+		
+		post("/rest/getGroupTrainingsForCoach/", (req, res) -> {
+			res.type("application/json");
+			String payload = req.body();
+			JsonParser jsonParser = new JsonParser();
+			JsonObject jObject = jsonParser.parse(payload).getAsJsonObject();
+			String username = jObject.get("coach").getAsString();
+			return g.toJson(tc.getGroupTrainingsForCoach(username));
+		});
+		
+		get("/rest/sortObjects/", (req, res) -> {
+			res.type("application/json");
+			return g.toJson(soc.sortSportObjectsByClosingTime());
+		});
+		
+	
+		post("/rest/cancelTraining/", (req, res) -> {
+			res.type("application/json");
+			String payload = req.body();
+			JsonParser jsonParser = new JsonParser();
+			JsonObject jObject = jsonParser.parse(payload).getAsJsonObject();
+			String name = jObject.get("name").getAsString();
+			String date = jObject.get("date").getAsString();
+			String username = jObject.get("username").getAsString();
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+			Date dt = simpleDateFormat.parse(date);
+			if(cc.deleteAppointedTraining(username, name, dt)) {
+				return 200;
+			}
+			return 400;
+		});
 	}
 
 }
