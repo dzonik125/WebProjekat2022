@@ -40,4 +40,8 @@ public class TrainingController {
 	public List<Training> findTrainingsForSportObject(String name) throws IOException{
 		return ts.findTrainingsForSportObject(name);
 	}
+	
+	public List<Training> getGroupTrainingsForCoach (String username) throws IOException {
+		return ts.getGroupTrainingsForCoach(username);
+	}
 }

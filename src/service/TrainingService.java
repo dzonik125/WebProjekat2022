@@ -48,5 +48,17 @@ public class TrainingService {
 		return toRet;
 	}
 	
+	public List<Training> getGroupTrainingsForCoach (String username) throws IOException {
+		List<Training> toRet = new ArrayList<Training>();
+		for (Training training : tr.findAllTraining()) {
+			if(training.getCoach() == null) {
+				continue;
+			}
+			if(training.getCoach().equals(username) && training.getTrainingType().toString().equals("GROUP")) {
+				toRet.add(training);
+			}
+		}
+		return toRet;
+	}
 	
 }

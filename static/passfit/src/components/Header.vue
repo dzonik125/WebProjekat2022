@@ -7,6 +7,8 @@
     <button class="btn" v-if="userType === 'ADMINISTRATOR'"><router-link class="profileText" :to="'/adminPanel/'">Admin Panel</router-link></button>
     <button class="btn" v-if="userType === 'MANAGER'"><router-link class="profileText" :to="'/manageObject/' + this.user">Upravljaj objektom</router-link></button>
     <button class="btn" v-if="userType === 'BUYER'"><router-link class="profileText" :to="{name: 'BuyMembership', params: {user: user}}">Kupi clanarinu</router-link></button>
+    <button class="btn" v-if="userType === 'COACH'"><router-link class="profileText" :to="{name: 'ScheduledTrainings', params: {user: user}}">Zakazani personalni treninzi</router-link></button>
+    <button class="btn" v-if="userType === 'COACH'"><router-link class="profileText" :to="{name: 'CGroupTrainings', params: {user: user}}">Pregled grupnih treninga</router-link></button>
   </div>
 </template>
 
@@ -32,6 +34,9 @@ export default {
         }
       })
     }
+  },
+  mounted () {
+    console.log(this.userType)
   }
 }
 

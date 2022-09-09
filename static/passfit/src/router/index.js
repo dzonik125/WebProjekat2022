@@ -14,6 +14,8 @@ import AddTraining from '@/components/AddTraining'
 import ObjectCoaches from '@/components/ObjectCoaches'
 import ObjectView from '@/components/ObjectView'
 import BuyMembership from '@/components/BuyMembership'
+import ScheduledTrainings from '@/components/ScheduledTrainings'
+import CGroupTrainings from '@/components/CoachGroupTrainings'
 
 Vue.use(Router)
 
@@ -93,6 +95,18 @@ export default new Router({
       path: '/buyMembership/:user',
       name: 'BuyMembership',
       component: BuyMembership,
+      props: true
+    },
+    {
+      path: '/scheduledTrainings/:user',
+      name: 'ScheduledTrainings',
+      component: ScheduledTrainings,
+      props: true
+    },
+    {
+      path: '/coachGroupTrainings/:user',
+      name: 'CGroupTrainings',
+      component: CGroupTrainings,
       props: true
     }
   ]
