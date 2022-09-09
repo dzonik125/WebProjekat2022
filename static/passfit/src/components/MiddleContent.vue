@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/require-v-for-key -->
 <template>
-  <div id="mid" style="background-image: url('static/bg01.png/'); background-repeat: no-repeat; background-size: cover">
+  <div id="mid" style="background-image: url('static/bg01.png/'); background-repeat: no-repeat; background-size: 100% 100%; min-height: 100vh; overflow-y: auto;">
     <ul style="list-style: none; padding-top: 4.2rem;">
       <div class="input-group input-group-sm mb-3 animate pop" style="max-width: 540px;">
                 <input v-model="search" type="search" placeholder="Naziv, tip, grad, prosecna ocena" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" style="margin-right:10px">
@@ -21,7 +21,7 @@
       </div>
       <li v-for="sObject in filteredObjects2">
         <div class="card mb-3 cardTransition animate pop" style="max-width: 540px;">
-          <router-link class="text" :to="{name: 'ObjectView', params: {object: sObject.name}}">
+          <router-link class="text" :to="{name: 'ObjectView', params: {object: sObject.name, userType: userType, user: user}}">
           <div class="row g-0">
             <div class="col-md-4">
               <img :src="sObject.imageRelLocation" class="img-fluid rounded-start"/>
@@ -47,7 +47,7 @@
 
 <script>
 export default {
-  props: ['sportObjects'],
+  props: ['sportObjects', 'userType', 'user'],
   data () {
     return {
       search: '',

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import model.Coach;
+import model.Training;
 import service.CoachService;
 
 public class CoachController {
@@ -32,5 +33,9 @@ public class CoachController {
 	
 	public List<Coach> findAllCoaches() throws IOException{
 		return cs.findAllCoaches();
+	}
+	
+	public void appointTrainingToCoach(Training training, String name, String surname) throws IOException {
+		cs.appointTrainingToCoach(training, name, surname);
 	}
 }

@@ -6,7 +6,7 @@ import java.util.List;
 public class Coach extends User{
 	
 	private transient TrainingHistory trainingHistory;
-	private List<Integer> notCompletedTrainings;
+	private List<Training> notCompletedTrainings;
 
 	public Coach(String userName, String password, String name, String surname, Gender gender, Date birthday, UserType userType, TrainingHistory th) {
 		super(userName, password, name, surname, gender, birthday, userType);
@@ -21,11 +21,11 @@ public class Coach extends User{
 		this.trainingHistory = trainingHistory;
 	}
 
-	public List<Integer> getNotCompletedTrainings() {
+	public List<Training> getNotCompletedTrainings() {
 		return notCompletedTrainings;
 	}
 
-	public void setNotCompletedTrainings(List<Integer> notCompletedTrainings) {
+	public void setNotCompletedTrainings(List<Training> notCompletedTrainings) {
 		this.notCompletedTrainings = notCompletedTrainings;
 	}
 	

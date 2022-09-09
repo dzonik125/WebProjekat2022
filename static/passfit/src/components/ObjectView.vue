@@ -85,6 +85,10 @@
               <div class="card-body">
                 <p class="mb-4"><span class="text-primary font-italic me-1">Trening</span> {{training.name}}
                 </p>
+                <button class="btn position-absolute top-0 end-0 mt-2" v-if="userType === 'BUYER'" v-on:click="doTheTraining(training.name, training.trainingType, index)">Prijavi</button>
+                <input type="datetime-local" style="margin-bottom: 5px; display: none;" :name="'dt' + index" v-model="date">
+                <span><button class="btn" style="display: none;" :name="'zakazi' + index" v-on:click="makeAppointment(training.coach, training.name)">Zakazi</button></span>
+                <span><button class="btn" style="display: none;" :name="'otkazi' + index" v-on:click="cancelMakeApp(index)">Otkazi</button></span>
                 <img :src="training.imageLocation" alt="" style="height: 15rem; width: 100%; object-fit: cover; margin-bottom: 10px;">
                 <p class="mb-1" style="font-size: .77rem;">Tip treninga</p>
                 <p class="text-muted mb-0" :name="'trgType' + index">{{convertStrings2(training.trainingType)}}</p>
@@ -107,12 +111,13 @@
 
 <script>
 export default {
-  props: ['object'],
+  props: ['object', 'userType', 'user'],
   data () {
     return {
       sportObject: {},
       fetched: false,
-      trainings: []
+      trainings: [],
+      date: {}
     }
   },
   methods: {
@@ -135,9 +140,56 @@ export default {
       } else if (toConvert === 'GYM') {
         return 'Teretana'
       }
+    },
+    doTheTraining: function (name, type, index) {
+      console.log(type)
+      if (type !== 'PERSONAL') {
+        const axios = require('axios')
+        axios.post('http://localhost:8082/rest/train/', {object: this.object, training: name, user: this.user}).then(response => {
+          if (response.data === 200) {
+            window.alert('Uspesno ste se prijavili u objekat')
+            this.$router.push({name: 'Index'})
+          } else {
+            window.alert('Nemate vise ulazaka za ovaj dan, molimo Vas dodjite sutra.')
+          }
+        })
+      } else {
+        let dt = document.getElementsByName('dt' + index)[0]
+        dt.style.display = 'inline-block'
+        const today = new Date()
+        let tomorrow = new Date()
+        tomorrow.setDate(today.getDate() + 1)
+        dt.min = tomorrow.toISOString().slice(0, tomorrow.toISOString().lastIndexOf(':'))
+        let zakazi = document.getElementsByName('zakazi' + index)[0]
+        zakazi.style.display = 'inline-block'
+        let otkazi = document.getElementsByName('otkazi' + index)[0]
+        otkazi.style.display = 'inline-block'
+      }
+    },
+    makeAppointment: function (coach, name) {
+      console.log(this.date)
+      console.log(coach)
+      const axios = require('axios')
+      axios.post('http://localhost:8082/rest/scheduleTraining/', {date: this.date, coach: coach, name: name, object: this.object}).then(response => {
+        if (response.data === 200) {
+          window.alert('Uspesno ste zakazali trening')
+          this.$router.push({name: 'Index'})
+        } else {
+          window.alert('Nesto nije u redu')
+        }
+      })
+    },
+    cancelMakeApp: function (index) {
+      let dt = document.getElementsByName('dt' + index)[0]
+      dt.style.display = 'none'
+      let zakazi = document.getElementsByName('zakazi' + index)[0]
+      zakazi.style.display = 'none'
+      let otkazi = document.getElementsByName('otkazi' + index)[0]
+      otkazi.style.display = 'none'
     }
   },
   mounted () {
+    console.log(this.userType)
     const axios = require('axios')
     axios.post('http://localhost:8082/rest/GetObjectByName/', {object: this.object}).then(response => {
       if (response.data == null) {

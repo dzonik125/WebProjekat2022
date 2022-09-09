@@ -5,20 +5,10 @@ import java.util.Date;
 public class TrainingHistory {
 	private Date apply;
 	private Training training;
-	private Buyer buyer;
-	private Coach coach;
+	private String buyer;
 	private boolean deleted;
-	
-	public TrainingHistory(Date apply, Training training, Buyer buyer, Coach coach) {
-		super();
-		this.apply = apply;
-		this.training = training;
-		this.buyer = buyer;
-		this.coach = coach;
-		this.deleted = false;
-	}
 
-	public TrainingHistory(Date apply, Training training, Buyer buyer) {
+	public TrainingHistory(Date apply, Training training, String buyer) {
 		super();
 		this.apply = apply;
 		this.training = training;
@@ -42,20 +32,12 @@ public class TrainingHistory {
 		this.training = training;
 	}
 
-	public Buyer getBuyer() {
+	public String getBuyer() {
 		return buyer;
 	}
 
-	public void setBuyer(Buyer buyer) {
+	public void setBuyer(String buyer) {
 		this.buyer = buyer;
-	}
-
-	public Coach getCoach() {
-		return coach;
-	}
-
-	public void setCoach(Coach coach) {
-		this.coach = coach;
 	}
 
 	public boolean isDeleted() {
