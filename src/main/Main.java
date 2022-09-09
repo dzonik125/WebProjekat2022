@@ -11,6 +11,7 @@ import java.security.Key;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -29,6 +30,7 @@ import controller.ManagerController;
 import controller.MembershipController;
 import controller.SportObjectController;
 import controller.TrainingController;
+import controller.TrainingHistoryController;
 import controller.UserController;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -47,6 +49,7 @@ import model.MembershipType;
 import model.ObjectType;
 import model.SportObject;
 import model.Training;
+import model.TrainingHistory;
 import model.TrainingType;
 import model.User;
 import model.UserType;
@@ -62,6 +65,7 @@ public class Main {
 	private static SportObjectController soc = new SportObjectController();
 	private static TrainingController tc = new TrainingController();
 	private static MembershipController mController = new MembershipController();
+	private static TrainingHistoryController trainingHistoryController = new TrainingHistoryController();
 	
 	static Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
@@ -100,7 +104,7 @@ public class Main {
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 			Date birthd = format.parse(birthday);
 			User user = new User(username, password, name, surname, gender, birthd, UserType.BUYER);
-			Buyer buyer = new Buyer(username, password, name, surname, gender, birthd, UserType.BUYER, null, null, 0, null);
+			Buyer buyer = new Buyer(username, password, name, surname, gender, birthd, UserType.BUYER, null, null, 0);
 			boolean success = uc.addUser(user);
 			if(success) {
 				bc.addBuyer(buyer);
@@ -220,7 +224,7 @@ public class Main {
 					return 200;
 				}
 			} else if (uType.toString().equals("BUYER")) {
-				Buyer buyer = new Buyer(username, password, name, surname, gender, birthd, uType, null, null, 0, null);
+				Buyer buyer = new Buyer(username, password, name, surname, gender, birthd, uType, null, null, 0);
 				String editedBuyer = bc.editBuyer(buyer, selectedUsername);
 				if(edited.equalsIgnoreCase("Uspesno izmenjeno") && editedBuyer.equalsIgnoreCase("Uspesno izmenjeno")) {
 					return 200;
@@ -484,6 +488,63 @@ public class Main {
 			Membership membership = new Membership(membershipType, price, username, daily);
 			if(mController.addMemebership(membership)) {
 				return 200;
+			}
+			return 400;
+		});
+		
+		get("/rest/checkDailyLogs/", (req, res) -> {
+			mController.checkDailyLogs();
+			return 200;
+		});
+		
+		post("/rest/train/", (req, res) -> {
+			String payload = req.body();
+			JsonParser jsonParser = new JsonParser();
+			JsonObject jObject = jsonParser.parse(payload).getAsJsonObject();
+			String object = jObject.get("object").getAsString();
+			String training = jObject.get("training").getAsString();
+			String buyer = jObject.get("user").getAsString();
+			Training t1 = null;
+			for (Training t : tc.findTrainingsForSportObject(object)) {
+				if(t.getName().equals(training)) {
+					t1 = t;
+				}
+			}
+			if(mController.canTrainToday(buyer)) {
+				mController.doOneTraining(buyer);
+				Calendar calendar = Calendar.getInstance();
+				Date now = calendar.getTime();
+				TrainingHistory trainingHistory = new TrainingHistory(now, t1, buyer);
+				trainingHistoryController.addTrainingHistory(trainingHistory);
+				bc.addObjectToBuyerVisited(buyer, object);
+				return 200;
+			}
+			return 400;
+		});
+		
+		get("/rest/checkMembershipActivity/", (req, res) -> {
+			mController.checkMembershipsValidity();
+			return 200;
+		});
+		
+		post("/rest/scheduleTraining/", (req, res) -> {
+			String payload = req.body();
+			JsonParser jsonParser = new JsonParser();
+			JsonObject jObject = jsonParser.parse(payload).getAsJsonObject();
+			String dt = jObject.get("date").getAsString();
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+			Date date = simpleDateFormat.parse(dt);
+			String coach = jObject.get("coach").getAsString();
+			String name = jObject.get("name").getAsString();
+			String[] spllited = coach.split(" ");
+			String object = jObject.get("object").getAsString();
+			List<Training> trainings = tc.findTrainingsForSportObject(object);
+			for (Training training : trainings) {
+				if(training.getName().equals(name)) {
+					training.setAppointmentDate(date);
+					cc.appointTrainingToCoach(training, spllited[0], spllited[1]);
+					return 200;
+				}
 			}
 			return 400;
 		});

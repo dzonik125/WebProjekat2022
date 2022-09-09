@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Date;
+
 public class Training {
 	private String name;
 	private TrainingType trainingType;
@@ -10,6 +12,7 @@ public class Training {
 	private boolean deleted;
 	private String coach;
 	private int id;
+	private Date appointmentDate;
 	
 	public Training(String name, TrainingType trainingType, SportObject sportObject, long duration,
 			String description, String image) {
@@ -87,6 +90,12 @@ public class Training {
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+	public Date getAppointmentDate() {
+		return appointmentDate;
+	}
+	public void setAppointmentDate(Date appointmentDate) {
+		this.appointmentDate = appointmentDate;
 	}
 	
 }

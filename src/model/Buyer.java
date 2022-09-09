@@ -10,9 +10,10 @@ public class Buyer extends User{
 	private int points;
 	private BuyerType buyerType;
 	
-	public Buyer(String userName, String password, String name, String surname, Gender gender, Date birthday, UserType userType, Membership m, List<SportObject> los, int p, BuyerType bt) {
+	public Buyer(String userName, String password, String name, String surname, Gender gender, Date birthday, UserType userType, Membership m, List<SportObject> los, int p) {
 		super(userName, password, name, surname, gender, birthday, userType);
-		this.buyerType = bt;
+		BuyerType bType = new BuyerType(BType.valueOf("BRONZE"));
+		this.buyerType = bType;
 		this.points = p;
 		this.visitedObjects = los;
 		this.membership = m;

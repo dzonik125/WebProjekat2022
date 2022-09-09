@@ -1,6 +1,7 @@
 package service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import model.TrainingHistory;
@@ -27,5 +28,14 @@ public class TrainingHistoryService {
 		return thr.findAllHistories();
 	}
 	
+	public List<TrainingHistory> findTrainingHistoriesForBuyer (String buyer) throws IOException {
+		List<TrainingHistory> toRet = new ArrayList<>();
+		for (TrainingHistory trainingHistory : thr.findAllHistories()) {
+			if(trainingHistory.getBuyer().equals(buyer)) {
+				toRet.add(trainingHistory);
+			}
+		}
+		return toRet;
+	}
 	
 }

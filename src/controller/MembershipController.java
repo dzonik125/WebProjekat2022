@@ -33,4 +33,20 @@ public class MembershipController {
 	public List<Membership> findAllMemberships() throws IOException{
 		return ms.findAllMemberships();
 	}
+	
+	public void checkDailyLogs() throws IOException {
+		ms.checkDailyLogs();
+	}
+	
+	public boolean canTrainToday (String buyer) throws IOException {
+		return ms.canTrainToday(buyer);
+	}
+	
+	public void doOneTraining(String buyer) throws IOException {
+		ms.doOneTraining(buyer);
+	}
+	
+	public void checkMembershipsValidity () throws IOException {
+		ms.checkMembershipsValidity();
+	}
 }
