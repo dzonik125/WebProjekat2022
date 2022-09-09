@@ -1,7 +1,7 @@
 <template>
   <div id="index">
     <Header v-bind:loggedIn="loggedIn" v-bind:user="this.username" v-bind:userType="this.userType"></Header>
-    <MiddleContent v-bind:sportObjects="sportObjects"></MiddleContent>
+    <MiddleContent v-bind:sportObjects="sportObjects" v-bind:user="this.username" v-bind:userType="this.userType"></MiddleContent>
   </div>
 </template>
 
@@ -39,6 +39,26 @@ export default {
     axios.get('http://localhost:8082/rest/findAllSportObjects/').then(response => {
       this.sportObjects = response.data
     })
+  },
+  created () {
+    window.setInterval(function () {
+      const axios = require('axios')
+      // axios.get('http://localhost:8082/rest/checkDailyLogs/').then(response => {
+      //   console.log(response.data)
+      // })
+      axios.get('http://localhost:8082/rest/checkDailyLogs/').then(response => {
+        console.log(response.data)
+      })
+    }, 5000)
+    window.setInterval(function () {
+      const axios = require('axios')
+      axios.get('http://localhost:8082/rest/checkMembershipActivity/').then(response => {
+        console.log(response.data)
+      }
+      )
+    }, 10000)
+  },
+  methods: {
   }
 }
 </script>

@@ -33,4 +33,8 @@ public class BuyerController {
 	public List<Buyer> findAllBuyers() throws IOException{
 		return bs.findAllBuyers();
 	}
+	
+	public void addObjectToBuyerVisited(String username, String object) throws IOException {
+		bs.addObjectToBuyerVisited(username, object);
+	}
 }

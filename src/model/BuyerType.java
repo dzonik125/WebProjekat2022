@@ -4,15 +4,15 @@ public class BuyerType {
 	private BType buyerType;
 	private double discount;
 	private int neededPoints;
-	public BuyerType(BType buyerType, double discount, int neededPoints) {
+	public BuyerType(BType buyerType) {
 		super();
 		this.buyerType = buyerType;
 		if(buyerType.toString().equals("BRONZE")) {
-			this.neededPoints = 250;
-			this.discount = 0;
+			this.neededPoints = 3942;
+			this.discount = 0.1;
 		}else if (buyerType.toString().equals("SILVER")) {
-			this.neededPoints = 500;
-			this.discount = 0.2;
+			this.neededPoints = 7884;
+			this.discount = 0.3;
 		}else {
 			this.neededPoints = 0;
 			this.discount = 0.5;

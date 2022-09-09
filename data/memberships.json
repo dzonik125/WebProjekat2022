@@ -1,13 +1,15 @@
 [
   {
-    "id": "16fRxj0St0",
-    "membershipType": "MONTHLY",
-    "dueDate": "Sep 7, 2022, 7:06:53 PM",
-    "active": "Oct 7, 2022, 7:06:53 PM",
-    "price": 3000,
+    "id": "wez8rjcfvv",
+    "membershipType": "ANNUAL",
+    "dueDate": "Sep 8, 2022, 10:21:17 AM",
+    "active": "Sep 8, 2023, 10:21:17 AM",
+    "price": 36000,
     "buyer": "petarp",
     "membershipStatus": "ACTIVE",
     "isDeleted": false,
-    "dailyLogs": 3
+    "dailyLogs": 9,
+    "lastChecked": "Sep 9, 2022, 10:44:46 AM",
+    "totalLogs": 3650
   }
 ]

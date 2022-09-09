@@ -14,8 +14,8 @@ public class Membership {
 	private MembershipStatus membershipStatus;
 	private boolean isDeleted;
 	private int dailyLogs; //broj ulazaka dnevno (koliko je dozvoljeno)
-	
-	
+	private Date lastChecked;
+	private int totalLogs;
 	
 	public Membership(MembershipType membershipType, int price,
 			String buyer, int dailyLogs) {
@@ -41,6 +41,12 @@ public class Membership {
 		this.membershipStatus = MembershipStatus.ACTIVE;
 		this.dailyLogs = dailyLogs;
 		this.isDeleted = false;
+		this.lastChecked = this.dueDate;
+		if(membershipType.toString().equals("ANNUAL")) {
+			this.totalLogs = 3650;
+		} else {
+			this.totalLogs = 30;
+		}
 	}
 
 
@@ -165,8 +171,30 @@ public class Membership {
 	public void setDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
-	
-	
+
+
+
+	public Date getLastChecked() {
+		return lastChecked;
+	}
+
+
+
+	public void setLastChecked(Date lastChecked) {
+		this.lastChecked = lastChecked;
+	}
+
+
+
+	public int getTotalLogs() {
+		return totalLogs;
+	}
+
+
+
+	public void setTotalLogs(int totalLogs) {
+		this.totalLogs = totalLogs;
+	}
 	
 	
 }

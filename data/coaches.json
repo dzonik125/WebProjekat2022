@@ -1,5 +1,38 @@
 [
   {
+    "notCompletedTrainings": [
+      {
+        "name": "Gasoviti",
+        "trainingType": "PERSONAL",
+        "sportObject": {
+          "name": "Flex",
+          "objectType": "POOL",
+          "services": "Ovaj objekat je na odlicnoj lokaciji",
+          "location": {
+            "latitude": 15.52,
+            "longtitude": 29.42,
+            "adress": {
+              "street": "Laze Teleckog",
+              "sNum": 52,
+              "city": "Novi Sad",
+              "postCode": 21000
+            },
+            "deleted": false
+          },
+          "imageRelLocation": "/static/flex.png",
+          "avgGrade": 0.0,
+          "workingHours": "08:00-22:00",
+          "deleted": false
+        },
+        "duration": 30,
+        "description": "gas",
+        "imageLocation": "static/circuit.png",
+        "deleted": false,
+        "coach": "miksajlo",
+        "id": 3,
+        "appointmentDate": "Sep 16, 2022, 2:42:00 PM"
+      }
+    ],
     "userName": "miksajlo",
     "password": "123",
     "name": "Mihailo",
