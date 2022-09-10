@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/require-v-for-key -->
 <template>
-    <div id="objectCoaches">
-      <input type="search" placeholder="Pretrazi trenere" v-model="search" style="margin-bottom: 1rem">
+    <div id="objectBuyers">
+      <input type="search" placeholder="Pretrazi kupce" v-model="search" style="margin-bottom: 1rem">
         <table class="table table-hover">
             <thead>
                 <tr>
@@ -10,9 +10,9 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="coach in SearchCoaches">
-                    <td>{{coach.name}}</td>
-                    <td>{{coach.surname}}</td>
+                <tr v-for="buyer in SearchBuyers" v-if="!buyer.deleted">
+                    <td>{{buyer.name}}</td>
+                    <td>{{buyer.surname}}</td>
                 </tr>
             </tbody>
         </table>
@@ -25,15 +25,15 @@ export default {
   props: ['object', 'user'],
   data () {
     return {
-      coaches: [],
+      buyers: [],
       search: ''
     }
   },
   mounted () {
-    const axios = require('axios')
     console.log(this.user)
-    axios.post('http://localhost:8082/rest/getCoachByObject/', {object: this.object}).then(response => {
-      this.coaches = response.data
+    const axios = require('axios')
+    axios.post('http://localhost:8082/rest/getObjectBuyers/', {object: this.object}).then(response => {
+      this.buyers = response.data
     })
   },
   methods: {
@@ -42,10 +42,10 @@ export default {
     }
   },
   computed: {
-    SearchCoaches: function () {
+    SearchBuyers: function () {
       let val = this.search.toLowerCase()
-      return this.coaches.filter((coach) => {
-        if ((coach.name.toLowerCase() + ' ' + coach.surname.toLowerCase()).includes(val)) {
+      return this.buyers.filter((buyer) => {
+        if ((buyer.name.toLowerCase() + ' ' + buyer.surname.toLowerCase()).includes(val)) {
           return true
         }
       })
@@ -55,14 +55,8 @@ export default {
 </script>
 
   <!-- Add "scoped" attribute to limit CSS to this component only -->
-  <style scoped>
-    #objectCoaches{
-        margin: 4rem;
-    }
-
-    .Text{
-        cursor: pointer;
-        color: black;
-        text-decoration: none;
-    }
-  </style>
+<style scoped>
+  #objectBuyers{
+    margin: 20px;
+  }
+</style>

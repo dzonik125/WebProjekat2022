@@ -134,7 +134,12 @@ public class Main {
 					user2 = user;
 					matched = true;
 				}
+				
+				if(user.getUserName().equals(username) && user.isDeleted()) {
+					return 400;
+				}
 			}
+			
 			
 			if(matched) {
 				String jws = Jwts.builder().setSubject(user2.getUserName() + "." + user2.getUserType()).setIssuedAt(new Date()).signWith(key).compact();
@@ -276,6 +281,7 @@ public class Main {
 				}
 			} else if (u.getUserType().toString().equals("COACH")) {
 				boolean coachDeleted = cc.deleteCoach(username);
+				tc.deleteCoachesTrainings(username);
 				if(coachDeleted && deleted) {
 					return 200;
 				}
@@ -538,11 +544,13 @@ public class Main {
 			String name = jObject.get("name").getAsString();
 			String[] spllited = coach.split(" ");
 			String object = jObject.get("object").getAsString();
+			String buyer = jObject.get("user").getAsString();
 			List<Training> trainings = tc.findTrainingsForSportObject(object);
 			for (Training training : trainings) {
 				if(training.getName().equals(name)) {
 					training.setAppointmentDate(date);
 					cc.appointTrainingToCoach(training, spllited[0], spllited[1]);
+					bc.appointTrainingToBuyer(buyer, training);
 					return 200;
 				}
 			}
@@ -583,7 +591,74 @@ public class Main {
 			String username = jObject.get("username").getAsString();
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
 			Date dt = simpleDateFormat.parse(date);
+			bc.deleteBuyerAppointedTrainings(username, name, dt);
 			if(cc.deleteAppointedTraining(username, name, dt)) {
+				return 200;
+			}
+			return 400;
+		});
+		
+		post("/rest/getObjectBuyers/", (req, res) -> {
+			res.type("application/json");
+			String payload = req.body();
+			JsonParser jsonParser = new JsonParser();
+			JsonObject jObject = jsonParser.parse(payload).getAsJsonObject();
+			String object = jObject.get("object").getAsString();
+			return g.toJson(bc.findBuyersVisitedSportObject(object));
+		});
+		
+		post("/rest/getBuyerSpecificData/", (req, res) -> {
+			res.type("application/json");
+			String payload = req.body();
+			JsonParser jsonParser = new JsonParser();
+			JsonObject jObject = jsonParser.parse(payload).getAsJsonObject();
+			String username = jObject.get("username").getAsString();
+			return g.toJson(bc.findBuyer(username));
+		});
+		
+		post("/rest/getAllBuyersTrainings/", (req, res) -> {
+			res.type("application/json");
+			String payload = req.body();
+			JsonParser jsonParser = new JsonParser();
+			JsonObject jObject = jsonParser.parse(payload).getAsJsonObject();
+			String username = jObject.get("username").getAsString();
+			return g.toJson(trainingHistoryController.findTrainingHistoriesForBuyer(username));
+		});
+		
+		post("/rest/getDiscount/", (req, res) -> {
+			res.type("application/json");
+			String payload = req.body();
+			JsonParser jsonParser = new JsonParser();
+			JsonObject jObject = jsonParser.parse(payload).getAsJsonObject();
+			String username = jObject.get("username").getAsString();
+			return g.toJson(bc.findBuyer(username).getBuyerType().getDiscount());
+		});
+		
+		post("/rest/getBuyerScheduledTrainings/", (req, res) -> {
+			res.type("application/json");
+			String payload = req.body();
+			JsonParser jsonParser = new JsonParser();
+			JsonObject jObject = jsonParser.parse(payload).getAsJsonObject();
+			String username = jObject.get("user").getAsString();
+			return g.toJson(bc.getBuyerAppointedTrainings(username));
+		});
+		
+		get("/rest/checkIfPersonalTrainingIsCompleted/", (req, res) -> {
+			tc.checkCompletedPersonal();
+			return 200;
+		});
+		
+		post("/rest/deleteSportObject/", (req, res) -> {
+			String payload = req.body();
+			JsonParser jsonParser = new JsonParser();
+			JsonObject jObject = jsonParser.parse(payload).getAsJsonObject();
+			String object = jObject.get("object").getAsString();
+			if(soc.deleteSportObject(object)) {
+				trainingHistoryController.deleteSportObjectFromTH(object);
+				bc.deleteSportObjectFromBuyersTrainings(object);
+				cc.deleteSportObjectFromCoachTrainings(object);
+				mc.deleteManagerSportObject(object);
+				tc.deleteSportObjectsFromTrainings(object);
 				return 200;
 			}
 			return 400;

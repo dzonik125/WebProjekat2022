@@ -55,6 +55,9 @@ public class MembershipService {
 		Calendar calendar = Calendar.getInstance();
 		Date now = calendar.getTime();
 		for (Membership membership : memberships) {
+				if(membership.getMembershipStatus().toString().equals("INACTIVE")) {
+					continue;
+				}
 				if(getZeroTimeDate(membership.getLastChecked()).before(getZeroTimeDate(now))) {
 					if(membership.getMembershipType().toString().equals("MONTHLY")) {
 						membership.setDailyLogs(3);

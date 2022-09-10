@@ -12,10 +12,10 @@
   {
     "userName": "petarp",
     "password": "12345",
-    "name": "nikola",
-    "surname": "kolarov",
+    "name": "Nikola",
+    "surname": "Kolarov",
     "gender": "M",
-    "birthday": "Dec 1, 2000, 12:00:00 AM",
+    "birthday": "Dec 1, 2000, 12:00:00 PM",
     "deleted": false,
     "userType": "BUYER"
   },
@@ -36,7 +36,7 @@
     "surname": "qweqw",
     "gender": "N",
     "birthday": "Sep 17, 2022, 12:00:00 AM",
-    "deleted": false,
+    "deleted": true,
     "userType": "MANAGER"
   },
   {

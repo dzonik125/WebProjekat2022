@@ -32,6 +32,11 @@
                 </router-link>
               </li>
               <li class="list-group-item justify-content-between align-items-center p-3 baton">
+                <router-link :to="{ name: 'ObjectBuyers', params: { object: sportObject.name, user: user}}" class="buttonText" v-if="sportObject.name">
+                <p class="mb-0 text-center">Kupci koji su posetili objekat</p>
+                </router-link>
+              </li>
+              <li class="list-group-item justify-content-between align-items-center p-3 baton">
                 <router-link :to="'/'" class="buttonText">
                 <p class="mb-0 text-center">Nazad</p>
                 </router-link>
@@ -90,7 +95,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-6 whiteSpace" v-for="(training, index) in trainings" :key=index>
+          <div class="col-md-6 whiteSpace" v-if="!training.deleted" v-for="(training, index) in trainings" :key=index>
             <div class="card mb-4 mb-md-0 whiteSpace" style="min-width: 300px; min-height: 695px;">
               <div class="card-body">
                 <p class="mb-4"><span class="text-primary font-italic me-1">Trening</span> {{training.name}}

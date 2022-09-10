@@ -1,7 +1,8 @@
 <!-- eslint-disable vue/require-v-for-key -->
 <template>
-    <div id="schedTrg">
-        <input type="search" placeholder="Pretrazi treninge" v-model="search" style="margin-bottom: 1rem">
+    <div id="buyerTrgs">
+        <div style="margin-bottom: 1rem">
+        <input type="search" placeholder="Pretrazi treninge" v-model="search">
         <select name="" id="" v-model="sort">
             <option value="" selected disabled hidden>Sortiraj po</option>
             <option value="nOp">Naziv sportskog objekta ↓</option>
@@ -16,6 +17,13 @@
             <option value="ps">Plesne studije</option>
             <option value="b">Bazene</option>
         </select>
+        <select name="" id="" v-model="filter2">
+            <option value="" selected disabled hidden>Filtriraj po tipu treninga</option>
+            <option value="g">Grupni</option>
+            <option value="p">Personalni</option>
+            <option value="t">Teretana</option>
+        </select>
+        </div>
         <p display="inline-block">Od: <input type="date" name="" id="" v-model="startDate"></p>
         <p>Do: <input type="date" name="" id="" v-model="endDate"></p>
         <table class="table table-hover">
@@ -24,21 +32,19 @@
                     <th scope="col">Naziv treninga</th>
                     <th scope="col">Datum</th>
                     <th scope="col">Objekat</th>
-                    <th>Otkazivanje</th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="training in Filtered1" v-if="!training.sportObject.deleted">
-                    <td>{{training.name}}</td>
-                    <td>{{training.appointmentDate}}</td>
-                    <td>{{training.sportObject.name}}</td>
-                    <td v-if="checkIfEligible(training.appointmentDate)"><button v-on:click="cancelTraining(training.name, training.appointmentDate)">Otkazi</button></td>
+                <tr v-for="training in Filtered2" v-if="!training.training.sportObject.deleted">
+                    <td>{{training.training.name}}</td>
+                    <td>{{training.apply}}</td>
+                    <td>{{training.training.sportObject.name}}</td>
                 </tr>
             </tbody>
         </table>
         <div class="d-flex justify-content-center"><button class="btn" v-on:click.prevent="goBack()">Nazad</button></div>
     </div>
-</template>
+  </template>
 
 <script>
 export default {
@@ -50,51 +56,26 @@ export default {
       startDate: '',
       endDate: '',
       sort: '',
-      filter1: ''
+      filter1: '',
+      filter2: ''
     }
   },
   mounted () {
     const axios = require('axios')
-    axios.post('http://localhost:8082/rest/getScheduledTrainingsForCoach/', {coach: this.user}).then(response => {
+    axios.post('http://localhost:8082/rest/getAllBuyersTrainings/', {username: this.user}).then(response => {
       this.trainings = response.data
-      console.log(this.trainings)
     })
   },
   methods: {
     goBack: function () {
-      this.$router.push({name: 'Index'})
-    },
-    checkIfEligible: function (date) {
-      var today = new Date()
-      var toCheck = new Date(date)
-      var diff = toCheck.getTime() - today.getTime()
-      var diffInDays = diff / (1000 * 3600 * 24)
-      if (diffInDays < 2) {
-        return false
-      }
-      return true
-    },
-    cancelTraining: function (name, date) {
-      var tzoffset = (new Date()).getTimezoneOffset() * 60000
-      var dt = new Date(date)
-      dt = new Date(dt - tzoffset)
-      dt = dt.toISOString().slice(0, dt.toISOString().lastIndexOf(':'))
-      const axios = require('axios')
-      axios.post('http://localhost:8082/rest/cancelTraining/', {username: this.user, name: name, date: dt}).then(response => {
-        if (response.data === 200) {
-          window.alert('Uspesno ste otkazali trening')
-          window.location.reload()
-        } else {
-          window.alert('Doslo je do greske')
-        }
-      })
+      this.$router.push({name: 'viewProfile', params: {user: this.user}})
     }
   },
   computed: {
     SearchTrainings: function () {
       let val = this.search.toLowerCase()
       return this.trainings.filter((training) => {
-        if (training.sportObject.name.toLowerCase().includes(val)) {
+        if (training.training.sportObject.name.toLowerCase().includes(val)) {
           return true
         }
       })
@@ -104,12 +85,14 @@ export default {
       let end = this.endDate
       let s = new Date(start)
       let e = new Date(end)
+      console.log(start)
+      console.log(end)
       if (start === '' && end === '') {
         return this.SearchTrainings
       }
       if (start !== '' && end !== '') {
         return this.SearchTrainings.filter((training) => {
-          let check = new Date(training.appointmentDate)
+          let check = new Date(training.apply)
           if (check > s && check < e) {
             return true
           }
@@ -119,7 +102,7 @@ export default {
       if (start !== '' && end === '') {
         console.log('gas')
         return this.SearchTrainings.filter((training) => {
-          let check = new Date(training.appointmentDate)
+          let check = new Date(training.apply)
           if (check > s) {
             return true
           }
@@ -127,7 +110,7 @@ export default {
         })
       }
       return this.SearchTrainings.filter((training) => {
-        let check = new Date(training.appointmentDate)
+        let check = new Date(training.apply)
         if (check < e) {
           return true
         }
@@ -141,10 +124,10 @@ export default {
       if (this.sort === 'nOp') {
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         return this.SearchByDate.sort(function (a, b) {
-          if (a.sportObject.name > b.sportObject.name) {
+          if (a.training.sportObject.name > b.training.sportObject.name) {
             return 1
           }
-          if (a.sportObject.name < b.sportObject.name) {
+          if (a.training.sportObject.name < b.training.sportObject.name) {
             return -1
           }
           return 0
@@ -153,10 +136,10 @@ export default {
       if (this.sort === 'nRa') {
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         return this.SearchByDate.sort(function (a, b) {
-          if (a.sportObject.name > b.sportObject.name) {
+          if (a.training.sportObject.name > b.training.sportObject.name) {
             return -1
           }
-          if (a.sportObject.name < b.sportObject.name) {
+          if (a.training.sportObject.name < b.training.sportObject.name) {
             return 1
           }
           return 0
@@ -165,8 +148,8 @@ export default {
       if (this.sort === 'dRa') {
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         return this.SearchByDate.sort(function (a, b) {
-          var d1 = new Date(a.appointmentDate)
-          var d2 = new Date(b.appointmentDate)
+          var d1 = new Date(a.apply)
+          var d2 = new Date(b.apply)
           if (d1 > d2) {
             return 1
           }
@@ -179,8 +162,8 @@ export default {
       if (this.sort === 'dOp') {
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         return this.SearchByDate.sort(function (a, b) {
-          var d1 = new Date(a.appointmentDate)
-          var d2 = new Date(b.appointmentDate)
+          var d1 = new Date(a.apply)
+          var d2 = new Date(b.apply)
           if (d1 > d2) {
             return -1
           }
@@ -197,7 +180,7 @@ export default {
       }
       if (this.filter1 === 'trt') {
         return this.Sorted.filter((element) => {
-          if (element.sportObject.objectType === 'GYM') {
+          if (element.training.sportObject.objectType === 'GYM') {
             return true
           }
           return false
@@ -205,7 +188,7 @@ export default {
       }
       if (this.filter1 === 'spc') {
         return this.Sorted.filter((element) => {
-          if (element.sportObject.objectType === 'SPORTCENTRE') {
+          if (element.training.sportObject.objectType === 'SPORTCENTRE') {
             return true
           }
           return false
@@ -213,7 +196,7 @@ export default {
       }
       if (this.filter1 === 'b') {
         return this.Sorted.filter((element) => {
-          if (element.sportObject.objectType === 'POOL') {
+          if (element.training.sportObject.objectType === 'POOL') {
             return true
           }
           return false
@@ -221,7 +204,36 @@ export default {
       }
       if (this.filter1 === 'ps') {
         return this.Sorted.filter((element) => {
-          if (element.sportObject.objectType === 'DANCESTUDIO') {
+          if (element.training.sportObject.objectType === 'DANCESTUDIO') {
+            return true
+          }
+          return false
+        })
+      }
+    },
+    Filtered2: function () {
+      if (this.filter2 === '') {
+        return this.Filtered1
+      }
+      if (this.filter2 === 'g') {
+        return this.Filtered1.filter((element) => {
+          if (element.training.trainingType === 'GROUP') {
+            return true
+          }
+          return false
+        })
+      }
+      if (this.filter2 === 't') {
+        return this.Filtered1.filter((element) => {
+          if (element.training.trainingType === 'GYM') {
+            return true
+          }
+          return false
+        })
+      }
+      if (this.filter2 === 'p') {
+        return this.Filtered1.filter((element) => {
+          if (element.training.trainingType === 'PERSONAL') {
             return true
           }
           return false
@@ -234,13 +246,7 @@ export default {
 
   <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-    #schedTrg{
-        margin: 4rem;
-    }
-
-    .Text{
-        cursor: pointer;
-        color: black;
-        text-decoration: none;
+    #buyerTrgs{
+        margin: 20px;
     }
 </style>

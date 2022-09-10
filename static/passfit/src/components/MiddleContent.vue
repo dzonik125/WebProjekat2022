@@ -33,7 +33,7 @@
                   {{sObject.services}}
                 </p>
                 <p class="card-text">
-                  <small class="text-muted" v-if="sObject.objectType">Tip objekta: {{convertStrings(sObject.objectType)}}</small>
+                  <small class="text-muted" v-if="sObject.objectType">Tip objekta: {{convertStrings(sObject.objectType)}}</small><span v-if="userType === 'ADMINISTRATOR'" style="margin-left:3rem"><button v-on:click.prevent="deleteSportObject(sObject.name)" class="btn">Obrisi</button></span>
                 </p>
               </div>
             </div>
@@ -66,6 +66,17 @@ export default {
       } else if (toConvert === 'DANCESTUDIO') {
         return 'Plesni studio'
       }
+    },
+    deleteSportObject: function (name, event) {
+      const axios = require('axios')
+      axios.post('http://localhost:8082/rest/deleteSportObject/', {object: name}).then(response => {
+        if (response.data === 200) {
+          window.alert('Uspesno ste obrisali objekat')
+          window.location.reload()
+        } else {
+          window.alert('Doslo je do greske')
+        }
+      })
     }
   },
   computed: {

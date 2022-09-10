@@ -25,4 +25,12 @@ public class TrainingHistoryController {
 	public List<TrainingHistory> findAllHistories() throws IOException{
 		return ths.findAllHistories();
 	}
+
+	public List<TrainingHistory> findTrainingHistoriesForBuyer (String buyer) throws IOException {
+		return ths.findTrainingHistoriesForBuyer(buyer);
+	}
+	
+	public void deleteSportObjectFromTH(String name) throws IOException {
+		ths.deleteSportObjectFromTH(name);
+	}
 }

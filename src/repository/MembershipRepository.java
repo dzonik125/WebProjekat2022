@@ -12,6 +12,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import model.Membership;
+import model.MembershipStatus;
 
 public class MembershipRepository {
 	
@@ -29,6 +30,12 @@ public class MembershipRepository {
 		fileReader.close();
 		if(memberships == null) {
 			memberships = new ArrayList<>();
+		}
+		
+		for (Membership membership2 : memberships) {
+			if(membership2.getBuyer().equals(membership.getBuyer()) && membership2.getMembershipStatus().toString().equals("ACTIVE")) {
+				membership2.setMembershipStatus(MembershipStatus.valueOf("INACTIVE"));
+			}
 		}
 		
 		for (Membership membership2 : memberships) {

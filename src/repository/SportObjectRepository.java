@@ -73,18 +73,19 @@ public class SportObjectRepository {
 		return "Ne postoji izabrani objekat u listi objekata!";
 	}
 	
-	public boolean deleteSportObject(Location location) throws IOException {
+	public boolean deleteSportObject(String name) throws IOException {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		Type listType = new TypeToken<List<SportObject>>(){}.getType();
 		FileReader fileReader = new FileReader(fileLocation);
 		List<SportObject> sportObjects = gson.fromJson(fileReader, listType);
 		fileReader.close();
 		for (SportObject sportObject : sportObjects) {
-			if(sportObject.getLocation().getLatitude() == location.getLatitude() && sportObject.getLocation().getLongtitude() == location.getLongtitude()) {
+			if(sportObject.getName().equals(name)) {
 				sportObject.setDeleted(true);
 				FileWriter fileWriter = new FileWriter(fileLocation);
 				gson.toJson(sportObjects, fileWriter);
 				fileWriter.close();
+				return true;
 			}
 		}
 		return false;
@@ -110,6 +111,13 @@ public class SportObjectRepository {
 		Type listType = new TypeToken<List<SportObject>>(){}.getType();
 		FileReader fileReader = new FileReader(fileLocation);
 		List<SportObject> sportObjects = gson.fromJson(fileReader, listType);
+		List<SportObject> found = new ArrayList<>();
+		for (SportObject sportObject : sportObjects) {
+			if(sportObject.isDeleted()) {
+				found.add(sportObject);
+			}
+		}
+		sportObjects.removeAll(found);
 		fileReader.close();
 		return sportObjects;
 	}

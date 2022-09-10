@@ -79,4 +79,17 @@ public class ManagerService {
 		}
 		return null;
 	}
+	
+	public void deleteManagerSportObject(String name) throws IOException {
+		List<Manager> managers = findAllManagers();
+		for (Manager manager : managers) {
+			if(manager.getSportObject().getName().equals(name)) {
+				manager.setSportObject(null);
+				Gson gson = new GsonBuilder().setPrettyPrinting().create();
+				FileWriter fileWriter = new FileWriter("./data/managers.json");
+				gson.toJson(managers, fileWriter);
+				fileWriter.close();
+			}
+		}
+	}
 }

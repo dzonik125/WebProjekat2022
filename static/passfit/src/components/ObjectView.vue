@@ -80,7 +80,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-6 whiteSpace" v-for="(training, index) in trainings" :key=index>
+          <div class="col-md-6 whiteSpace" v-if="!training.deleted" v-for="(training, index) in trainings" :key=index>
             <div class="card mb-4 mb-md-0 whiteSpace" style="min-width: 300px; min-height: 695px;">
               <div class="card-body">
                 <p class="mb-4"><span class="text-primary font-italic me-1">Trening</span> {{training.name}}
@@ -170,7 +170,7 @@ export default {
       console.log(this.date)
       console.log(coach)
       const axios = require('axios')
-      axios.post('http://localhost:8082/rest/scheduleTraining/', {date: this.date, coach: coach, name: name, object: this.object}).then(response => {
+      axios.post('http://localhost:8082/rest/scheduleTraining/', {date: this.date, coach: coach, name: name, object: this.object, user: this.user}).then(response => {
         if (response.data === 200) {
           window.alert('Uspesno ste zakazali trening')
           this.$router.push({name: 'Index'})
