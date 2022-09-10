@@ -19,7 +19,8 @@
                             <li>24/7 uzivo podrska</li>
                             <li>Pristup PassFit specijalnim treninzima</li>
                         </ul>
-                        <button class="read btn" v-on:click.prevent="buyMembership($event)" name="Uclani se">Uclani se<i class="fa fa-angle-right"></i></button>
+                        <button class="read btn" v-on:mouseleave="hideDiscount(1)" v-on:mouseover="calculateDiscount(1)" v-on:click.prevent="buyMembership($event)" name="Uclani se">Uclani se<i class="fa fa-angle-right"></i></button>
+                        <p style="display: none;" name="disc1">Cena sa popustom: {{3000 - (3000 * discount)}}</p>
                     </div>
                 </div>
 
@@ -39,7 +40,8 @@
                             <li>24/7 uzivo podrska</li>
                             <li>Pristup PassFit specijalnim treninzima</li>
                         </ul>
-                        <button class="read btn" v-on:click.prevent="buyMembership($event)" name='uclani se'>uclani se<i class="fa fa-angle-right"></i></button>
+                        <button class="read btn" v-on:mouseleave="hideDiscount(2)" v-on:mouseover="calculateDiscount(2)" v-on:click.prevent="buyMembership($event)" name='uclani se'>uclani se<i class="fa fa-angle-right"></i></button>
+                        <p style="display: none;" name="disc2">Cena sa popustom: {{36000 - (36000 * discount)}}</p>
                     </div>
                 </div>
             </div>
@@ -54,6 +56,7 @@ export default {
   props: ['user'],
   data () {
     return {
+      discount: 0
     }
   },
   methods: {
@@ -79,7 +82,22 @@ export default {
           }
         })
       }
+    },
+    calculateDiscount: function (num) {
+      var p = document.getElementsByName('disc' + num)[0]
+      p.style.display = 'block'
+    },
+    hideDiscount: function (num) {
+      var p = document.getElementsByName('disc' + num)[0]
+      p.style.display = 'none'
     }
+  },
+  mounted () {
+    const axios = require('axios')
+    axios.post('http://localhost:8082/rest/getDiscount/', {username: this.user}).then(response => {
+      this.discount = response.data
+      console.log(this.discount)
+    })
   }
 }
 </script>

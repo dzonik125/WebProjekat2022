@@ -47,4 +47,8 @@ public class CoachController {
 	public boolean deleteAppointedTraining (String username, String name, Date date) throws IOException {
 		return cs.deleteAppointedTraining(username, name, date);
 	}
+	
+	public void deleteSportObjectFromCoachTrainings (String object) throws IOException {
+		cs.deleteSportObjectFromCoachTrainings(object);
+	}
 }

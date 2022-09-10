@@ -6,10 +6,23 @@
     "active": "Sep 8, 2023, 10:21:17 AM",
     "price": 36000,
     "buyer": "petarp",
+    "membershipStatus": "INACTIVE",
+    "isDeleted": false,
+    "dailyLogs": 10,
+    "lastChecked": "Sep 10, 2022, 12:32:30 PM",
+    "totalLogs": 3650
+  },
+  {
+    "id": "Y5RwgEtvX5",
+    "membershipType": "MONTHLY",
+    "dueDate": "Sep 10, 2022, 12:51:06 PM",
+    "active": "Oct 10, 2022, 12:51:06 PM",
+    "price": 3000,
+    "buyer": "petarp",
     "membershipStatus": "ACTIVE",
     "isDeleted": false,
-    "dailyLogs": 9,
-    "lastChecked": "Sep 9, 2022, 6:19:42 PM",
-    "totalLogs": 3650
+    "dailyLogs": 0,
+    "lastChecked": "Sep 10, 2022, 10:28:53 PM",
+    "totalLogs": 30
   }
 ]

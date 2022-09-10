@@ -19,8 +19,12 @@
                     <div class="col-md-12"><label class="labels">Datum rodjenja</label><input type="date" class="form-control" placeholder="datum rodjenja" v-model="dateToSet"></div>
                     <div class="col-md-12"><label class="labels">Pol</label><input type="text" class="form-control" placeholder="pol" v-model="gender"></div>
                     <div class="col-md-12"><label class="labels">Tip korisnika</label><input type="text" class="form-control" placeholder="tip korisnika" v-model="userType" readonly></div>
-                </div>
-                <div class="mt-5 text-center"><button v-on:click="editUser()" class="btn btn-primary profile-button" type="button">Sacuvaj</button><button class="btn btn-primary profile-button" type="button" style="margin-left: 10px" v-on:click="goBack()">Nazad</button></div>
+                    <div class="col-md-12" v-if="userType === 'BUYER'"><label class="labels">Poeni</label><input type="text" class="form-control" placeholder="poeni" readonly v-model="points"></div>
+                    <div class="col-md-12" v-if="userType === 'BUYER'"><label class="labels">Tip kupca</label><input type="text" class="form-control" placeholder="tip kupca" readonly v-model="buyerType"></div>
+                    <div class="col-md-12" v-if="userType === 'BUYER'"><label class="labels">Popust</label><input type="text" class="form-control" placeholder="popust" readonly v-model="discount"></div>
+                    <div class="col-md-12" v-if="userType === 'BUYER'"><label class="labels">Potrebni poeni za visi tip</label><input type="text" class="form-control" placeholder="popust" readonly v-model="needed"></div>
+                  </div>
+                <div class="mt-5 text-center"><button v-on:click="editUser()" class="btn btn-primary profile-button" type="button">Sacuvaj</button><button class="btn btn-primary profile-button" type="button" style="margin-left: 10px" v-on:click="goBack()">Nazad</button><router-link :to="{name: 'BuyerTrainings', props: user}"><button type="button" style="margin-left: 10px" class="btn btn-primary profile-button" v-if="userType === 'BUYER'">Istorija treninga</button></router-link><router-link :to="{name: 'BuyerScheduledTrainings', props: user}"><button type="button" style="margin-left: 10px" class="btn btn-primary profile-button" v-if="userType === 'BUYER'">Zakazani treninzi</button></router-link></div>
             </div>
         </div>
     </div>
@@ -41,7 +45,11 @@ export default {
       gender: '',
       userType: '',
       dateToSet: {},
-      oldUsername: ''
+      oldUsername: '',
+      points: '',
+      buyerType: '',
+      discount: '',
+      needed: ''
     }
   },
   methods: {
@@ -89,6 +97,14 @@ export default {
       this.dateToSet = date
       console.log(date)
       this.oldUsername = response.data.userName
+      if (this.userType === 'BUYER') {
+        axios.post('http://localhost:8082/rest/getBuyerSpecificData/', {username: userValue}).then(response => {
+          this.points = response.data.points
+          this.buyerType = response.data.buyerType.buyerType
+          this.discount = response.data.buyerType.discount
+          this.needed = response.data.buyerType.neededPoints
+        })
+      }
     })
   }
 }

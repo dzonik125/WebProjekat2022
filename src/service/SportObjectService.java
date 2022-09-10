@@ -7,12 +7,14 @@ import java.util.Iterator;
 import java.util.List;
 
 import model.Location;
+import model.Manager;
 import model.SportObject;
 import repository.SportObjectRepository;
 
 public class SportObjectService {
 	
 	private SportObjectRepository sor = new SportObjectRepository();
+	private ManagerService ms = new ManagerService();
 
 	public SportObjectService() {
 		super();
@@ -26,8 +28,8 @@ public class SportObjectService {
 		return sor.editSportObject(sportObject, selectedSportObject);
 	}
 	
-	public boolean deleteSportObject(Location location) throws IOException{
-		return sor.deleteSportObject(location);
+	public boolean deleteSportObject(String name) throws IOException{
+		return sor.deleteSportObject(name);
 	}
 	
 	public SportObject findSportObject(String name) throws IOException{

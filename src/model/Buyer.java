@@ -9,6 +9,7 @@ public class Buyer extends User{
 	private List<SportObject> visitedObjects;
 	private int points;
 	private BuyerType buyerType;
+	private List<Training> scheduledTrainings;
 	
 	public Buyer(String userName, String password, String name, String surname, Gender gender, Date birthday, UserType userType, Membership m, List<SportObject> los, int p) {
 		super(userName, password, name, surname, gender, birthday, userType);
@@ -17,6 +18,7 @@ public class Buyer extends User{
 		this.points = p;
 		this.visitedObjects = los;
 		this.membership = m;
+		this.scheduledTrainings = null;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -50,6 +52,14 @@ public class Buyer extends User{
 
 	public void setBuyerType(BuyerType buyerType) {
 		this.buyerType = buyerType;
+	}
+
+	public List<Training> getScheduledTrainings() {
+		return scheduledTrainings;
+	}
+
+	public void setScheduledTrainings(List<Training> scheduledTrainings) {
+		this.scheduledTrainings = scheduledTrainings;
 	}
 	
 	

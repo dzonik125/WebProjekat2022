@@ -46,4 +46,8 @@ public class ManagerController {
 	public SportObject getManagerSportObject(String username) throws IOException{
 		return ms.getManagerSportObject(username);
 	}
+	
+	public void deleteManagerSportObject(String name) throws IOException {
+		ms.deleteManagerSportObject(name);
+	}
 }
