@@ -1,314 +1,76 @@
 [
   {
-    "apply": "Sep 8, 2022, 11:33:20 PM",
-    "training": {
-      "name": "HIIT",
-      "trainingType": "GYM",
-      "sportObject": {
-        "name": "Flex",
-        "objectType": "POOL",
-        "services": "Ovaj objekat je na odlicnoj lokaciji",
-        "location": {
-          "latitude": 15.52,
-          "longtitude": 29.42,
-          "adress": {
-            "street": "Laze Teleckog",
-            "sNum": 52,
-            "city": "Novi Sad",
-            "postCode": 21000
-          },
-          "deleted": false
-        },
-        "imageRelLocation": "/static/flex.png",
-        "avgGrade": 0.0,
-        "workingHours": "08:00-22:00",
-        "deleted": false
-      },
-      "duration": 30,
-      "description": "Gasoviti trening",
-      "imageLocation": "static/hiit.png",
-      "deleted": false,
-      "id": 1
-    },
-    "buyer": "petarp",
-    "deleted": false
-  },
-  {
-    "apply": "Sep 8, 2022, 11:35:54 PM",
-    "training": {
-      "name": "HIIT",
-      "trainingType": "GYM",
-      "sportObject": {
-        "name": "Flex",
-        "objectType": "POOL",
-        "services": "Ovaj objekat je na odlicnoj lokaciji",
-        "location": {
-          "latitude": 15.52,
-          "longtitude": 29.42,
-          "adress": {
-            "street": "Laze Teleckog",
-            "sNum": 52,
-            "city": "Novi Sad",
-            "postCode": 21000
-          },
-          "deleted": false
-        },
-        "imageRelLocation": "/static/flex.png",
-        "avgGrade": 0.0,
-        "workingHours": "08:00-22:00",
-        "deleted": false
-      },
-      "duration": 30,
-      "description": "Gasoviti trening",
-      "imageLocation": "static/hiit.png",
-      "deleted": false,
-      "id": 1
-    },
-    "buyer": "petarp",
-    "deleted": false
-  },
-  {
-    "apply": "Sep 8, 2022, 11:38:13 PM",
-    "training": {
-      "name": "HIIT",
-      "trainingType": "GYM",
-      "sportObject": {
-        "name": "Flex",
-        "objectType": "POOL",
-        "services": "Ovaj objekat je na odlicnoj lokaciji",
-        "location": {
-          "latitude": 15.52,
-          "longtitude": 29.42,
-          "adress": {
-            "street": "Laze Teleckog",
-            "sNum": 52,
-            "city": "Novi Sad",
-            "postCode": 21000
-          },
-          "deleted": false
-        },
-        "imageRelLocation": "/static/flex.png",
-        "avgGrade": 0.0,
-        "workingHours": "08:00-22:00",
-        "deleted": false
-      },
-      "duration": 30,
-      "description": "Gasoviti trening",
-      "imageLocation": "static/hiit.png",
-      "deleted": false,
-      "id": 1
-    },
-    "buyer": "petarp",
-    "deleted": false
-  },
-  {
-    "apply": "Sep 8, 2022, 11:40:45 PM",
-    "training": {
-      "name": "HIIT",
-      "trainingType": "GYM",
-      "sportObject": {
-        "name": "Flex",
-        "objectType": "POOL",
-        "services": "Ovaj objekat je na odlicnoj lokaciji",
-        "location": {
-          "latitude": 15.52,
-          "longtitude": 29.42,
-          "adress": {
-            "street": "Laze Teleckog",
-            "sNum": 52,
-            "city": "Novi Sad",
-            "postCode": 21000
-          },
-          "deleted": false
-        },
-        "imageRelLocation": "/static/flex.png",
-        "avgGrade": 0.0,
-        "workingHours": "08:00-22:00",
-        "deleted": false
-      },
-      "duration": 30,
-      "description": "Gasoviti trening",
-      "imageLocation": "static/hiit.png",
-      "deleted": false,
-      "id": 1
-    },
-    "buyer": "petarp",
-    "deleted": false
-  },
-  {
-    "apply": "Sep 8, 2022, 11:43:08 PM",
-    "training": {
-      "name": "HIIT",
-      "trainingType": "GYM",
-      "sportObject": {
-        "name": "Flex",
-        "objectType": "POOL",
-        "services": "Ovaj objekat je na odlicnoj lokaciji",
-        "location": {
-          "latitude": 15.52,
-          "longtitude": 29.42,
-          "adress": {
-            "street": "Laze Teleckog",
-            "sNum": 52,
-            "city": "Novi Sad",
-            "postCode": 21000
-          },
-          "deleted": false
-        },
-        "imageRelLocation": "/static/flex.png",
-        "avgGrade": 0.0,
-        "workingHours": "08:00-22:00",
-        "deleted": false
-      },
-      "duration": 30,
-      "description": "Gasoviti trening",
-      "imageLocation": "static/hiit.png",
-      "deleted": false,
-      "id": 1
-    },
-    "buyer": "petarp",
-    "deleted": false
-  },
-  {
-    "apply": "Sep 8, 2022, 11:47:38 PM",
-    "training": {
-      "name": "HIIT",
-      "trainingType": "GYM",
-      "sportObject": {
-        "name": "Flex",
-        "objectType": "POOL",
-        "services": "Ovaj objekat je na odlicnoj lokaciji",
-        "location": {
-          "latitude": 15.52,
-          "longtitude": 29.42,
-          "adress": {
-            "street": "Laze Teleckog",
-            "sNum": 52,
-            "city": "Novi Sad",
-            "postCode": 21000
-          },
-          "deleted": false
-        },
-        "imageRelLocation": "/static/flex.png",
-        "avgGrade": 0.0,
-        "workingHours": "08:00-22:00",
-        "deleted": false
-      },
-      "duration": 30,
-      "description": "Gasoviti trening",
-      "imageLocation": "static/hiit.png",
-      "deleted": false,
-      "id": 1
-    },
-    "buyer": "petarp",
-    "deleted": false
-  },
-  {
-    "apply": "Sep 8, 2022, 11:48:54 PM",
-    "training": {
-      "name": "HIIT",
-      "trainingType": "GYM",
-      "sportObject": {
-        "name": "Flex",
-        "objectType": "POOL",
-        "services": "Ovaj objekat je na odlicnoj lokaciji",
-        "location": {
-          "latitude": 15.52,
-          "longtitude": 29.42,
-          "adress": {
-            "street": "Laze Teleckog",
-            "sNum": 52,
-            "city": "Novi Sad",
-            "postCode": 21000
-          },
-          "deleted": false
-        },
-        "imageRelLocation": "/static/flex.png",
-        "avgGrade": 0.0,
-        "workingHours": "08:00-22:00",
-        "deleted": false
-      },
-      "duration": 30,
-      "description": "Gasoviti trening",
-      "imageLocation": "static/hiit.png",
-      "deleted": false,
-      "id": 1
-    },
-    "buyer": "petarp",
-    "deleted": false
-  },
-  {
-    "apply": "Sep 8, 2022, 11:50:38 PM",
+    "apply": "Sep 10, 2022, 9:30:05 PM",
     "training": {
       "name": "Kruzni",
       "trainingType": "GROUP",
       "sportObject": {
-        "name": "Flex",
-        "objectType": "POOL",
-        "services": "Ovaj objekat je na odlicnoj lokaciji",
+        "name": "Classic",
+        "objectType": "SPORTCENTRE",
+        "services": "Ovaj objekat je dobro opremljen",
         "location": {
-          "latitude": 15.52,
-          "longtitude": 29.42,
+          "latitude": 15.24,
+          "longtitude": 15.12,
           "adress": {
-            "street": "Laze Teleckog",
-            "sNum": 52,
+            "street": "Dimitrija Avramovica",
+            "sNum": 1,
             "city": "Novi Sad",
             "postCode": 21000
           },
           "deleted": false
         },
-        "imageRelLocation": "/static/flex.png",
+        "imageRelLocation": "/static/ahilej.png",
         "avgGrade": 0.0,
         "workingHours": "08:00-22:00",
-        "deleted": false
+        "deleted": true
       },
-      "duration": 45,
-      "description": "Ovo je kruzni trening",
+      "duration": 30,
+      "description": "Ovaj trening je kruzni",
       "imageLocation": "static/circuit.png",
       "deleted": false,
       "coach": "miksajlo",
-      "id": 2
+      "id": 7
     },
     "buyer": "petarp",
     "deleted": false
   },
   {
-    "apply": "Sep 8, 2022, 11:53:10 PM",
+    "apply": "Sep 10, 2022, 9:30:09 PM",
     "training": {
       "name": "Kruzni",
       "trainingType": "GROUP",
       "sportObject": {
-        "name": "Flex",
-        "objectType": "POOL",
-        "services": "Ovaj objekat je na odlicnoj lokaciji",
+        "name": "Classic",
+        "objectType": "SPORTCENTRE",
+        "services": "Ovaj objekat je dobro opremljen",
         "location": {
-          "latitude": 15.52,
-          "longtitude": 29.42,
+          "latitude": 15.24,
+          "longtitude": 15.12,
           "adress": {
-            "street": "Laze Teleckog",
-            "sNum": 52,
+            "street": "Dimitrija Avramovica",
+            "sNum": 1,
             "city": "Novi Sad",
             "postCode": 21000
           },
           "deleted": false
         },
-        "imageRelLocation": "/static/flex.png",
+        "imageRelLocation": "/static/ahilej.png",
         "avgGrade": 0.0,
         "workingHours": "08:00-22:00",
-        "deleted": false
+        "deleted": true
       },
-      "duration": 45,
-      "description": "Ovo je kruzni trening",
+      "duration": 30,
+      "description": "Ovaj trening je kruzni",
       "imageLocation": "static/circuit.png",
       "deleted": false,
       "coach": "miksajlo",
-      "id": 2
+      "id": 7
     },
     "buyer": "petarp",
     "deleted": false
   },
   {
-    "apply": "Sep 9, 2022, 9:46:01 AM",
+    "apply": "Sep 10, 2022, 9:32:19 PM",
     "training": {
       "name": "HIIT",
       "trainingType": "GYM",

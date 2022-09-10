@@ -68,6 +68,12 @@ export default {
       }
       )
     }, 10000)
+    window.setInterval(function () {
+      const axios = require('axios')
+      axios.get('http://localhost:8082/rest/checkIfPersonalTrainingIsCompleted/').then(response => {
+        console.log(response.data)
+      })
+    }, 60000)
   },
   methods: {
   }

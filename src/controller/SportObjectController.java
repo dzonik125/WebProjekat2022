@@ -23,8 +23,8 @@ public class SportObjectController {
 		return sos.editSportObject(sportObject, selectedSportObject);
 	}
 	
-	public boolean deleteSportObject(Location location) throws IOException{
-		return sos.deleteSportObject(location);
+	public boolean deleteSportObject(String name) throws IOException{
+		return sos.deleteSportObject(name);
 	}
 	
 	public SportObject findSportObject(String name) throws IOException{

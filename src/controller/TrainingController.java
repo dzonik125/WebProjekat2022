@@ -44,4 +44,16 @@ public class TrainingController {
 	public List<Training> getGroupTrainingsForCoach (String username) throws IOException {
 		return ts.getGroupTrainingsForCoach(username);
 	}
+	
+	public void checkCompletedPersonal () throws IOException {
+		ts.checkCompletedPersonal();
+	}
+	
+	public void deleteSportObjectsFromTrainings (String name) throws IOException {
+		ts.deleteSportObjectsFromTrainings(name);
+	}
+	
+	public void deleteCoachesTrainings (String coach) throws IOException {
+		ts.deleteCoachesTrainings(coach);
+	}
 }

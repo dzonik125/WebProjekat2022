@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import model.Coach;
+import model.SportObject;
 import model.Training;
 import repository.CoachRepository;
 
@@ -98,6 +99,27 @@ public class CoachService {
 			}
 		}
 		return false;
+	}
+	
+	public void deleteSportObjectFromCoachTrainings (String object) throws IOException {
+		List<Coach> coaches = findAllCoaches();
+		for (Coach coach : coaches) {
+			List<Training> notCompleted = new ArrayList<>();
+			if(coach.getNotCompletedTrainings() != null) {
+				notCompleted = coach.getNotCompletedTrainings();
+			}
+			for (Training training : notCompleted) {
+				if(training.getSportObject().getName().equals(object)) {
+					SportObject so = training.getSportObject();
+					so.setDeleted(true);
+					training.setSportObject(so);
+				}
+			}
+		}
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		FileWriter fileWriter = new FileWriter("./data/coaches.json");
+		gson.toJson(coaches, fileWriter);
+		fileWriter.close();
 	}
 	
 }
