@@ -73,6 +73,40 @@ public class SportObjectService {
 		String[] closed = splitted[1].split(":");
 		int closedHour = Integer.parseInt(closed[0]);
 		int closedMinute = Integer.parseInt(closed[1]);
+		if(openHour > closedHour) {
+			int helperHour = closedHour;
+			calendar.set(Calendar.HOUR_OF_DAY, 0);
+			calendar.set(Calendar.MINUTE, 0);
+			calendar.set(Calendar.SECOND, 0);
+			calendar.set(Calendar.MILLISECOND, 0);
+			Date toCheck1 = calendar.getTime();
+			calendar.set(Calendar.HOUR_OF_DAY, helperHour);
+			calendar.set(Calendar.MINUTE, 0);
+			calendar.set(Calendar.SECOND, 0);
+			calendar.set(Calendar.MILLISECOND, 0);
+			Date toCheck2 = calendar.getTime(); 
+			calendar.set(Calendar.HOUR_OF_DAY, openHour);
+			calendar.set(Calendar.MINUTE, openMinute);
+			calendar.set(Calendar.SECOND, 0);
+			calendar.set(Calendar.MILLISECOND, 0);
+			if (now.after(toCheck1) && now.before(toCheck2)) {
+				calendar.add(Calendar.DATE, -1);
+			}
+			Date openDate = calendar.getTime();
+			calendar.add(Calendar.DATE, 1);
+			calendar.set(Calendar.HOUR_OF_DAY, closedHour);
+			calendar.set(Calendar.MINUTE, closedMinute);
+			calendar.set(Calendar.SECOND, 0);
+			calendar.set(Calendar.MILLISECOND, 0);
+			if (!(now.after(toCheck1) && now.before(toCheck2))) {
+				calendar.add(Calendar.DATE, 1);
+			}
+			Date closeDate = calendar.getTime();
+			if(now.after(openDate) && now.before(closeDate)) {
+				return false;
+			}
+			return true;
+		}
 		calendar.set(Calendar.HOUR_OF_DAY, openHour);
 		calendar.set(Calendar.MINUTE, openMinute);
 		calendar.set(Calendar.SECOND, 0);

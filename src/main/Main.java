@@ -26,6 +26,7 @@ import com.google.gson.JsonSyntaxException;
 import controller.AdministratorController;
 import controller.BuyerController;
 import controller.CoachController;
+import controller.ImageHandler;
 import controller.ManagerController;
 import controller.MembershipController;
 import controller.SportObjectController;
@@ -46,6 +47,7 @@ import model.Location;
 import model.Manager;
 import model.Membership;
 import model.MembershipType;
+import model.ObjectStatus;
 import model.ObjectType;
 import model.SportObject;
 import model.Training;
@@ -303,11 +305,35 @@ public class Main {
 			String city = jObject.get("city").getAsString();
 			int postcode = jObject.get("postcode").getAsInt();
 			String image = jObject.get("image").getAsString();
+			ImageHandler imageHandler = new ImageHandler();
+			String path = imageHandler.saveImage(image); 
 			String workingHours = jObject.get("workingHours").getAsString();
 			String managerUsername = jObject.get("manager").getAsString();
+			if(managerUsername.equals("CNM")) {
+				String username = jObject.get("username").getAsString();
+				String password = jObject.get("password").getAsString();
+				String nam = jObject.get("nam").getAsString();
+				String surname = jObject.get("surnam").getAsString();
+				Gender gender = Gender.valueOf(jObject.get("gender").getAsString());
+				String birth = jObject.get("birthday").getAsString();
+				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+				Date birthday = format.parse(birth);
+				User user = new User(username, password, nam, surname, gender, birthday, UserType.MANAGER);
+				Manager manager = new Manager(username, password, nam, surname, gender, birthday, UserType.MANAGER, null);
+				Adress a = new Adress(street, sNum, city, postcode);
+				Location l = new Location(lat, longt, a);
+				SportObject so = new SportObject(name, oType, services, ObjectStatus.WORKING, l, path, 0, workingHours);
+				manager.setSportObject(so);
+				uc.addUser(user);
+				mc.addManager(manager);
+				if(soc.addSportObject(so)) {
+					return 200;
+				}
+				return 400;
+			}
 			Adress a = new Adress(street, sNum, city, postcode);
 			Location l = new Location(lat, longt, a);
-			SportObject so = new SportObject(name, oType, services, null, l, image, 0, workingHours);
+			SportObject so = new SportObject(name, oType, services, null, l, path, 0, workingHours);
 			if(soc.addSportObject(so) && mc.bindManagerWithSportObject(managerUsername, so)) {
 				return 200;
 			}
@@ -386,21 +412,28 @@ public class Main {
 			JsonParser jsonParser = new JsonParser();
 			JsonObject jObject = jsonParser.parse(payload).getAsJsonObject();
 			String name = jObject.get("name").getAsString();
+			for (Training t : tc.findAllTraining()) {
+				if(t.getName().equals(name)) {
+					return 400;
+				}
+			}
 			TrainingType trainingType = TrainingType.valueOf(jObject.get("trainingType").getAsString());
 			String image = jObject.get("image").getAsString();
+			ImageHandler imageHandler = new ImageHandler();
+			String path = imageHandler.saveImage(image); 
 			long duration = jObject.get("duration").getAsLong();
 			String description = jObject.get("description").getAsString();
 			String objectName = jObject.get("sportObject").getAsString();
 			System.out.println(jObject.get("coach").getAsString());
 			if(jObject.get("coach") == null || jObject.get("coach").getAsString().equals("")) {
-				Training training = new Training(name, trainingType, soc.findSportObject(objectName), duration, description, image);
+				Training training = new Training(name, trainingType, soc.findSportObject(objectName), duration, description, path);
 				if(tc.addTraining(training)) {
 					return 200;
 				}
 				return 400;
 			} else {
 				String coach = jObject.get("coach").getAsString();
-				Training t = new Training(name, trainingType, soc.findSportObject(objectName), duration, description, image, coach);
+				Training t = new Training(name, trainingType, soc.findSportObject(objectName), duration, description, path, coach);
 				if(tc.addTraining(t)) {
 					return 200;
 				}
@@ -466,7 +499,19 @@ public class Main {
 			long duration = jObject.get("duration").getAsLong();
 			int id = jObject.get("id").getAsInt();
 			String description = jObject.get("description").getAsString();
-			Training training = new Training(null, type, null, duration, description, null);
+			String name = jObject.get("name").getAsString();
+			if(jObject.get("image") == null) {
+				Training training = new Training(name, type, null, duration, description, null);
+				Training selectedTraining = tc.findTraining(id);
+				if(tc.editTraining(training, selectedTraining).equals("Uspesno izmenjeno")) {
+					return 200;
+				}
+				return 400;
+			}
+			String image = jObject.get("image").getAsString();
+			ImageHandler imageHandler = new ImageHandler();
+			String path = imageHandler.saveImage(image);
+			Training training = new Training(name, type, null, duration, description, path);
 			Training selectedTraining = tc.findTraining(id);
 			if(tc.editTraining(training, selectedTraining).equals("Uspesno izmenjeno")) {
 				return 200;
@@ -662,6 +707,15 @@ public class Main {
 				return 200;
 			}
 			return 400;
+		});
+		
+		post("/rest/DeleteTraining/", (req, res) -> {
+			String payload = req.body();
+			JsonParser jsonParser = new JsonParser();
+			JsonObject jObject = jsonParser.parse(payload).getAsJsonObject();
+			int id = jObject.get("id").getAsInt();
+			tc.deleteTraining(id);
+			return 200;
 		});
 	}
 

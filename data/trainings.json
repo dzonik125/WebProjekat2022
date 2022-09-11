@@ -22,10 +22,10 @@
       "workingHours": "08:00-22:00",
       "deleted": false
     },
-    "duration": 30,
-    "description": "Gasoviti trening",
-    "imageLocation": "static/hiit.png",
-    "deleted": false,
+    "duration": 45,
+    "description": "Ovo je intervalni trening",
+    "imageLocation": "/static/164aba77-89d4-4949-b633-c0cd16e54b53.png",
+    "deleted": true,
     "id": 1
   },
   {
@@ -236,5 +236,34 @@
     "deleted": false,
     "coach": "miksajlo",
     "id": 8
+  },
+  {
+    "name": "Kruzni",
+    "trainingType": "GROUP",
+    "sportObject": {
+      "name": "Flex",
+      "objectType": "POOL",
+      "services": "Ovaj objekat je na odlicnoj lokaciji",
+      "location": {
+        "latitude": 15.52,
+        "longtitude": 29.42,
+        "adress": {
+          "street": "Laze Teleckog",
+          "sNum": 52,
+          "city": "Novi Sad",
+          "postCode": 21000
+        },
+        "deleted": false
+      },
+      "imageRelLocation": "/static/flex.png",
+      "avgGrade": 0.0,
+      "workingHours": "08:00-22:00",
+      "deleted": false
+    },
+    "duration": 30,
+    "description": "Ovo je grupni trening",
+    "imageLocation": "/static/75d91f00-93fa-4c7a-8d83-8fcd4a6ba466.png",
+    "deleted": true,
+    "id": 9
   }
 ]
