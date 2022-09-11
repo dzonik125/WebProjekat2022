@@ -37,8 +37,8 @@ public class TrainingService {
 		return tr.editTraining(training, selectedTraining);
 	}
 	
-	public boolean deleteTraining(Training t) throws IOException{
-		return tr.deleteTraining(t);
+	public boolean deleteTraining(int id) throws IOException{
+		return tr.deleteTraining(id);
 	}
 	
 	public Training findTraining(int id) throws IOException{
@@ -76,6 +76,9 @@ public class TrainingService {
 		List<Coach> coaches = cs.findAllCoaches();
 		Calendar calendar = Calendar.getInstance();
 		Date now = calendar.getTime();
+		if(coaches == null) {
+			return;
+		}
 		for (Coach coach : coaches) {
 			List<Training> schedTrg = new ArrayList<Training>();
 			if(coach.getNotCompletedTrainings() != null) {

@@ -2,13 +2,13 @@
   <div id="register">
     <form>
       <label for="username">Korisnicko ime</label>
-      <input type="username" v-model="buyer.username" id="username">
+      <input type="username" v-model="buyer.username" id="username" placeholder="Najmanje 5 karaktera, moze bilo koji karakter">
       <label for="password">Sifra</label>
-      <input type="password" v-model="buyer.password" id="password">
+      <input type="password" v-model="buyer.password" id="password" placeholder="Najmanje 5 karaktera, moze bilo koji karakter">
       <label for="name">Ime</label>
-      <input type="text" v-model="buyer.nam" id="name">
+      <input type="text" v-model="buyer.nam" id="name" placeholder="Mora da pocinje velikim slovom">
       <label for="surname">Prezime</label>
-      <input type="text" id="surname" v-model="buyer.surnam">
+      <input type="text" id="surname" v-model="buyer.surnam" placeholder="Mora da pocinje velikim slovom">
       <label for="gender">Pol</label>
       <select id="gender" v-model="buyer.gender">
         <option value="M">Musko</option>
@@ -29,7 +29,7 @@ export default {
   data () {
     return {
       buyer: {
-        username: ' ',
+        username: '',
         password: '',
         nam: '',
         surnam: '',
@@ -40,6 +40,35 @@ export default {
   },
   methods: {
     sendInfo: function () {
+      const regex1 = new RegExp('^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){3,18}[a-zA-Z0-9]$')
+      // eslint-disable-next-line no-useless-escape
+      const regex2 = new RegExp('^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){3,18}[a-zA-Z0-9]$')
+      const regex3 = new RegExp('[A-Z][a-z]{1,}')
+      const regex4 = new RegExp('[A-Z][a-z]{1,}')
+      if (this.buyer.gender === '') {
+        window.alert('Popunite pol!')
+        return
+      }
+      if (this.buyer.birthday === '') {
+        window.alert('Popunite rodjendan!')
+        return
+      }
+      if (!regex1.test(this.buyer.username)) {
+        window.alert('Niste uneli korisnicko ime kako treba!')
+        return
+      }
+      if (!regex2.test(this.buyer.password)) {
+        window.alert('Niste uneli sifru kako treba')
+        return
+      }
+      if (!regex3.test(this.buyer.nam)) {
+        window.alert('Niste uneli ime kako treba')
+        return
+      }
+      if (!regex4.test(this.buyer.surnam)) {
+        window.alert('Niste uneli prezime kako treba')
+        return
+      }
       const axios = require('axios')
       axios.post('http://localhost:8082/rest/registerUser/', {
         username: this.buyer.username,

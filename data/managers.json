@@ -38,5 +38,36 @@
     "birthday": "Sep 17, 2022, 12:00:00 AM",
     "deleted": true,
     "userType": "MANAGER"
+  },
+  {
+    "sportObject": {
+      "name": "Total Gym",
+      "objectType": "GYM",
+      "services": "Ovaj objekat je na odlicnoj lokaciji",
+      "objectStatus": "WORKING",
+      "location": {
+        "latitude": 25.15,
+        "longtitude": 26.532,
+        "adress": {
+          "street": "Sutjeska",
+          "sNum": 12,
+          "city": "Novi Sad",
+          "postCode": 21000
+        },
+        "deleted": false
+      },
+      "imageRelLocation": "/static/bd728014-e688-46c1-9b04-7cfabdc2dae7.png",
+      "avgGrade": 0.0,
+      "workingHours": "08:00-23:00",
+      "deleted": false
+    },
+    "userName": "niketa",
+    "password": "123",
+    "name": "Ognjen",
+    "surname": "Niketic",
+    "gender": "M",
+    "birthday": "Jun 13, 1984, 12:00:00 AM",
+    "deleted": false,
+    "userType": "MANAGER"
   }
 ]
