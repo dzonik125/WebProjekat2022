@@ -20,7 +20,7 @@
                             <li>Pristup PassFit specijalnim treninzima</li>
                         </ul>
                         <button class="read btn" v-on:mouseleave="hideDiscount(1)" v-on:mouseover="calculateDiscount(1)" v-on:click.prevent="buyMembership($event)" name="Uclani se">Uclani se<i class="fa fa-angle-right"></i></button>
-                        <p style="display: none;" name="disc1">Cena sa popustom: {{3000 - (3000 * discount)}}</p>
+                        <p style="display: none;" name="disc1">Cena sa popustom: {{(3000 - (3000 * discount)) - (3000 * promoDisc)}}</p>
                     </div>
                 </div>
 
@@ -41,7 +41,14 @@
                             <li>Pristup PassFit specijalnim treninzima</li>
                         </ul>
                         <button class="read btn" v-on:mouseleave="hideDiscount(2)" v-on:mouseover="calculateDiscount(2)" v-on:click.prevent="buyMembership($event)" name='uclani se'>uclani se<i class="fa fa-angle-right"></i></button>
-                        <p style="display: none;" name="disc2">Cena sa popustom: {{36000 - (36000 * discount)}}</p>
+                        <p style="display: none;" name="disc2">Cena sa popustom: {{(36000 - (36000 * discount)) - (36000 * promoDisc)}}</p>
+                    </div>
+                    <div class="row justify-content-center mx-auto">
+                        <h4>Unesite promo kod:</h4>
+                        <input type="text" v-model="code">
+                        <p style="display: none;" id="promo1">Uspesno ste iskoristili!</p>
+                        <p style="display: none;" id="promo2">Promo kod nije validan!</p>
+                        <button class="btn" v-on:click="usePromo()" style="margin-top:5px;">Unesi</button>
                     </div>
                 </div>
             </div>
@@ -56,7 +63,9 @@ export default {
   props: ['user'],
   data () {
     return {
-      discount: 0
+      discount: 0,
+      code: '',
+      promoDisc: 0
     }
   },
   methods: {
@@ -90,6 +99,22 @@ export default {
     hideDiscount: function (num) {
       var p = document.getElementsByName('disc' + num)[0]
       p.style.display = 'none'
+    },
+    usePromo: function () {
+      const axios = require('axios')
+      let p = document.getElementById('promo1')
+      let p1 = document.getElementById('promo2')
+      axios.post('http://localhost:8082/rest/checkPromo/', {code: this.code}).then(response => {
+        if (response.data !== 400) {
+          this.promoDisc = parseFloat(response.data)
+          p.style.display = 'inline'
+          p1.style.display = 'none'
+        } else {
+          this.promoDisc = 0
+          p1.style.display = 'inline'
+          p.style.display = 'none'
+        }
+      })
     }
   },
   mounted () {

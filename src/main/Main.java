@@ -26,9 +26,11 @@ import com.google.gson.JsonSyntaxException;
 import controller.AdministratorController;
 import controller.BuyerController;
 import controller.CoachController;
+import controller.CommentController;
 import controller.ImageHandler;
 import controller.ManagerController;
 import controller.MembershipController;
+import controller.PromoCodeController;
 import controller.SportObjectController;
 import controller.TrainingController;
 import controller.TrainingHistoryController;
@@ -42,6 +44,7 @@ import model.Administrator;
 import model.Adress;
 import model.Buyer;
 import model.Coach;
+import model.Comment;
 import model.Gender;
 import model.Location;
 import model.Manager;
@@ -49,6 +52,7 @@ import model.Membership;
 import model.MembershipType;
 import model.ObjectStatus;
 import model.ObjectType;
+import model.PromoCode;
 import model.SportObject;
 import model.Training;
 import model.TrainingHistory;
@@ -68,6 +72,8 @@ public class Main {
 	private static TrainingController tc = new TrainingController();
 	private static MembershipController mController = new MembershipController();
 	private static TrainingHistoryController trainingHistoryController = new TrainingHistoryController();
+	private static CommentController commentController = new CommentController();
+	private static PromoCodeController promoCodeController = new PromoCodeController();
 	
 	static Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
@@ -716,6 +722,103 @@ public class Main {
 			int id = jObject.get("id").getAsInt();
 			tc.deleteTraining(id);
 			return 200;
+		});
+		
+		post("/rest/CanBuyerComment/", (req, res) -> {
+			String payload = req.body();
+			JsonParser jsonParser = new JsonParser();
+			JsonObject jObject = jsonParser.parse(payload).getAsJsonObject();
+			String username = jObject.get("buyer").getAsString();
+			String sportObject = jObject.get("sportObject").getAsString();
+			for (Buyer buyer : bc.findAllBuyers()) {
+				if(buyer.getUserName().equals(username)) {
+					for (SportObject object : buyer.getVisitedObjects()) {
+						if(object.getName().equals(sportObject)) {
+							return 200;
+						}
+					}
+				}
+			}
+			return 400;
+		});
+		
+		post("/rest/makeComment/", (req, res) -> {
+			String payload = req.body();
+			JsonParser jsonParser = new JsonParser();
+			JsonObject jObject = jsonParser.parse(payload).getAsJsonObject();
+			String text = jObject.get("text").getAsString();
+			String sportObject = jObject.get("sportObject").getAsString();
+			String buyer = jObject.get("buyer").getAsString();
+			int grade = jObject.get("grade").getAsInt();
+			Comment comment = new Comment(buyer, sportObject, text, grade);
+			commentController.addComment(comment);
+			return "Uspesno ste kreirali komentar!";
+		});
+		
+		post("/rest/getObjectComments/", (req, res) -> {
+			String payload = req.body();
+			JsonParser jsonParser = new JsonParser();
+			JsonObject jObject = jsonParser.parse(payload).getAsJsonObject();
+			String sportObject = jObject.get("sportObject").getAsString();
+			List<Comment> toRet = new ArrayList<>();
+			for (Comment comment : commentController.findAllComments()) {
+				if(comment.getSportObject().equals(sportObject) && comment.isApproved()) {
+					toRet.add(comment);
+				}
+			}
+			return g.toJson(toRet);
+		});
+		
+		post("/rest/approveComment/", (req, res) -> {
+			String payload = req.body();
+			JsonParser jsonParser = new JsonParser();
+			JsonObject jObject = jsonParser.parse(payload).getAsJsonObject();
+			int id = jObject.get("id").getAsInt();
+			commentController.approveComment(id);
+			return "Uspesno ste odobrili komentar";
+		});
+		
+		post("/rest/disapproveComment/", (req, res) -> {
+			String payload = req.body();
+			JsonParser jsonParser = new JsonParser();
+			JsonObject jObject = jsonParser.parse(payload).getAsJsonObject();
+			int id = jObject.get("id").getAsInt();
+			commentController.disapproveComment(id);
+			return "Uspesno ste odbili komentar";
+		});
+		
+		get("/rest/getAllComments/", (req, res) -> {
+			res.type("application/json");
+			List<Comment> toRet = commentController.findAllComments();
+			return g.toJson(toRet);
+		});
+		
+		post("/rest/addPromoCode/", (req, res) -> {
+			String payload = req.body();
+			JsonParser jsonParser = new JsonParser();
+			JsonObject jObject = jsonParser.parse(payload).getAsJsonObject();
+			String exp = jObject.get("expire").getAsString();
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			Date expire = format.parse(exp);
+			int max = jObject.get("max").getAsInt();
+			double discount = jObject.get("discount").getAsDouble();
+			String code = jObject.get("code").getAsString();
+			PromoCode promoCode = new PromoCode(expire, code, discount, max);
+			promoCodeController.addPromoCode(promoCode);
+			return 200;
+		});
+		
+		post("/rest/checkPromo/", (req, res) -> {
+			String payload = req.body();
+			JsonParser jsonParser = new JsonParser();
+			JsonObject jObject = jsonParser.parse(payload).getAsJsonObject();
+			String code = jObject.get("code").getAsString();
+			for (PromoCode promoCode : promoCodeController.findAllPromoCodes()) {
+				if(promoCode.getCode().equals(code)) {
+					return promoCode.getDiscount();
+				}
+			}
+			return 400;
 		});
 	}
 

@@ -1,19 +1,23 @@
 package model;
 
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
 
 import repository.CommentRepository;
 
 public class Comment {
 	private int id;
-	private Buyer buyer;
-	private SportObject sportObject;
+	private String buyer;
+	private String sportObject;
 	private String text;
 	private boolean deleted;
 	private int grade;
 	private CommentRepository cr;
+	private boolean approved;
+	private Date created;
 	
-	public Comment(Buyer buyer, SportObject sportObject, String text, int grade) throws IOException {
+	public Comment(String buyer, String sportObject, String text, int grade) throws IOException {
 		super();
 		cr = new CommentRepository();
 		if(cr.findAllComments() == null) {
@@ -26,18 +30,21 @@ public class Comment {
 		this.text = text;
 		this.grade = grade;
 		this.deleted = false;
+		this.approved = false;
+		Calendar calendar = Calendar.getInstance();
+		this.created = calendar.getTime();
 	}
 	
-	public Buyer getBuyer() {
+	public String getBuyer() {
 		return buyer;
 	}
-	public void setBuyer(Buyer buyer) {
+	public void setBuyer(String buyer) {
 		this.buyer = buyer;
 	}
-	public SportObject getSportObject() {
+	public String getSportObject() {
 		return sportObject;
 	}
-	public void setSportObject(SportObject sportObject) {
+	public void setSportObject(String sportObject) {
 		this.sportObject = sportObject;
 	}
 	public String getText() {
@@ -67,6 +74,22 @@ public class Comment {
 
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
+	}
+
+	public boolean isApproved() {
+		return approved;
+	}
+
+	public void setApproved(boolean approved) {
+		this.approved = approved;
+	}
+
+	public Date getCreated() {
+		return created;
+	}
+
+	public void setCreated(Date created) {
+		this.created = created;
 	}
 	
 	
