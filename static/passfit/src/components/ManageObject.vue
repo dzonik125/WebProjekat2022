@@ -98,13 +98,14 @@
           <div class="col-md-6 whiteSpace" v-if="!training.deleted" v-for="(training, index) in trainings" :key=index>
             <div class="card mb-4 mb-md-0 whiteSpace" style="min-width: 300px; min-height: 695px;">
               <div class="card-body">
-                <p class="mb-4"><span class="text-primary font-italic me-1">Trening</span> {{training.name}}
+                <p class="mb-4"><span class="text-primary font-italic me-1">Trening</span><span :name="'tName' + index">{{training.name}}</span><input type="text" style="display: none;" :name="'tNameInp' + index">
                 </p>
                 <span style="display: none;" :name="'trgID' + index">{{training.id}}</span>
                 <button class="btn position-absolute top-0 end-0 mt-2" style="display: none;" v-on:click="editTraining($event, index)">Potvrdi</button>
                 <button class="btn position-absolute top-0 start-50 mt-2" style="display: none;" v-on:click="cancelEdit($event, index)">Otkazi</button>
                 <button class="btn position-absolute top-0 end-0 mt-2" v-on:click="editCall($event, index)">Izmeni</button>
-                <img :src="training.imageLocation" alt="" style="height: 15rem; width: 100%; object-fit: cover; margin-bottom: 10px;">
+                <input type="file" v-on:change="filePreview($event)" style="display:none;" :name="'fileInput' + index">
+                <img :src="training.imageLocation" alt="" style="height: 15rem; width: 100%; object-fit: cover; margin-bottom: 10px;" :name="'img' + index">
                 <p class="mb-1" style="font-size: .77rem;">Tip treninga</p>
                 <div class="input-group input-group-sm mb-3" :name="'input' + index" style="display: none;">
                     <select class="form-control" :name="'inp' + index" aria-label="Small" aria-describedby="inputGroup-sizing-sm" >
@@ -117,7 +118,7 @@
                 <p class="text-muted mb-0" :name="'trgType' + index">{{convertStrings2(training.trainingType)}}</p>
                 <p class="mt-4 mb-1" style="font-size: .77rem;">Trajanje</p>
                 <div class="input-group input-group-sm mb-3" :name="'inputt' + index" style="display: none;">
-                    <input type="text" class="form-control" :name="'inpp' + index" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                    <input type="number" class="form-control" :name="'inpp' + index" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
                 </div>
                 <p class="text-muted mb-0" :name="'duration' + index">{{training.duration}} minuta</p>
                 <p class="mt-4 mb-1" style="font-size: .77rem;">Opis treninga</p>
@@ -146,7 +147,8 @@ export default {
       sportObject: {},
       fetched: false,
       trainings: [],
-      coaches: []
+      coaches: [],
+      image: ''
     }
   },
   mounted () {
@@ -222,6 +224,25 @@ export default {
       input3.style.display = 'block'
       let inp3 = document.getElementsByName('inppp' + i)[0]
       inp3.style.width = '100%'
+      let tName = document.getElementsByName('tName' + i)[0]
+      tName.style.display = 'none'
+      let tNameInp = document.getElementsByName('tNameInp' + i)[0]
+      tNameInp.style.display = 'inline'
+      tNameInp.style.width = '30%'
+      let imageInp = document.getElementsByName('fileInput' + i)[0]
+      imageInp.style.display = 'block'
+      let img = document.getElementsByName('img' + i)[0]
+      img.style.display = 'none'
+      tNameInp.value = tName.innerText
+      inp2.value = element2.innerText.split(' ')[0]
+      inp3.value = element3.innerText
+      if (element1.innerText === 'Teretana') {
+        inp1.selectedIndex = 3
+      } else if (element1.innerText === 'Grupni') {
+        inp1.selectedIndex = 1
+      } else {
+        inp1.selectedIndex = 2
+      }
     },
     cancelEdit: function (e, i) {
       let btn1 = e.target.nextElementSibling
@@ -247,20 +268,68 @@ export default {
       input3.style.display = 'none'
       let inp3 = document.getElementsByName('inppp' + i)[0]
       inp3.style.width = '100%'
+      let tName = document.getElementsByName('tName' + i)[0]
+      tName.style.display = 'inline-block'
+      let tNameInp = document.getElementsByName('tNameInp' + i)[0]
+      tNameInp.style.display = 'none'
+      let imageInp = document.getElementsByName('fileInput' + i)[0]
+      imageInp.style.display = 'none'
+      let img = document.getElementsByName('img' + i)[0]
+      img.style.display = 'block'
     },
     editTraining: function (e, i) {
       let input1 = document.getElementsByName('inp' + i)[0]
       let input2 = document.getElementsByName('inpp' + i)[0]
       let input3 = document.getElementsByName('inppp' + i)[0]
+      let input4 = document.getElementsByName('tNameInp' + i)[0]
       let index = document.getElementsByName('trgID' + i)[0]
+      if (input1.value === '') {
+        window.alert('Odaberite tip treninga!')
+        return
+      }
+      if (input2.value === '') {
+        window.alert('Unesite trajanje')
+        return
+      }
+      if (input3.value === '') {
+        window.alert('Unesite opis')
+        return
+      }
+      console.log(input4.value)
+      if (input4.value === '') {
+        window.alert('Unesite naziv treninga')
+        return
+      }
       const axios = require('axios')
-      axios.post('http://localhost:8082/rest/editTraining/', {type: input1.value, duration: input2.value, description: input3.value, id: index.innerText}).then(response => {
+      if (this.image === '') {
+        axios.post('http://localhost:8082/rest/editTraining/', {type: input1.value, duration: input2.value, description: input3.value, id: index.innerText, name: input4.value}).then(response => {
+          if (response.data === 200) {
+            window.location.reload()
+          } else {
+            console.log('Nesto nije u redu')
+          }
+        })
+        return
+      }
+      axios.post('http://localhost:8082/rest/editTraining/', {type: input1.value, duration: input2.value, description: input3.value, id: index.innerText, name: input4.value, image: this.image}).then(response => {
         if (response.data === 200) {
           window.location.reload()
         } else {
           console.log('Nesto nije u redu')
         }
       })
+    },
+    filePreview: function (event) {
+      const reader = new FileReader()
+      const file = event.target.files[0]
+      let rawImg
+      let self = this
+      reader.onloadend = (e) => {
+        rawImg = e.target.result
+        self.image = rawImg
+        console.log(self.image)
+      }
+      reader.readAsDataURL(file)
     }
   }
 }

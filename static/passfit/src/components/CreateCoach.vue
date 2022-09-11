@@ -2,13 +2,13 @@
     <div id="createCoach">
     <form>
       <label for="username">Korisnicko ime</label>
-      <input type="username" v-model="username" id="username">
+      <input type="username" v-model="username" id="username" placeholder="Najmanje 5 karaktera, moze bilo koji karakter">
       <label for="password">Sifra</label>
-      <input type="password" v-model="password" id="password">
+      <input type="password" v-model="password" id="password" placeholder="Najmanje 4, a najvise 8 karaktera, najmanje 1 broj i 1 slovo">
       <label for="name">Ime</label>
-      <input type="text" v-model="nam" id="name">
+      <input type="text" v-model="nam" id="name" placeholder="Mora da pocinje velikim slovom">
       <label for="surname">Prezime</label>
-      <input type="text" id="surname" v-model="surnam">
+      <input type="text" id="surname" v-model="surnam" placeholder="Mora da pocinje velikim slovom">
       <label for="gender">Pol</label>
       <select id="gender" v-model="gender">
         <option value="M">Musko</option>
@@ -36,6 +36,36 @@ export default {
   },
   methods: {
     sendInfo: function () {
+      const regex1 = new RegExp('^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){3,18}[a-zA-Z0-9]$')
+      // eslint-disable-next-line no-useless-escape
+      const regex2 = new RegExp('^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){3,18}[a-zA-Z0-9]$')
+      const regex3 = new RegExp('[A-Z][a-z]{1,}')
+      const regex4 = new RegExp('[A-Z][a-z]{1,}')
+      if (this.gender === '') {
+        window.alert('Popunite pol!')
+        return
+      }
+      if (this.birthday === '') {
+        window.alert('Popunite rodjendan!')
+        return
+      }
+      console.log(regex2.test(this.password))
+      if (!regex1.test(this.username)) {
+        window.alert('Niste uneli korisnicko ime kako treba!')
+        return
+      }
+      if (!regex2.test(this.password)) {
+        window.alert('Niste uneli sifru kako treba')
+        return
+      }
+      if (!regex3.test(this.nam)) {
+        window.alert('Niste uneli ime kako treba')
+        return
+      }
+      if (!regex4.test(this.surnam)) {
+        window.alert('Niste uneli prezime kako treba')
+        return
+      }
       const axios = require('axios')
       axios.post('http://localhost:8082/rest/createCoach/', {
         username: this.username,

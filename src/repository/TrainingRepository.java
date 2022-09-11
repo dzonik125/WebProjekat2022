@@ -57,11 +57,12 @@ public class TrainingRepository {
 		
 		for (Training t : trainings) {
 			if(t.getId() == selectedTraining.getId()) {
-//				t.setCoach(training.getCoach());
 				t.setDescription(training.getDescription());
 				t.setDuration(training.getDuration());
-//				t.setImageLocation(training.getImageLocation());
-//				t.setName(training.getName());
+				if(training.getImageLocation() != null) {
+					t.setImageLocation(training.getImageLocation());
+				}
+				t.setName(training.getName());
 				t.setTrainingType(training.getTrainingType());
 				FileWriter fileWriter = new FileWriter(fileLocation);
 				gson.toJson(trainings, fileWriter);
@@ -72,14 +73,14 @@ public class TrainingRepository {
 		return "Ne postoji izabrani membership u listi membershipa";
 	}
 	
-	public boolean deleteTraining(Training t) throws IOException {
+	public boolean deleteTraining(int id) throws IOException {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		Type listType = new TypeToken<List<Training>>(){}.getType();
 		FileReader fileReader = new FileReader(fileLocation);
 		List<Training> trainings = gson.fromJson(fileReader, listType);
 		fileReader.close();
 		for (Training training : trainings) {
-			if(training.equals(t)) {
+			if(training.getId() == (id)) {
 				training.setDeleted(true);
 				FileWriter fileWriter = new FileWriter(fileLocation);
 				gson.toJson(trainings, fileWriter);

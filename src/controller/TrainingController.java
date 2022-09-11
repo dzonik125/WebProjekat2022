@@ -25,8 +25,8 @@ public class TrainingController {
 		return ts.editTraining(training, selectedTraining);
 	}
 	
-	public boolean deleteTraining(Training t) throws IOException{
-		return ts.deleteTraining(t);
+	public boolean deleteTraining(int id) throws IOException{
+		return ts.deleteTraining(id);
 	}
 	
 	public Training findTraining(int id) throws IOException{

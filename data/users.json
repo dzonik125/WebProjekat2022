@@ -48,5 +48,45 @@
     "birthday": "Sep 16, 2022, 12:00:00 AM",
     "deleted": false,
     "userType": "COACH"
+  },
+  {
+    "userName": "niketa",
+    "password": "123",
+    "name": "Ognjen",
+    "surname": "Niketic",
+    "gender": "M",
+    "birthday": "Jun 13, 1984, 12:00:00 AM",
+    "deleted": false,
+    "userType": "MANAGER"
+  },
+  {
+    "userName": "123",
+    "password": "12",
+    "name": "gas",
+    "surname": "Prodanovic",
+    "gender": "M",
+    "birthday": "Sep 23, 2022, 12:00:00 AM",
+    "deleted": false,
+    "userType": "COACH"
+  },
+  {
+    "userName": "",
+    "password": "",
+    "name": "",
+    "surname": "",
+    "gender": "F",
+    "birthday": "Sep 24, 2022, 12:00:00 AM",
+    "deleted": false,
+    "userType": "COACH"
+  },
+  {
+    "userName": "prcaa",
+    "password": "dzonik",
+    "name": "Perica",
+    "surname": "Peric",
+    "gender": "F",
+    "birthday": "Sep 13, 2022, 12:00:00 AM",
+    "deleted": false,
+    "userType": "COACH"
   }
 ]

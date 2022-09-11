@@ -2,20 +2,20 @@
   <div id="createManager">
     <form>
       <label for="username">Korisnicko ime</label>
-      <input type="username" v-model="username" id="username">
+      <input placeholder="Najmanje 5 karaktera, moze bilo koji karakter" type="username" v-model="username" id="username">
       <label for="password">Sifra</label>
-      <input type="password" v-model="password" id="password">
+      <input type="password" placeholder="Najmanje 4, a najvise 8 karaktera, najmanje 1 broj i 1 slovo" v-model="password" id="password">
       <label for="name">Ime</label>
-      <input type="text" v-model="nam" id="name">
+      <input type="text" placeholder="Mora da pocinje velikim slovom" v-model="nam" id="name">
       <label for="surname">Prezime</label>
-      <input type="text" id="surname" v-model="surnam">
+      <input type="text"  placeholder="Mora da pocinje velikim slovom" id="surname" v-model="surnam">
       <label for="gender">Pol</label>
       <select id="gender" v-model="gender">
         <option value="M">Musko</option>
         <option value="F">Zensko</option>
         <option value="N">Srednji rod</option>
       </select>
-      <label for="birthday"></label>
+      <label for="birthday">Rodjendan</label>
       <input type="date" id="birthday" v-model="birthday">
     <input type="submit" v-on:click.prevent="sendInfo()" value="Potvrdi">
     </form>
@@ -36,6 +36,35 @@ export default {
   },
   methods: {
     sendInfo: function () {
+      const regex1 = new RegExp('^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){3,18}[a-zA-Z0-9]$')
+      // eslint-disable-next-line no-useless-escape
+      const regex2 = new RegExp('^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){3,18}[a-zA-Z0-9]$')
+      const regex3 = new RegExp('[A-Z][a-z]{1,}')
+      const regex4 = new RegExp('[A-Z][a-z]{1,}')
+      if (this.gender === '') {
+        window.alert('Popunite pol!')
+        return
+      }
+      if (this.birthday === '') {
+        window.alert('Popunite rodjendan!')
+        return
+      }
+      if (!regex1.test(this.username)) {
+        window.alert('Niste uneli korisnicko ime kako treba!')
+        return
+      }
+      if (!regex2.test(this.password)) {
+        window.alert('Niste uneli sifru kako treba')
+        return
+      }
+      if (!regex3.test(this.nam)) {
+        window.alert('Niste uneli ime kako treba')
+        return
+      }
+      if (!regex4.test(this.surnam)) {
+        window.alert('Niste uneli prezime kako treba')
+        return
+      }
       const axios = require('axios')
       axios.post('http://localhost:8082/rest/createManager/', {
         username: this.username,

@@ -85,7 +85,9 @@
               <div class="card-body">
                 <p class="mb-4"><span class="text-primary font-italic me-1">Trening</span> {{training.name}}
                 </p>
+                <span style="display: none;" :name="'trgID' + index">{{training.id}}</span>
                 <button class="btn position-absolute top-0 end-0 mt-2" v-if="userType === 'BUYER'" v-on:click="doTheTraining(training.name, training.trainingType, index)">Prijavi</button>
+                <button class="btn position-absolute top-0 end-0 mt-2" v-if="userType === 'ADMINISTRATOR'" v-on:click="deleteTraining(index)">Obrisi</button>
                 <input type="datetime-local" style="margin-bottom: 5px; display: none;" :name="'dt' + index" v-model="date">
                 <span><button class="btn" style="display: none;" :name="'zakazi' + index" v-on:click="makeAppointment(training.coach, training.name)">Zakazi</button></span>
                 <span><button class="btn" style="display: none;" :name="'otkazi' + index" v-on:click="cancelMakeApp(index)">Otkazi</button></span>
@@ -186,6 +188,13 @@ export default {
       zakazi.style.display = 'none'
       let otkazi = document.getElementsByName('otkazi' + index)[0]
       otkazi.style.display = 'none'
+    },
+    deleteTraining: function (index) {
+      let ind = document.getElementsByName('trgID' + index)[0]
+      const axios = require('axios')
+      axios.post('http://localhost:8082/rest/DeleteTraining/', {id: ind.innerText}).then(response => {
+        this.$router.push({name: 'Index'})
+      })
     }
   },
   mounted () {

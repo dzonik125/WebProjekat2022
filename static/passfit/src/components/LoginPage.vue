@@ -2,9 +2,9 @@
   <div id="login">
     <form>
         <label for="userInput">Username</label>
-        <input type="username" v-model="username" name="userIn" id="userInput">
-        <label for="passwordInput">Sifra</label>
-        <input type="password" v-model="password" id="passwordInput">
+        <input type="username" v-model="username" name="userIn" id="userInput" placeholder="Korisnicko ime">
+        <label for="passwordInput">Password</label>
+        <input type="password" v-model="password" id="passwordInput" placeholder="Sifra">
         <input type="submit" value="Potvrdi" v-on:click.prevent="LoginUser()">
     </form>
   </div>
@@ -22,6 +22,14 @@ export default {
   methods: {
     LoginUser: function () {
       const axios = require('axios')
+      if (this.username === '') {
+        window.alert('Unesite korisnicko ime')
+        return
+      }
+      if (this.password === '') {
+        window.alert('Unesite sifru')
+        return
+      }
       axios.post('http://localhost:8082/rest/loginUser/', {
         username: this.username,
         password: this.password
