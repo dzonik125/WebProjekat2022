@@ -22,7 +22,20 @@
     "membershipStatus": "ACTIVE",
     "isDeleted": false,
     "dailyLogs": 3,
-    "lastChecked": "Sep 11, 2022, 3:46:36 PM",
+    "lastChecked": "Sep 12, 2022, 12:03:15 AM",
     "totalLogs": 30
+  },
+  {
+    "id": "73lR8ig0U4",
+    "membershipType": "ANNUAL",
+    "dueDate": "Sep 12, 2022, 12:02:39 AM",
+    "active": "Sep 12, 2023, 12:02:39 AM",
+    "price": 36000,
+    "buyer": "pekster",
+    "membershipStatus": "ACTIVE",
+    "isDeleted": false,
+    "dailyLogs": 10,
+    "lastChecked": "Sep 12, 2022, 12:03:15 AM",
+    "totalLogs": 3650
   }
 ]

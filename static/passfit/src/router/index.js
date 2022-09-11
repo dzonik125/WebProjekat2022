@@ -19,6 +19,8 @@ import CGroupTrainings from '@/components/CoachGroupTrainings'
 import ObjectBuyers from '@/components/ObjectBuyers'
 import BuyerTrainings from '@/components/BuyerTrainings'
 import BuyerScheduledTrainings from '@/components/BuyerScheduledTrainings'
+import Comments from '@/components/Comments'
+import PromoCodes from '@/components/AddPromoCode'
 
 Vue.use(Router)
 
@@ -129,6 +131,16 @@ export default new Router({
       name: 'BuyerScheduledTrainings',
       component: BuyerScheduledTrainings,
       props: true
+    },
+    {
+      path: '/comments',
+      name: 'Comments',
+      component: Comments
+    },
+    {
+      path: '/promoCodes',
+      name: 'PromoCodes',
+      component: PromoCodes
     }
   ]
 })
