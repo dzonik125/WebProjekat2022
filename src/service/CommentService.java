@@ -1,7 +1,11 @@
 package service;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import model.Comment;
 import repository.CommentRepository;
@@ -34,6 +38,32 @@ public class CommentService {
 	
 	public List<Comment> findAllComments() throws IOException{
 		return cr.findAllComments();
+	}
+	
+	public void approveComment(int id) throws IOException {
+		List<Comment> comments = findAllComments();
+		for (Comment comment : comments) {
+			if(comment.getId() == id) {
+				comment.setApproved(true);
+			}
+		}
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		FileWriter fileWriter = new FileWriter("./data/comments.json");
+		gson.toJson(comments, fileWriter);
+		fileWriter.close();
+	}
+	
+	public void disapproveComment(int id) throws IOException {
+		List<Comment> comments = findAllComments();
+		for (Comment comment : comments) {
+			if(comment.getId() == id) {
+				comment.setApproved(false);
+			}
+		}
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		FileWriter fileWriter = new FileWriter("./data/comments.json");
+		gson.toJson(comments, fileWriter);
+		fileWriter.close();
 	}
 	
 }

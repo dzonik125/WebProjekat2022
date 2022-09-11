@@ -33,4 +33,12 @@ public class CommentController {
 	public List<Comment> findAllComments() throws IOException{
 		return cs.findAllComments();
 	}
+	
+	public void approveComment(int id) throws IOException {
+		cs.approveComment(id);
+	}
+	
+	public void disapproveComment(int id) throws IOException {
+		cs.disapproveComment(id);
+	}
 }

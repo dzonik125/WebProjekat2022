@@ -5,9 +5,16 @@ import App from './App'
 import router from './router'
 import Axios from 'axios'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import * as VueGoogleMaps from 'vue2-google-maps'
 
 export const bus = new Vue()
 
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: 'AIzaSyDB5FB7OVJMToswfMjgGkrJ-qUSLAF4g0g'
+  },
+  installComponents: true
+})
 Vue.prototype.$http = Axios
 Vue.config.productionTip = false
 

@@ -3,40 +3,43 @@
   <div id="createSportObject">
     <form>
       <label for="name">Naziv objekta</label>
-      <input type="text" placeholder="Mora da pocinje velikim slovom" v-model="name" id="name" required>
+      <input type="text" placeholder="Mora da pocinje velikim slovom" v-model="name" id="name">
       <label for="objectType">Tip objekta</label>
-      <select id="objectType" v-model="objectType" name="oType" required>
+      <select id="objectType" v-model="objectType" name="oType">
         <option value="GYM">Teretana</option>
         <option value="POOL">Bazen</option>
         <option value="SPORTCENTRE">Sportski centar</option>
         <option value="DANCESTUDIO">Plesni studio</option>
       </select>
       <label for="services">Usluge</label>
-      <input type="text" placeholder="Mora da pocinje velikim slovom" v-model="services" id="services" required>
-      <label for="lat">Geografska sirina</label>
-      <input type="text" placeholder="Mora biti broj" v-model="lat" id="lat" required>
-      <label for="long">Geografska duzina</label>
-      <input type="text" placeholder="Mora biti broj" v-model="long" id="long" required>
+      <input type="text" placeholder="Mora da pocinje velikim slovom" v-model="services" id="services">
+      <p>Odaberite lokaciju:</p>
+      <GmapMap :center="center" :zoom="18" map-style-id="roadmap" :options="mapOptions"
+        style="width: 100vmin; height: 50vmin" ref="mapRef" @click="handleMapClick">
+        <GmapMarker :position="marker.position" :clickable="true" :draggable="true" @drag="handleMarkerDrag"
+          @click="panToMarker" />
+      </GmapMap>
+      <button v-on:click.prevent="geolocate()" style="display: block;">Detect Location</button>
       <label for="street">Ulica</label>
-      <input type="text" placeholder="Mora pocinjati velikim slovom" v-model="street" id="street" required>
+      <input type="text" placeholder="Mora pocinjati velikim slovom" v-model="street" id="street">
       <label for="sNum">Broj ulice</label>
-      <input type="text" placeholder="Moze biti i broj u formatu 12b" v-model="sNum" id="sNum" required>
+      <input type="text" placeholder="Moze biti i broj u formatu 12b" v-model="sNum" id="sNum">
       <label for="city">Mesto</label>
-      <input type="text" placeholder="Mora da pocinje velikim slovom" v-model="city" id="city" required>
+      <input type="text" placeholder="Mora da pocinje velikim slovom" v-model="city" id="city">
       <label for="postcode">Postanski broj</label>
-      <input type="text" v-model="postcode" placeholder="Mora biti broj" id="postcode" required>
+      <input type="text" v-model="postcode" placeholder="Mora biti broj" id="postcode">
       <label for="image">Slika</label>
-      <input type="file" v-on:change="filePreview($event)" id="image" required>
+      <input type="file" v-on:change="filePreview($event)" id="image">
       <label for="workingHours">Radno vreme</label>
-      <input type="text" placeholder="Mora biti u formatu HH:mm-HH:mm" v-model="workingHours" id="workingHours" required>
+      <input type="text" placeholder="Mora biti u formatu HH:mm-HH:mm" v-model="workingHours" id="workingHours">
       <label for="selectManager">Izaberite menadzera</label>
-      <select name="selMan" id="selectManager" v-model="selectedManager" v-on:change="showManagerInputs()" required>
+      <select name="selMan" id="selectManager" v-model="selectedManager" v-on:change="showManagerInputs()">
         <option v-for="manager in freeManagers" :value="manager.userName">{{manager.name}}
         </option>
         <option value="CNM">Kreiraj novog menadzera</option>
       </select>
       <label for="username" id="l1" style="display: none;">Korisnicko ime</label>
-      <input type="username" style="display: none;"  v-model="username" id="username">
+      <input type="username" style="display: none;" v-model="username" id="username">
       <label for="password" style="display: none;" id="l2">Sifra</label>
       <input type="password" style="display: none;" v-model="password" id="password">
       <label for="name" style="display: none;" id="l3">Ime</label>
@@ -78,7 +81,13 @@ export default {
       nam: '',
       surnam: '',
       gender: '',
-      birthday: ''
+      birthday: '',
+      marker: { position: { lat: 10, lng: 10 } },
+      center: { lat: 10, lng: 10 },
+
+      mapOptions: {
+        disableDefaultUI: true
+      }
     }
   },
   methods: {
@@ -98,7 +107,6 @@ export default {
       // eslint-disable-next-line no-useless-escape
       const regex1 = new RegExp('^[a-zA-Z].*[\\s\.]*$')
       // eslint-disable-next-line no-useless-escape
-      const regex2 = new RegExp('[0-9]+(\.[0-9]*)?')
       const regex3 = new RegExp('[0-9]+[A-z]*')
       const regex4 = new RegExp('[0-9]+')
       const regex5 = new RegExp('[0-9]{2}:[0-9]{2}-[0-9]{2}:[0-9]{2}')
@@ -108,11 +116,6 @@ export default {
       }
       if (!regex1.test(this.services)) {
         window.alert('Niste uneli usluge kako treba')
-        return
-      }
-      console.log(regex2.test(this.lat))
-      if (!regex2.test(this.lat) || !regex2.test(this.long)) {
-        window.alert('Niste uneli geografsku duzinu ili sirinu kako treba')
         return
       }
       if (!regex1.test(this.street)) {
@@ -171,8 +174,8 @@ export default {
           name: this.name,
           objectType: this.objectType,
           services: this.services,
-          lat: this.lat,
-          long: this.long,
+          lat: this.marker.position.lat,
+          long: this.marker.position.lng,
           street: this.street,
           sNum: this.sNum,
           city: this.city,
@@ -270,9 +273,38 @@ export default {
         l5.style.display = 'none'
         l6.style.display = 'none'
       }
+    },
+    geolocate () {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.marker.position = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        }
+
+        this.panToMarker()
+      })
+      console.log(this.marker.position)
+    },
+
+    // sets the position of marker when dragged
+    handleMarkerDrag (e) {
+      this.marker.position = { lat: e.latLng.lat(), lng: e.latLng.lng() }
+    },
+
+    // Moves the map view port to marker
+    panToMarker () {
+      this.$refs.mapRef.panTo(this.marker.position)
+      this.$refs.mapRef.setZoom(18)
+    },
+
+    // Moves the marker to click position on the map
+    handleMapClick (e) {
+      this.marker.position = { lat: e.latLng.lat(), lng: e.latLng.lng() }
+      console.log(e)
     }
   },
   mounted () {
+    this.geolocate()
     const axios = require('axios')
     axios.get('http://localhost:8082/rest/getFreeManagers/').then(response => {
       this.freeManagers = response.data
